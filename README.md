@@ -1,5 +1,8 @@
 # cptv-player-vue
 
+`cptv-player-vue` is a VueJs component that provides UI for playback of CPTV thermal
+video files.
+
 ## Project setup
 ```
 npm install
