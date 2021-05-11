@@ -199,67 +199,69 @@
       </div>
     </div>
     <div key="debug-nav" :class="['debug-tools', { open: showDebugTools }]">
-      <button
-        @click="toggleHistogram"
-        ref="toggleHistogramButton"
-        :disabled="!hasVideo"
-        :data-tooltip="showingHistogram ? 'Hide histogram' : 'Show histogram'"
-      >
-        <font-awesome-icon icon="chart-bar" />
-      </button>
-      <button
-        @click="stepBackward"
-        data-tooltip="Go back one frame"
-        ref="stepBackward"
-        :disabled="!hasVideo"
-      >
-        <font-awesome-icon icon="step-backward" />
-      </button>
-      <button
-        @click="stepForward"
-        data-tooltip="Go forward one frame"
-        ref="stepForward"
-        :disabled="!hasVideo"
-      >
-        <font-awesome-icon icon="step-forward" />
-      </button>
-      <button
-        @click="togglePicker"
-        :disabled="!hasVideo"
-        :class="{ selected: showValueInfo }"
-        :data-tooltip="
-          showValueInfo
-            ? 'Disable picker'
-            : 'Show raw pixel values under cursor'
-        "
-        ref="toggleValuePicker"
-      >
-        <font-awesome-icon icon="eye-dropper" />
-      </button>
-      <button
-        :disabled="!hasVideo || !hasBackgroundFrame"
-        ref="showBackgroundFrame"
-        data-tooltip="Press to show background frame"
-        @mousedown="toggleBackground"
-        @mouseup="toggleBackground"
-        @mouseout="
-          () => {
-            if (isShowingBackgroundFrame) {
-              toggleBackground();
-            }
-          }
-        "
-      >
-        <font-awesome-icon icon="image" />
-      </button>
-      <button
-        v-if="standAlone || userSuppliedFile"
-        ref="exportMp4"
-        data-tooltip="Export Mp4"
-        @click="() => exportMp4()"
-      >
-        <font-awesome-icon icon="file-video" />
-      </button>
+      <div class="debug-info">
+        <div v-if="hasVideo && loadedFrames">Frame #{{ this.frameNum }}</div>
+        <div v-if="this.secondsSinceLastFFC !== null">
+          FFC {{ this.secondsSinceLastFFC.toFixed(1) }}s ago
+        </div>
+      </div>
+      <!--      <button-->
+      <!--        @click="toggleHistogram"-->
+      <!--        ref="toggleHistogramButton"-->
+      <!--        :disabled="!hasVideo"-->
+      <!--        :data-tooltip="showingHistogram ? 'Hide histogram' : 'Show histogram'"-->
+      <!--      >-->
+      <!--        <font-awesome-icon icon="chart-bar" />-->
+      <!--      </button>-->
+      <div>
+        <button
+          @click="stepBackward"
+          data-tooltip="Go back one frame"
+          ref="stepBackward"
+          :disabled="!hasVideo"
+        >
+          <font-awesome-icon icon="step-backward" />
+        </button>
+        <button
+          @click="stepForward"
+          data-tooltip="Go forward one frame"
+          ref="stepForward"
+          :disabled="!hasVideo"
+        >
+          <font-awesome-icon icon="step-forward" />
+        </button>
+        <button
+          @click="togglePicker"
+          :disabled="!hasVideo"
+          :class="{ selected: showValueInfo }"
+          :data-tooltip="
+            showValueInfo
+              ? 'Disable picker'
+              : 'Show raw pixel values under cursor'
+          "
+          ref="toggleValuePicker"
+        >
+          <font-awesome-icon icon="eye-dropper" />
+        </button>
+        <button
+          :disabled="!hasVideo || !hasBackgroundFrame"
+          ref="showBackgroundFrame"
+          :class="{ selected: isShowingBackgroundFrame }"
+          data-tooltip="Press to show background frame"
+          @click="toggleBackground"
+        >
+          <font-awesome-icon icon="image" />
+        </button>
+        <button
+          v-if="standAlone || userSuppliedFile"
+          ref="exportMp4"
+          :disabled="!hasVideo"
+          data-tooltip="Export Mp4"
+          @click="() => exportMp4()"
+        >
+          <font-awesome-icon icon="file-video" />
+        </button>
+      </div>
     </div>
     <div class="tracks-container">
       <VideoTracksScrubber
@@ -564,13 +566,13 @@ export default class CptvPlayerComponent extends Vue {
     }
     return false;
   }
-  get secondsSinceLastFFC(): number {
+  get secondsSinceLastFFC(): number | null {
     if (this.frameHeader && this.frameHeader.lastFfcTimeMs) {
       return (
         (this.frameHeader.timeOnMs - this.frameHeader.lastFfcTimeMs) / 1000
       );
     }
-    return 1000;
+    return null;
   }
   get speedMultiplier(): number {
     return PlaybackSpeeds[this.speedMultiplierIndex];
@@ -609,6 +611,10 @@ export default class CptvPlayerComponent extends Vue {
       this.speedMultiplierIndex = PlaybackSpeeds.findIndex(
         (mul) => mul === Number(playbackSpeed)
       );
+    }
+    const showDebugTools = window.localStorage.getItem("show-debug-tools");
+    if (showDebugTools) {
+      this.showDebugTools = showDebugTools === "true";
     }
   }
 
@@ -886,6 +892,7 @@ export default class CptvPlayerComponent extends Vue {
     this.showingHistogram = !this.showingHistogram;
   }
   async stepForward(): Promise<void> {
+    this.isShowingBackgroundFrame = false;
     this.pause();
     this.animationTick = 0;
     const canAdvance = await this.renderCurrentFrame(true, this.frameNum + 1);
@@ -895,6 +902,7 @@ export default class CptvPlayerComponent extends Vue {
     this.atEndOfPlayback = this.frameNum === this.totalFrames;
   }
   async stepBackward(): Promise<void> {
+    this.isShowingBackgroundFrame = false;
     this.pause();
     this.animationTick = 0;
     await this.renderCurrentFrame(true, this.frameNum - 1);
@@ -936,7 +944,9 @@ export default class CptvPlayerComponent extends Vue {
       // Map the x,y into canvas size
       const pX = Math.floor(x / this.scale);
       const pY = Math.floor(y / this.scale);
-      const frameData = this.getFrameAtIndex(this.frameNum);
+      const frameData = this.isShowingBackgroundFrame
+        ? this.getFrameAtIndex(-1)
+        : this.getFrameAtIndex(this.frameNum);
       this.valueUnderCursor = `(${pX}, ${pY}) ${
         frameData.data[pY * this.header.width + pX]
       }`;
@@ -967,6 +977,10 @@ export default class CptvPlayerComponent extends Vue {
   }
   toggleDebugTools(): void {
     this.showDebugTools = !this.showDebugTools;
+    window.localStorage.setItem(
+      "show-debug-tools",
+      this.showDebugTools.toString()
+    );
   }
   minMaxForFrame({ meta }: CptvFrame): [number, number] {
     if (meta.isBackgroundFrame) {
@@ -1343,7 +1357,7 @@ export default class CptvPlayerComponent extends Vue {
   renderOverlay(
     context: CanvasRenderingContext2D | null,
     scale: number,
-    timeSinceFFCSeconds: number,
+    timeSinceFFCSeconds: number | null,
     isExporting: boolean,
     frameNum: number,
     trackExportOptions?: TrackExportOption[]
@@ -1414,7 +1428,7 @@ export default class CptvPlayerComponent extends Vue {
           }
         }
       }
-      if (timeSinceFFCSeconds < 10) {
+      if (timeSinceFFCSeconds !== null && timeSinceFFCSeconds < 10) {
         context.font = "bold 15px Verdana";
 
         // NOTE: Make opacity of text stronger when the FFC event has just happened, then fade out
@@ -1626,6 +1640,7 @@ export default class CptvPlayerComponent extends Vue {
     return 0;
   }
   async setTimeAndRedraw(time: number): Promise<void> {
+    this.isShowingBackgroundFrame = false;
     let totalFrames = this.totalFrames;
     if (this.header) {
       if (totalFrames === null) {
@@ -1737,12 +1752,12 @@ export default class CptvPlayerComponent extends Vue {
   box-sizing: border-box;
 }
 .cptv-player {
-  //max-height: calc(100vh - 40px);
   max-width: 100vh;
   .video-container {
     margin: 0 auto;
     position: relative;
     width: 100%;
+    max-width: 100vw;
     padding: 0;
     background: black;
     border-top-left-radius: 5px;
@@ -1995,7 +2010,12 @@ export default class CptvPlayerComponent extends Vue {
     &.open {
       height: 44px;
     }
-    justify-content: flex-end;
+    justify-content: space-between;
+    .debug-info {
+      padding: 0 5px;
+      line-height: 22px;
+      font-size: 11px;
+    }
   }
   .right-nav {
     display: flex;
