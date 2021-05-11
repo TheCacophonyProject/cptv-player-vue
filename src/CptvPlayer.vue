@@ -268,6 +268,7 @@
         key="scrubber"
         :duration="actualDuration"
         :tracks="tracks"
+        :colours="colours"
         :time-adjustment-for-background-frame="timeAdjustmentForBackgroundFrame"
         :current-track="(currentTrack && currentTrack.trackIndex) || 0"
         :canvas-width="canvasWidth"
@@ -312,13 +313,14 @@
       v-model="showAdvancedExportOptions"
       ok-title="Export"
       @ok="exportMp4(trackExportOptions)"
+      @cancel="$emit('export-complete')"
     >
       <b-form-group label="Include tracks in exported timespan">
         <b-form-checkbox
           v-for="(track, index) in trackExportOptions"
           :key="index"
           v-model="track.includeInExportTime"
-          >Track {{ track.trackIndex + 1 }}</b-form-checkbox
+          >Track {{ index + 1 }}</b-form-checkbox
         >
       </b-form-group>
       <b-form-group label="Display track boxes in export">
@@ -326,7 +328,7 @@
           v-for="(track, index) in trackExportOptions"
           :key="index"
           v-model="track.displayInExport"
-          >Track {{ track.trackIndex + 1 }}</b-form-checkbox
+          >Track {{ index + 1 }}</b-form-checkbox
         >
       </b-form-group>
     </b-modal>
@@ -501,11 +503,10 @@ export default class CptvPlayerComponent extends Vue {
     );
   }
   get actualDuration(): number {
-    if (!this.loadedFrames) {
-      return 0;
-    }
-    if (this.header !== null) {
-      return (this.loadedFrames as number) / (this.header.fps as number);
+    if (this.knownDuration === null && this.loadedFrames) {
+      if (this.header !== null) {
+        return (this.loadedFrames as number) / (this.header.fps as number);
+      }
     }
     return Math.max(
       ...this.tracks.map(
@@ -579,12 +580,13 @@ export default class CptvPlayerComponent extends Vue {
   }
   get exportOptions(): TrackExportOption[] {
     return this.tracks
+      .map(({ trackIndex, data }) => ({ trackIndex, start: data.start_s }))
+      .sort((a, b) => a.start - b.start)
       .map((track) => ({
         includeInExportTime: true,
         displayInExport: true,
         trackIndex: track.trackIndex,
-      }))
-      .sort((a, b) => a.trackIndex - b.trackIndex);
+      }));
   }
   get hasVideo(): boolean {
     return !(this.cptvUrl === null && this.userSuppliedFile === null);
@@ -616,6 +618,7 @@ export default class CptvPlayerComponent extends Vue {
 
     this.canvas.width = 160;
     this.canvas.height = 120;
+
     window.addEventListener("resize", this.onResize);
     if (window.matchMedia) {
       // NOTE This is only needed for multi-monitor setups where the DPI can change if the window is moved
@@ -674,6 +677,9 @@ export default class CptvPlayerComponent extends Vue {
           : totalFrames;
       }
     }
+    this.loadedFrames = this.hasBackgroundFrame
+      ? frames.length - 1
+      : frames.length;
   }
 
   @Watch("exportRequested")
@@ -684,7 +690,6 @@ export default class CptvPlayerComponent extends Vue {
         this.initTrackExportOptions();
       } else {
         await this.exportMp4();
-        this.$emit("export-complete");
       }
     }
   }
@@ -964,12 +969,16 @@ export default class CptvPlayerComponent extends Vue {
     this.showDebugTools = !this.showDebugTools;
   }
   minMaxForFrame({ meta }: CptvFrame): [number, number] {
+    if (meta.isBackgroundFrame) {
+      return [this.minValue, this.maxValue];
+    }
     const lastFfcTimeMs = meta.lastFfcTimeMs || 1000000;
     const timeSinceLastFFC = (meta.timeOnMs - lastFfcTimeMs) / 1000;
     if (timeSinceLastFFC < 5) {
       // Use frame local min/max
       return [meta.imageData.min, meta.imageData.max];
     }
+
     return [this.minValue, this.maxValue];
   }
   cancelExport(): void {
@@ -986,6 +995,7 @@ export default class CptvPlayerComponent extends Vue {
     if (!this.header) {
       return;
     }
+
     this.pause();
     this.isExporting = true;
     this.exportProgress = 0;
@@ -1017,6 +1027,7 @@ export default class CptvPlayerComponent extends Vue {
       // Check for cancellation
       return;
     }
+    console.assert(this.totalFrames !== null);
     const totalFrames = this.totalFrames || 0;
     let startFrame = 0;
     let onePastLastFrame = totalFrames;
@@ -1027,17 +1038,18 @@ export default class CptvPlayerComponent extends Vue {
     ) {
       startFrame = totalFrames;
       onePastLastFrame = 0;
+      console.log("total", totalFrames, this.actualDuration, this.loadedFrames);
       for (const { includeInExportTime, trackIndex } of trackExportOptions) {
         if (includeInExportTime) {
-          const track = this.tracks[trackIndex];
-          startFrame = Math.min(
-            startFrame,
-            this.getFrameAtTime(track.data.start_s - 1)
+          const track = this.tracks.find(
+            (track) => track.trackIndex === trackIndex
           );
-          onePastLastFrame = Math.max(
-            onePastLastFrame,
-            this.getFrameAtTime(track.data.end_s + 1)
-          );
+          if (track) {
+            const startTrackFrame = this.getFrameAtTime(track.data.start_s - 1);
+            const endTrackFrame = this.getFrameAtTime(track.data.end_s + 1);
+            startFrame = Math.min(startFrame, startTrackFrame);
+            onePastLastFrame = Math.max(onePastLastFrame, endTrackFrame);
+          }
         }
       }
     }
@@ -1117,6 +1129,7 @@ export default class CptvPlayerComponent extends Vue {
       ).toLocaleString()}`
     );
     this.isExporting = false;
+    this.$emit("export-complete");
   }
   renderFrame(
     frameData: CptvFrame,
@@ -1613,9 +1626,9 @@ export default class CptvPlayerComponent extends Vue {
     return 0;
   }
   async setTimeAndRedraw(time: number): Promise<void> {
-    let totalFrames = this.loadedFrames;
+    let totalFrames = this.totalFrames;
     if (this.header) {
-      if (totalFrames === false) {
+      if (totalFrames === null) {
         totalFrames = Math.floor(
           this.actualDuration * (this.header.fps as number)
         );
@@ -1640,6 +1653,9 @@ export default class CptvPlayerComponent extends Vue {
         frameNum = this.frameNum;
       }
       frameNum = this.hasBackgroundFrame ? frameNum + 1 : frameNum;
+      if (frameNum > frames.length + 2 && !this.totalFrames) {
+        this.buffering = true;
+      }
       while (frames.length <= frameNum && !this.totalFrames) {
         const frame = await cptvDecoder.getNextFrame();
         if (frame === null) {
@@ -1653,6 +1669,7 @@ export default class CptvPlayerComponent extends Vue {
             : totalFrames;
         }
       }
+      this.buffering = false;
       const gotFrame = this.hasBackgroundFrame
         ? frames.length >= frameNum
         : frames.length - 1 >= frameNum;
@@ -1922,6 +1939,7 @@ export default class CptvPlayerComponent extends Vue {
       touch-action: manipulation;
       user-select: none;
       min-width: 48px;
+      padding: 0;
       min-height: 44px;
       background: transparent;
       &:focus,
@@ -1948,6 +1966,7 @@ export default class CptvPlayerComponent extends Vue {
       overflow: hidden;
       user-select: none;
       transition: width 0.3s ease-in-out;
+      display: flex;
       &.open {
         width: 240px;
         .advanced-controls-btn {

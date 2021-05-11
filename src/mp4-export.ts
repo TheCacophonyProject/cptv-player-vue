@@ -1,10 +1,10 @@
-import EncoderWorker from "worker-loader!./mp4-exporter.js";
+const EncoderWorker = new Worker(new URL("./mp4-exporter.js", import.meta.url));
 
 export class Mp4Encoder {
   encoder: Worker;
   messageQueue: Record<string, (data?: unknown) => unknown> = {};
   constructor() {
-    this.encoder = new EncoderWorker();
+    this.encoder = EncoderWorker;
     this.encoder.onmessage = ({ data: { type, data } }: MessageEvent) => {
       const resolver = this.messageQueue[type];
       delete this.messageQueue[type];

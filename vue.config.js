@@ -1,7 +1,10 @@
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+//   .BundleAnalyzerPlugin;
 module.exports = {
   configureWebpack: {
+    experiments: {
+      syncWebAssembly: true,
+    },
     target: "web",
     resolve: {
       fallback: {
@@ -20,14 +23,6 @@ module.exports = {
     module: {
       rules: [
         {
-          test: /\.worker\.js$/,
-          loader: "worker-loader",
-          options: {
-            filename: "[name].[contenthash].worker.js",
-          },
-        },
-
-        {
           test: /\.js$/,
           // Exclude transpiling `node_modules`, except `bootstrap-vue/src`
           exclude: /node_modules\/(?!bootstrap-vue\/src\/)/,
@@ -40,6 +35,5 @@ module.exports = {
         },
       ],
     },
-    //plugins: [new BundleAnalyzerPlugin()],
   },
 };
