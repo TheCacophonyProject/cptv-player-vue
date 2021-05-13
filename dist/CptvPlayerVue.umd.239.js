@@ -563,38 +563,45 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
                 unlocker.unlock();
                 this.locked = false;
                 frameData = this.playerContext.getNextFrame();
-                frameHeader = this.playerContext.getFrameHeader();
+                frameHeader = this.playerContext.getFrameHeader(); // NOTE(jon): Work around a bug where the mlx sensor doesn't report timeOn times, just hardcodes 60000
+
+                if (!(frameHeader.imageData.width !== 32)) {
+                  _context4.next = 34;
+                  break;
+                }
+
                 sameFrameAsPrev = frameHeader && this.prevFrameHeader && frameHeader.timeOnMs === this.prevFrameHeader.timeOnMs;
 
                 if (!(sameFrameAsPrev && this.getTotalFrames() === null)) {
-                  _context4.next = 32;
+                  _context4.next = 33;
                   break;
                 }
 
                 this.prevFrameHeader = frameHeader;
-                _context4.next = 31;
+                _context4.next = 32;
                 return this.fetchNextFrame();
 
-              case 31:
+              case 32:
                 return _context4.abrupt("return", _context4.sent);
 
-              case 32:
+              case 33:
                 this.prevFrameHeader = frameHeader;
 
+              case 34:
                 if (!(frameData.length === 0)) {
-                  _context4.next = 35;
+                  _context4.next = 36;
                   break;
                 }
 
                 return _context4.abrupt("return", null);
 
-              case 35:
+              case 36:
                 return _context4.abrupt("return", {
                   data: new Uint16Array(frameData),
                   meta: frameHeader
                 });
 
-              case 36:
+              case 37:
               case "end":
                 return _context4.stop();
             }
