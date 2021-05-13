@@ -715,7 +715,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 8987:
+/***/ 6361:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -750,7 +750,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ const setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b2ba098c-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=2ecd0be0&
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b2ba098c-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=f769d71a&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:['cptv-player', { 'stand-alone': _vm.standAlone }]},[_c('div',{key:"container",ref:"container",staticClass:"video-container"},[_c('canvas',{key:"base",ref:"canvas",class:['video-canvas', { smoothed: _vm.smoothed }]}),_c('canvas',{key:"overlay",ref:"overlayCanvas",staticClass:"overlay-canvas"}),_c('span',{key:"messaging",class:['player-messaging', { show: _vm.playerMessage !== null }],domProps:{"innerHTML":_vm._s(_vm.playerMessage)}}),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.showValueInfo),expression:"showValueInfo"}],key:"px-value",ref:"valueTooltip",staticClass:"value-tooltip"},[_vm._v(_vm._s(_vm.valueUnderCursor)+" ")]),(_vm.openUserDefinedCptvFile)?_c('div',{key:"openUserFile",staticClass:"playback-controls show"},[_c('b-form-file',{staticClass:"cptv-drop-area",attrs:{"accept":".cptv","state":_vm.userSuppliedFile !== null,"placeholder":"Choose a CPTV file or drop one here...","drop-placeholder":"Drop file here..."},model:{value:(_vm.userSuppliedFile),callback:function ($$v) {_vm.userSuppliedFile=$$v},expression:"userSuppliedFile"}})],1):_vm._e(),_c('div',{key:"buffering",class:[
         'playback-controls',
         { show: _vm.isBuffering && !_vm.openUserDefinedCptvFile } ]},[_c('font-awesome-icon',{staticClass:"fa-spin buffering",attrs:{"icon":"spinner","size":"4x"}})],1),_c('div',{key:"playback-controls",class:[
@@ -13430,7 +13430,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (this.totalFrames) {
-                  _context2.next = 12;
+                  _context2.next = 13;
                   break;
                 }
 
@@ -13445,19 +13445,20 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                   break;
                 }
 
-                return _context2.abrupt("break", 12);
+                return _context2.abrupt("break", 13);
 
               case 6:
                 CptvPlayervue_type_script_lang_ts_frames.push(frame);
-                _context2.next = 9;
+                this.loadedFrames = CptvPlayervue_type_script_lang_ts_frames.length;
+                _context2.next = 10;
                 return cptvDecoder.getTotalFrames();
 
-              case 9:
+              case 10:
                 this.totalFrames = _context2.sent;
                 _context2.next = 0;
                 break;
 
-              case 12:
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -13613,7 +13614,8 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
   }, {
     key: "firstFrameForTrack",
     value: function firstFrameForTrack(trackIndex) {
-      var frameForTrack = Object.entries(this.processedTracks).find(function (_ref4) {
+      var frameForTrack = Object.entries(this.processedTracks // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ).find(function (_ref4) {
         var _ref5 = _slicedToArray(_ref4, 2),
             _ = _ref5[0],
             tracks = _ref5[1];
@@ -13625,7 +13627,8 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
   }, {
     key: "onPastLastFrameForTrack",
     value: function onPastLastFrameForTrack(trackIndex) {
-      var entries = Object.entries(this.processedTracks);
+      var entries = Object.entries(this.processedTracks); // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       var firstFrameForTrackIndex = entries.findIndex(function (_ref6) {
         var _ref7 = _slicedToArray(_ref6, 2),
             _ = _ref7[0],
@@ -13634,7 +13637,8 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
         return Object.keys(tracks).map(Number).includes(trackIndex);
       });
       var fromStartOfTrack = entries.slice(firstFrameForTrackIndex);
-      var onePastLastFrameForTrackIndex = fromStartOfTrack.findIndex(function (_ref8) {
+      var onePastLastFrameForTrackIndex = fromStartOfTrack.findIndex( // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      function (_ref8) {
         var _ref9 = _slicedToArray(_ref8, 2),
             _ = _ref9[0],
             tracks = _ref9[1];
@@ -25496,7 +25500,7 @@ try {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__(8987);
+/******/ 	var __webpack_exports__ = __webpack_require__(6361);
 /******/ 	module.exports = __webpack_exports__.default;
 /******/ 	
 /******/ })()

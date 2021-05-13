@@ -718,6 +718,7 @@ export default class CptvPlayerComponent extends Vue {
         break;
       }
       frames.push(frame);
+      this.loadedFrames = frames.length;
       this.totalFrames = await cptvDecoder.getTotalFrames();
     }
   }
@@ -798,6 +799,7 @@ export default class CptvPlayerComponent extends Vue {
   firstFrameForTrack(trackIndex: number): number {
     const frameForTrack = Object.entries(
       this.processedTracks
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ).find(([_, tracks]) =>
       Object.keys(tracks).map(Number).includes(trackIndex)
     );
@@ -805,11 +807,13 @@ export default class CptvPlayerComponent extends Vue {
   }
   onPastLastFrameForTrack(trackIndex: number): number {
     const entries = Object.entries(this.processedTracks);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const firstFrameForTrackIndex = entries.findIndex(([_, tracks]) =>
       Object.keys(tracks).map(Number).includes(trackIndex)
     );
     const fromStartOfTrack = entries.slice(firstFrameForTrackIndex);
     let onePastLastFrameForTrackIndex = fromStartOfTrack.findIndex(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([_, tracks]) => !Object.keys(tracks).map(Number).includes(trackIndex)
     );
     if (onePastLastFrameForTrackIndex === -1) {
@@ -1341,7 +1345,7 @@ export default class CptvPlayerComponent extends Vue {
       }
     }
   }
-  setLabelFontStyle(overlayContext: CanvasRenderingContext2D) {
+  setLabelFontStyle(overlayContext: CanvasRenderingContext2D): void {
     overlayContext.font = "13px sans-serif";
     overlayContext.lineWidth = 4;
     overlayContext.strokeStyle = "rgba(0, 0, 0, 0.5)";
@@ -1350,7 +1354,7 @@ export default class CptvPlayerComponent extends Vue {
   drawBottomLeftOverlayLabel(
     label: string | false,
     overlayContext: CanvasRenderingContext2D
-  ) {
+  ): void {
     if (label) {
       this.setLabelFontStyle(overlayContext);
       const bottomPadding = 10;
@@ -1372,7 +1376,7 @@ export default class CptvPlayerComponent extends Vue {
   drawBottomRightOverlayLabel(
     label: string | false,
     overlayContext: CanvasRenderingContext2D
-  ) {
+  ): void {
     if (label) {
       this.setLabelFontStyle(overlayContext);
       const bottomPadding = 10;
