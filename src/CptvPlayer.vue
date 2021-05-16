@@ -580,7 +580,6 @@ export default class CptvPlayerComponent extends Vue {
       const tick = Math.max(0, this.animationTick - 1);
       const adjustment =
         (tick % holdForXFrames) * (1 / holdForXFrames / holdForXFrames);
-      //console.log(tick, adjustment, tick % holdForXFrames, holdForXFrames, 1/holdForXFrames / holdForXFrames);
       return this.currentTime + adjustment;
     }
     return 0;
@@ -880,7 +879,7 @@ export default class CptvPlayerComponent extends Vue {
       lastCptvUrl = this.cptvUrl;
       this.header = Object.freeze(await cptvDecoder.getHeader());
       this.scale = this.canvasWidth / this.header.width;
-      this.$emit("ready-to-play");
+      this.$emit("ready-to-play", this.header);
       frameBuffer = new Uint8ClampedArray(
         this.header.width * this.header.height * 4
       );
@@ -959,9 +958,6 @@ export default class CptvPlayerComponent extends Vue {
     if (canAdvance) {
       this.frameNum++;
     }
-    if (!canAdvance) {
-      debugger;
-    }
     if (this.totalFrames !== null) {
       this.atEndOfPlayback = this.frameNum === this.totalFrames - 1;
     } else {
@@ -972,7 +968,11 @@ export default class CptvPlayerComponent extends Vue {
     this.isShowingBackgroundFrame = false;
     this.pause();
     this.animationTick = 0;
-    const couldStep = await this.renderCurrentFrame(true, this.frameNum - 1);
+    const firstFrame = this.hasBackgroundFrame ? 1 : 0;
+    const couldStep = await this.renderCurrentFrame(
+      true,
+      Math.max(this.frameNum - 1, firstFrame)
+    );
     if (couldStep) {
       this.frameNum = Math.max(0, this.frameNum - 1);
       this.atEndOfPlayback = false;
@@ -987,9 +987,15 @@ export default class CptvPlayerComponent extends Vue {
       hitTrackIndex !== null ? "pointer" : "default";
     if (hitTrackIndex !== null) {
       await this.renderCurrentFrame();
-      this.$emit("track-selected", {
-        trackIndex: hitTrackIndex,
-      });
+      const hitTrack = this.tracks.find(
+        (track) => track.trackIndex === hitTrackIndex
+      );
+      if (hitTrack) {
+        this.$emit("track-selected", {
+          trackIndex: hitTrackIndex,
+          trackId: hitTrack.id,
+        });
+      }
     }
   }
   clearCanvas(): void {
@@ -1309,6 +1315,7 @@ export default class CptvPlayerComponent extends Vue {
           this.frameNum === this.totalFrames - 1
         ) {
           this.atEndOfPlayback = true;
+          this.pause();
         }
       } else if (context) {
         this.animationTick++;
@@ -1470,9 +1477,15 @@ export default class CptvPlayerComponent extends Vue {
         const trackIndex = Number(frameTracks[0][0]);
         // If the track is the only track at this time offset, make it the selected track.
         if (this.currentTrack.trackIndex !== trackIndex) {
-          this.$emit("track-selected", {
-            trackIndex,
-          });
+          const track = this.tracks.find(
+            (track) => track.trackIndex === trackIndex
+          );
+          if (track) {
+            this.$emit("track-selected", {
+              trackIndex,
+              trackId: track.id,
+            });
+          }
         }
       }
 

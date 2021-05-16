@@ -163,6 +163,7 @@ export interface TrackExportOption {
 }
 
 export interface Track {
+  id: number;
   data: {
     start_s: number;
     end_s: number;
