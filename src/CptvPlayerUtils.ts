@@ -107,7 +107,6 @@ export const getProcessedTracks = (
   tracks: Track[],
   timeOffset: number,
   frameTimeSeconds: number,
-  hasBackgroundFrame: boolean
 ): Record<number, Record<number, TrackBox>> => {
   // Map track box position times to actual frames, easier to use than time offsets.
   const frameAtTime = (time: number) => {
@@ -117,12 +116,8 @@ export const getProcessedTracks = (
   // Add a bit of breathing room around our boxes
   const padding = 5;
   return tracks
-    .map(({ data, trackIndex, TrackTags }) => ({
+    .map(({ data, TrackTags }) => ({
       what: (TrackTags && getAuthoritativeTagForTrack(TrackTags)) || null,
-      start_s: Math.max(0, data.start_s - timeOffset),
-      end_s: data.end_s - timeOffset,
-      num_frames: data.num_frames + (hasBackgroundFrame ? -1 : 0),
-      trackIndex,
       positions: data.positions.map(([time, [left, top, right, bottom]]): [
         number,
         number,
@@ -142,7 +137,7 @@ export const getProcessedTracks = (
       for (const position of item.positions) {
         acc[position[0]] = acc[position[0]] || {};
         const frame = acc[position[0]];
-        frame[item.trackIndex] = {
+        frame[index] = {
           rect: position[2],
           what: item.what,
         };

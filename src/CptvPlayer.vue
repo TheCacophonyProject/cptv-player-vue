@@ -272,7 +272,7 @@
         :tracks="tracks"
         :colours="colours"
         :time-adjustment-for-background-frame="timeAdjustmentForBackgroundFrame"
-        :current-track="orderedIndexOfCurrentTrack"
+        :current-track="currentTrack.trackIndex"
         :canvas-width="canvasWidth"
         :side-padding="scrubberSidePadding"
         @start-scrub="startScrub"
@@ -490,17 +490,6 @@ export default class CptvPlayerComponent extends Vue {
     }
     return this.internalFrameNum;
   }
-  get orderedIndexOfCurrentTrack(): number {
-    if (this.currentTrack) {
-      const orderedIndex = this.tracks.findIndex(
-        (track) => track.trackIndex === this.currentTrack?.trackIndex
-      );
-      console.log(this.currentTrack.trackIndex, orderedIndex);
-
-      return orderedIndex;
-    }
-    return 0;
-  }
   get totalFrames(): number | null {
     if (this.internalTotalFrames === null) {
       return null;
@@ -548,8 +537,7 @@ export default class CptvPlayerComponent extends Vue {
     return getProcessedTracks(
       this.tracks,
       this.timeAdjustmentForBackgroundFrame,
-      this.frameTimeSeconds,
-      this.hasBackgroundFrame
+      this.frameTimeSeconds
     );
   }
   get actualDuration(): number {
@@ -633,14 +621,11 @@ export default class CptvPlayerComponent extends Vue {
     return formatHeaderInfo(this.header);
   }
   get exportOptions(): TrackExportOption[] {
-    return this.tracks
-      .map(({ trackIndex, data }) => ({ trackIndex, start: data.start_s }))
-      .sort((a, b) => a.start - b.start)
-      .map((track) => ({
-        includeInExportTime: true,
-        displayInExport: true,
-        trackIndex: track.trackIndex,
-      }));
+    return this.tracks.map(({ trackIndex }) => ({
+      includeInExportTime: true,
+      displayInExport: true,
+      trackIndex,
+    }));
   }
   get hasVideo(): boolean {
     return !(this.cptvUrl === null && this.userSuppliedFile === null);
@@ -998,9 +983,7 @@ export default class CptvPlayerComponent extends Vue {
       hitTrackIndex !== null ? "pointer" : "default";
     if (hitTrackIndex !== null) {
       await this.renderCurrentFrame();
-      const hitTrack = this.tracks.find(
-        (track) => track.trackIndex === hitTrackIndex
-      );
+      const hitTrack = this.tracks[hitTrackIndex];
       if (hitTrack) {
         this.$emit("track-selected", {
           trackIndex: hitTrackIndex,
@@ -1142,9 +1125,7 @@ export default class CptvPlayerComponent extends Vue {
       onePastLastFrame = 0;
       for (const { includeInExportTime, trackIndex } of trackExportOptions) {
         if (includeInExportTime) {
-          const track = this.tracks.find(
-            (track) => track.trackIndex === trackIndex
-          );
+          const track = this.tracks[trackIndex];
           if (track) {
             const startTrackFrame = this.getFrameAtTime(track.data.start_s - 1);
             const endTrackFrame = this.getFrameAtTime(track.data.end_s + 1);
@@ -1488,15 +1469,10 @@ export default class CptvPlayerComponent extends Vue {
         const trackIndex = Number(frameTracks[0][0]);
         // If the track is the only track at this time offset, make it the selected track.
         if (this.currentTrack.trackIndex !== trackIndex) {
-          const track = this.tracks.find(
-            (track) => track.trackIndex === trackIndex
-          );
-          if (track) {
-            this.$emit("track-selected", {
-              trackIndex,
-              trackId: track.id,
-            });
-          }
+          this.$emit("track-selected", {
+            trackIndex,
+            trackId: this.tracks[trackIndex].id,
+          });
         }
       }
 
@@ -1574,9 +1550,6 @@ export default class CptvPlayerComponent extends Vue {
     const selected =
       (this.currentTrack && this.currentTrack.trackIndex === trackIndex) ||
       isExporting;
-    const orderedTrackIndex = this.tracks.findIndex(
-      (track) => track.trackIndex === trackIndex
-    );
     const lineWidth = selected ? 2 : 1;
     const outlineWidth = lineWidth + 4;
     const halfOutlineWidth = outlineWidth / 2;
@@ -1604,7 +1577,7 @@ export default class CptvPlayerComponent extends Vue {
     context.strokeStyle = `rgba(0, 0, 0, ${selected ? 0.4 : 0.5})`;
     context.beginPath();
     context.strokeRect(x, y, width, height);
-    context.strokeStyle = this.colours[orderedTrackIndex % this.colours.length];
+    context.strokeStyle = this.colours[trackIndex % this.colours.length];
     context.lineWidth = lineWidth;
     context.beginPath();
     context.strokeRect(x, y, width, height);
