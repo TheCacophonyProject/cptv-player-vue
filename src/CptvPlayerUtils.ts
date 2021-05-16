@@ -142,7 +142,7 @@ export const getProcessedTracks = (
       for (const position of item.positions) {
         acc[position[0]] = acc[position[0]] || {};
         const frame = acc[position[0]];
-        frame[index] = {
+        frame[item.trackIndex] = {
           rect: position[2],
           what: item.what,
         };

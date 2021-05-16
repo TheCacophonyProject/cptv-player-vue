@@ -272,7 +272,7 @@
         :tracks="tracks"
         :colours="colours"
         :time-adjustment-for-background-frame="timeAdjustmentForBackgroundFrame"
-        :current-track="(currentTrack && currentTrack.trackIndex) || 0"
+        :current-track="orderedIndexOfCurrentTrack"
         :canvas-width="canvasWidth"
         :side-padding="scrubberSidePadding"
         @start-scrub="startScrub"
@@ -489,6 +489,17 @@ export default class CptvPlayerComponent extends Vue {
       return Math.min(this.internalFrameNum, this.totalFrames - 1);
     }
     return this.internalFrameNum;
+  }
+  get orderedIndexOfCurrentTrack(): number {
+    if (this.currentTrack) {
+      const orderedIndex = this.tracks.findIndex(
+        (track) => track.trackIndex === this.currentTrack?.trackIndex
+      );
+      console.log(this.currentTrack.trackIndex, orderedIndex);
+
+      return orderedIndex;
+    }
+    return 0;
   }
   get totalFrames(): number | null {
     if (this.internalTotalFrames === null) {
@@ -1563,6 +1574,9 @@ export default class CptvPlayerComponent extends Vue {
     const selected =
       (this.currentTrack && this.currentTrack.trackIndex === trackIndex) ||
       isExporting;
+    const orderedTrackIndex = this.tracks.findIndex(
+      (track) => track.trackIndex === trackIndex
+    );
     const lineWidth = selected ? 2 : 1;
     const outlineWidth = lineWidth + 4;
     const halfOutlineWidth = outlineWidth / 2;
@@ -1590,7 +1604,7 @@ export default class CptvPlayerComponent extends Vue {
     context.strokeStyle = `rgba(0, 0, 0, ${selected ? 0.4 : 0.5})`;
     context.beginPath();
     context.strokeRect(x, y, width, height);
-    context.strokeStyle = this.colours[trackIndex % this.colours.length];
+    context.strokeStyle = this.colours[orderedTrackIndex % this.colours.length];
     context.lineWidth = lineWidth;
     context.beginPath();
     context.strokeRect(x, y, width, height);
