@@ -22,7 +22,7 @@
       <div
         key="openUserFile"
         class="playback-controls show"
-        v-if="openUserDefinedCptvFile"
+        v-if="openUserDefinedCptvFile && userFiles"
       >
         <b-form-file
           class="cptv-drop-area"
@@ -37,7 +37,7 @@
         key="buffering"
         :class="[
           'playback-controls',
-          { show: isBuffering && !openUserDefinedCptvFile },
+          { show: isBuffering && (!openUserDefinedCptvFile || !userFiles) },
         ]"
       >
         <font-awesome-icon class="fa-spin buffering" icon="spinner" size="4x" />
@@ -48,7 +48,6 @@
           'playback-controls',
           {
             show: atEndOfPlayback && !extLoading && !openUserDefinedCptvFile,
-            //mini: afterAnyTracks,
           },
         ]"
       >
@@ -418,6 +417,7 @@ export default class CptvPlayerComponent extends Vue {
   @Prop({ default: false }) canGoForwards!: boolean;
   @Prop({ default: false }) exportRequested!: boolean | string;
   @Prop({ default: true }) canUseAdvancedControls!: boolean;
+  @Prop({ default: true }) userFiles!: boolean;
 
   @Ref() container!: HTMLDivElement;
   @Ref() canvas!: HTMLCanvasElement;

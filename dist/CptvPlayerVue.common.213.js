@@ -175,7 +175,7 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ 648:
+/***/ 7825:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var TO_STRING_TAG_SUPPORT = __webpack_require__(1694);
@@ -691,7 +691,7 @@ module.exports = function (namespace, method) {
 /***/ 1246:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-var classof = __webpack_require__(648);
+var classof = __webpack_require__(7825);
 var Iterators = __webpack_require__(7497);
 var wellKnownSymbol = __webpack_require__(5112);
 
@@ -1583,7 +1583,7 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
 "use strict";
 
 var TO_STRING_TAG_SUPPORT = __webpack_require__(1694);
-var classof = __webpack_require__(648);
+var classof = __webpack_require__(7825);
 
 // `Object.prototype.toString` method implementation
 // https://tc39.es/ecma262/#sec-object.prototype.tostring
