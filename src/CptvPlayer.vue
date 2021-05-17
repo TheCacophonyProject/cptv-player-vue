@@ -272,7 +272,7 @@
         :tracks="tracks"
         :colours="colours"
         :time-adjustment-for-background-frame="timeAdjustmentForBackgroundFrame"
-        :current-track="currentTrack.trackIndex"
+        :current-track="currentTrack && currentTrack.trackIndex"
         :canvas-width="canvasWidth"
         :side-padding="scrubberSidePadding"
         @start-scrub="startScrub"
