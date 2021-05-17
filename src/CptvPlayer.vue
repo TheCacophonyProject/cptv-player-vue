@@ -199,7 +199,7 @@
       </div>
     </div>
     <div key="debug-nav" :class="['debug-tools', { open: showDebugTools }]">
-      <div class="debug-info">
+      <div class="debug-info" v-if="showDebugTools">
         <div v-if="hasVideo && loadedFrames">Frame #{{ this.frameNum }}</div>
         <div v-if="this.secondsSinceLastFFC !== null">
           FFC {{ this.secondsSinceLastFFC.toFixed(1) }}s ago
@@ -1213,24 +1213,27 @@ export default class CptvPlayerComponent extends Vue {
     this.isExporting = false;
     this.$emit("export-complete");
   }
-  renderFrame(
-    frameData: CptvFrame,
-    frameNum: number | false,
-    force = false
-  ): void {
+  renderFrame(frameData: CptvFrame, frameNum: number, force = false): void {
     if (this.canvas && this.header) {
       const context = this.canvas.getContext("2d");
       if (!context) {
         return;
       }
       const [min, max] = this.minMaxForFrame(frameData);
-      renderFrameIntoFrameBuffer(
-        frameBuffer,
-        frameData.data,
-        this.colourMap[1],
-        min,
-        max
-      );
+
+      const range = max - min;
+      const colourMap = this.colourMap[1];
+      const fd = frameData.data;
+      const frameBufferView = new Uint32Array(frameBuffer.buffer);
+      const len = frameBufferView.length;
+      for (let i = 0; i < len; i++) {
+        const index = ((fd[i] - min) / range) * 255.0;
+        const n = Math.abs(index);
+        const f = n << 0;
+        const ff = f == n ? f : f + 1;
+        frameBufferView[i] = colourMap[ff];
+      }
+
       cancelAnimationFrame(this.animationFrame as number);
       this.animationFrame = requestAnimationFrame(() => {
         if (this.header) {
@@ -2107,6 +2110,7 @@ export default class CptvPlayerComponent extends Vue {
     }
     justify-content: space-between;
     .debug-info {
+      user-select: none;
       padding: 0 5px;
       line-height: 22px;
       font-size: 11px;
