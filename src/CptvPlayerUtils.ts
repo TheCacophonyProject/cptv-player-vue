@@ -106,7 +106,7 @@ export const formatHeaderInfo = (header: CptvHeader | null): string | null => {
 export const getProcessedTracks = (
   tracks: Track[],
   timeOffset: number,
-  frameTimeSeconds: number,
+  frameTimeSeconds: number
 ): Record<number, Record<number, TrackBox>> => {
   // Map track box position times to actual frames, easier to use than time offsets.
   const frameAtTime = (time: number) => {

@@ -725,7 +725,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 5336:
+/***/ 3738:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -760,14 +760,14 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ const setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b61b29a8-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=0ed7d468&
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e3b2d552-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=424a0972&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:['cptv-player', { 'stand-alone': _vm.standAlone }]},[_c('div',{key:"container",ref:"container",staticClass:"video-container"},[_c('canvas',{key:"base",ref:"canvas",class:['video-canvas', { smoothed: _vm.smoothed }]}),_c('canvas',{key:"overlay",ref:"overlayCanvas",staticClass:"overlay-canvas"}),_c('span',{key:"messaging",class:['player-messaging', { show: _vm.playerMessage !== null }],domProps:{"innerHTML":_vm._s(_vm.playerMessage)}}),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.showValueInfo),expression:"showValueInfo"}],key:"px-value",ref:"valueTooltip",staticClass:"value-tooltip"},[_vm._v(_vm._s(_vm.valueUnderCursor)+" ")]),(_vm.openUserDefinedCptvFile && _vm.userFiles)?_c('div',{key:"openUserFile",staticClass:"playback-controls show"},[_c('b-form-file',{staticClass:"cptv-drop-area",attrs:{"accept":".cptv","state":_vm.userSuppliedFile !== null,"placeholder":"Choose a CPTV file or drop one here...","drop-placeholder":"Drop file here..."},model:{value:(_vm.userSuppliedFile),callback:function ($$v) {_vm.userSuppliedFile=$$v},expression:"userSuppliedFile"}})],1):_vm._e(),_c('div',{key:"buffering",class:[
         'playback-controls',
         { show: _vm.isBuffering && (!_vm.openUserDefinedCptvFile || !_vm.userFiles) } ]},[_c('font-awesome-icon',{staticClass:"fa-spin buffering",attrs:{"icon":"spinner","size":"4x"}})],1),_c('div',{key:"playback-controls",class:[
         'playback-controls',
         {
           show: _vm.atEndOfPlayback && !_vm.extLoading && !_vm.openUserDefinedCptvFile,
-        } ]},[(!_vm.standAlone)?_c('button',{attrs:{"disabled":!_vm.canGoBackwards},on:{"click":_vm.requestPrevRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"backward"}})],1):_vm._e(),(_vm.standAlone && !_vm.cptvUrl)?_c('button',{on:{"click":function($event){_vm.openUserDefinedCptvFile = true}}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"folder-open"}})],1):_vm._e(),_c('button',{on:{"click":_vm.togglePlayback}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"redo-alt","rotation":"270"}})],1),(!_vm.standAlone)?_c('button',{attrs:{"disabled":!_vm.canGoForwards},on:{"click":_vm.requestNextRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"forward"}})],1):_vm._e()])]),_c('div',{key:"playback-nav",staticClass:"playback-nav"},[_c('button',{ref:"playPauseButton",attrs:{"data-tooltip":_vm.playing ? 'Pause' : 'Play',"disabled":!_vm.hasVideo},on:{"click":_vm.togglePlayback}},[(!_vm.playing)?_c('font-awesome-icon',{attrs:{"icon":"play"}}):_c('font-awesome-icon',{attrs:{"icon":"pause"}})],1),_c('div',{staticClass:"right-nav"},[(_vm.canUseAdvancedControls)?_c('div',{class:['advanced-controls', { open: _vm.showAdvancedControls }]},[_c('button',{ref:"advancedControlsButton",staticClass:"advanced-controls-btn",attrs:{"data-tooltip":_vm.showAdvancedControls ? 'Show less' : 'Show more'},on:{"click":_vm.toggleAdvancedControls}},[_c('font-awesome-icon',{attrs:{"icon":"angle-right","rotation":_vm.showAdvancedControls ? null : 180}})],1),_c('button',{ref:"debugTools",class:{ selected: _vm.showDebugTools },attrs:{"data-tooltip":"Debug tools"},on:{"click":_vm.toggleDebugTools}},[_c('font-awesome-icon',{attrs:{"icon":"wrench"}})],1),_c('button',{ref:"toggleSmoothingButton",attrs:{"data-tooltip":_vm.smoothed ? 'Disable smoothing' : 'Enable smoothing',"disabled":!_vm.hasVideo},on:{"click":_vm.toggleSmoothing}},[(_vm.smoothed)?_c('svg',{attrs:{"aria-hidden":"true","focusable":"false","viewBox":"0 0 18 18","width":"16","height":"20"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-249)","fill":"currentColor"}},[_c('path',{staticStyle:{"fill-opacity":"0.25"},attrs:{"d":"M5.25,248.969L5.25,251.781C5.25,252.247 4.872,252.625 4.406,252.625L0.844,252.625C0.378,252.625 0,252.247 0,251.781L0,248.969C0,248.503 0.378,248.125 0.844,248.125L4.406,248.125C4.872,248.125 5.25,248.503 5.25,248.969Z"}}),_c('path',{attrs:{"d":"M11.625,257.406L11.625,254.594C11.625,254.128 11.247,253.75 10.781,253.75L7.219,253.75C6.753,253.75 6.375,254.128 6.375,254.594L6.375,257.406C6.375,257.872 6.753,258.25 7.219,258.25L10.781,258.25C11.247,258.25 11.625,257.872 11.625,257.406Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M12.75,248.969L12.75,251.781C12.75,252.247 13.128,252.625 13.594,252.625L17.156,252.625C17.622,252.625 18,252.247 18,251.781L18,248.969C18,248.503 17.622,248.125 17.156,248.125L13.594,248.125C13.128,248.125 12.75,248.503 12.75,248.969Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M11.625,251.781L11.625,248.969C11.625,248.503 11.247,248.125 10.781,248.125L7.219,248.125C6.753,248.125 6.375,248.503 6.375,248.969L6.375,251.781C6.375,252.247 6.753,252.625 7.219,252.625L10.781,252.625C11.247,252.625 11.625,252.247 11.625,251.781Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M4.406,253.75L0.844,253.75C0.378,253.75 0,254.128 0,254.594L0,257.406C0,257.872 0.378,258.25 0.844,258.25L4.406,258.25C4.872,258.25 5.25,257.872 5.25,257.406L5.25,254.594C5.25,254.128 4.872,253.75 4.406,253.75Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M0,260.219L0,263.031C0,263.497 0.378,263.875 0.844,263.875L4.406,263.875C4.872,263.875 5.25,263.497 5.25,263.031L5.25,260.219C5.25,259.753 4.872,259.375 4.406,259.375L0.844,259.375C0.378,259.375 0,259.753 0,260.219Z"}}),_c('path',{attrs:{"d":"M13.594,258.25L17.156,258.25C17.622,258.25 18,257.872 18,257.406L18,254.594C18,254.128 17.622,253.75 17.156,253.75L13.594,253.75C13.128,253.75 12.75,254.128 12.75,254.594L12.75,257.406C12.75,257.872 13.128,258.25 13.594,258.25Z"}}),_c('path',{attrs:{"d":"M13.594,263.875L17.156,263.875C17.622,263.875 18,263.497 18,263.031L18,260.219C18,259.753 17.622,259.375 17.156,259.375L13.594,259.375C13.128,259.375 12.75,259.753 12.75,260.219L12.75,263.031C12.75,263.497 13.128,263.875 13.594,263.875Z"}}),_c('path',{attrs:{"d":"M6.375,260.219L6.375,263.031C6.375,263.497 6.753,263.875 7.219,263.875L10.781,263.875C11.247,263.875 11.625,263.497 11.625,263.031L11.625,260.219C11.625,259.753 11.247,259.375 10.781,259.375L7.219,259.375C6.753,259.375 6.375,259.753 6.375,260.219Z"}})])]):_c('svg',{attrs:{"width":"16","height":"18","viewBox":"0 0 18 18"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-2)","fill":"currentColor"}},[_c('path',{attrs:{"d":"M1.294,16.976L18.709,17.063L18.853,0.932C9.155,0.932 1.294,7.279 1.294,16.976Z"}})])])]),_c('button',{ref:"cyclePalette",attrs:{"data-tooltip":"Cycle colour map","disabled":!_vm.hasVideo},on:{"click":_vm.incrementPalette}},[_c('font-awesome-icon',{attrs:{"icon":"palette"}})],1),_c('button',{ref:"showHeader",class:{ selected: _vm.displayHeaderInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Show recording header info"},on:{"click":_vm.showHeaderInfo}},[_c('font-awesome-icon',{attrs:{"icon":"info-circle"}})],1)]):_vm._e(),_c('button',{ref:"cyclePlaybackSpeed",staticClass:"playback-speed",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Cycle playback speed"},on:{"click":_vm.incrementSpeed}},[_c('span',[_vm._v(_vm._s(_vm.speedMultiplier)+"x")])])])]),_c('div',{key:"debug-nav",class:['debug-tools', { open: _vm.showDebugTools }]},[(_vm.showDebugTools)?_c('div',{staticClass:"debug-info"},[(_vm.hasVideo && _vm.loadedFrames)?_c('div',[_vm._v("Frame #"+_vm._s(this.frameNum))]):_vm._e(),(this.secondsSinceLastFFC !== null)?_c('div',[_vm._v(" FFC "+_vm._s(this.secondsSinceLastFFC.toFixed(1))+"s ago ")]):_vm._e()]):_vm._e(),_c('div',[_c('button',{ref:"stepBackward",attrs:{"data-tooltip":"Go back one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepBackward}},[_c('font-awesome-icon',{attrs:{"icon":"step-backward"}})],1),_c('button',{ref:"stepForward",attrs:{"data-tooltip":"Go forward one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepForward}},[_c('font-awesome-icon',{attrs:{"icon":"step-forward"}})],1),_c('button',{ref:"toggleValuePicker",class:{ selected: _vm.showValueInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":_vm.showValueInfo
+        } ]},[(!_vm.standAlone)?_c('button',{attrs:{"disabled":!_vm.canGoBackwards},on:{"click":_vm.requestPrevRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"backward"}})],1):_vm._e(),(_vm.standAlone && !_vm.cptvUrl)?_c('button',{on:{"click":function($event){_vm.openUserDefinedCptvFile = true}}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"folder-open"}})],1):_vm._e(),_c('button',{on:{"click":_vm.togglePlayback}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"redo-alt","rotation":"270"}})],1),(!_vm.standAlone)?_c('button',{attrs:{"disabled":!_vm.canGoForwards},on:{"click":_vm.requestNextRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"forward"}})],1):_vm._e()])]),_c('div',{key:"playback-nav",staticClass:"playback-nav"},[_c('button',{ref:"playPauseButton",attrs:{"data-tooltip":_vm.playing ? 'Pause' : 'Play',"disabled":!_vm.hasVideo},on:{"click":_vm.togglePlayback}},[(!_vm.playing)?_c('font-awesome-icon',{attrs:{"icon":"play"}}):_c('font-awesome-icon',{attrs:{"icon":"pause"}})],1),_c('div',{staticClass:"right-nav"},[(_vm.canUseAdvancedControls)?_c('div',{class:['advanced-controls', { open: _vm.showAdvancedControls }]},[_c('button',{ref:"advancedControlsButton",staticClass:"advanced-controls-btn",attrs:{"data-tooltip":_vm.showAdvancedControls ? 'Show less' : 'Show more'},on:{"click":_vm.toggleAdvancedControls}},[_c('font-awesome-icon',{attrs:{"icon":"angle-right","rotation":_vm.showAdvancedControls ? null : 180}})],1),_c('button',{ref:"debugTools",class:{ selected: _vm.showDebugTools },attrs:{"data-tooltip":"Debug tools"},on:{"click":_vm.toggleDebugTools}},[_c('font-awesome-icon',{attrs:{"icon":"wrench"}})],1),_c('button',{ref:"toggleSmoothingButton",attrs:{"data-tooltip":_vm.smoothed ? 'Disable smoothing' : 'Enable smoothing',"disabled":!_vm.hasVideo},on:{"click":_vm.toggleSmoothing}},[(_vm.smoothed)?_c('svg',{attrs:{"aria-hidden":"true","focusable":"false","viewBox":"0 0 18 18","width":"16","height":"20"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-249)","fill":"currentColor"}},[_c('path',{staticStyle:{"fill-opacity":"0.25"},attrs:{"d":"M5.25,248.969L5.25,251.781C5.25,252.247 4.872,252.625 4.406,252.625L0.844,252.625C0.378,252.625 0,252.247 0,251.781L0,248.969C0,248.503 0.378,248.125 0.844,248.125L4.406,248.125C4.872,248.125 5.25,248.503 5.25,248.969Z"}}),_c('path',{attrs:{"d":"M11.625,257.406L11.625,254.594C11.625,254.128 11.247,253.75 10.781,253.75L7.219,253.75C6.753,253.75 6.375,254.128 6.375,254.594L6.375,257.406C6.375,257.872 6.753,258.25 7.219,258.25L10.781,258.25C11.247,258.25 11.625,257.872 11.625,257.406Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M12.75,248.969L12.75,251.781C12.75,252.247 13.128,252.625 13.594,252.625L17.156,252.625C17.622,252.625 18,252.247 18,251.781L18,248.969C18,248.503 17.622,248.125 17.156,248.125L13.594,248.125C13.128,248.125 12.75,248.503 12.75,248.969Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M11.625,251.781L11.625,248.969C11.625,248.503 11.247,248.125 10.781,248.125L7.219,248.125C6.753,248.125 6.375,248.503 6.375,248.969L6.375,251.781C6.375,252.247 6.753,252.625 7.219,252.625L10.781,252.625C11.247,252.625 11.625,252.247 11.625,251.781Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M4.406,253.75L0.844,253.75C0.378,253.75 0,254.128 0,254.594L0,257.406C0,257.872 0.378,258.25 0.844,258.25L4.406,258.25C4.872,258.25 5.25,257.872 5.25,257.406L5.25,254.594C5.25,254.128 4.872,253.75 4.406,253.75Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M0,260.219L0,263.031C0,263.497 0.378,263.875 0.844,263.875L4.406,263.875C4.872,263.875 5.25,263.497 5.25,263.031L5.25,260.219C5.25,259.753 4.872,259.375 4.406,259.375L0.844,259.375C0.378,259.375 0,259.753 0,260.219Z"}}),_c('path',{attrs:{"d":"M13.594,258.25L17.156,258.25C17.622,258.25 18,257.872 18,257.406L18,254.594C18,254.128 17.622,253.75 17.156,253.75L13.594,253.75C13.128,253.75 12.75,254.128 12.75,254.594L12.75,257.406C12.75,257.872 13.128,258.25 13.594,258.25Z"}}),_c('path',{attrs:{"d":"M13.594,263.875L17.156,263.875C17.622,263.875 18,263.497 18,263.031L18,260.219C18,259.753 17.622,259.375 17.156,259.375L13.594,259.375C13.128,259.375 12.75,259.753 12.75,260.219L12.75,263.031C12.75,263.497 13.128,263.875 13.594,263.875Z"}}),_c('path',{attrs:{"d":"M6.375,260.219L6.375,263.031C6.375,263.497 6.753,263.875 7.219,263.875L10.781,263.875C11.247,263.875 11.625,263.497 11.625,263.031L11.625,260.219C11.625,259.753 11.247,259.375 10.781,259.375L7.219,259.375C6.753,259.375 6.375,259.753 6.375,260.219Z"}})])]):_c('svg',{attrs:{"width":"16","height":"18","viewBox":"0 0 18 18"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-2)","fill":"currentColor"}},[_c('path',{attrs:{"d":"M1.294,16.976L18.709,17.063L18.853,0.932C9.155,0.932 1.294,7.279 1.294,16.976Z"}})])])]),_c('button',{ref:"cyclePalette",attrs:{"data-tooltip":"Cycle colour map","disabled":!_vm.hasVideo},on:{"click":_vm.incrementPalette}},[_c('font-awesome-icon',{attrs:{"icon":"palette"}})],1),_c('button',{ref:"showHeader",class:{ selected: _vm.displayHeaderInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Show recording header info"},on:{"click":_vm.showHeaderInfo}},[_c('font-awesome-icon',{attrs:{"icon":"info-circle"}})],1)]):_vm._e(),_c('button',{ref:"cyclePlaybackSpeed",staticClass:"playback-speed",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Cycle playback speed"},on:{"click":_vm.incrementSpeed}},[_c('span',[_vm._v(_vm._s(_vm.speedMultiplier)+"x")])])])]),_c('div',{key:"debug-nav",class:['debug-tools', { open: _vm.showDebugTools }]},[_c('div',{staticClass:"debug-info"},[_c('div',{ref:"frameNumField"}),_c('div',{ref:"ffcSecsAgo"})]),_c('div',[_c('button',{ref:"stepBackward",attrs:{"data-tooltip":"Go back one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepBackward}},[_c('font-awesome-icon',{attrs:{"icon":"step-backward"}})],1),_c('button',{ref:"stepForward",attrs:{"data-tooltip":"Go forward one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepForward}},[_c('font-awesome-icon',{attrs:{"icon":"step-forward"}})],1),_c('button',{ref:"toggleValuePicker",class:{ selected: _vm.showValueInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":_vm.showValueInfo
             ? 'Disable picker'
             : 'Show raw pixel values under cursor'},on:{"click":_vm.togglePicker}},[_c('font-awesome-icon',{attrs:{"icon":"eye-dropper"}})],1),_c('button',{ref:"showBackgroundFrame",class:{ selected: _vm.isShowingBackgroundFrame },attrs:{"disabled":!_vm.hasVideo || !_vm.hasBackgroundFrame,"data-tooltip":"Press to show background frame"},on:{"click":_vm.toggleBackground}},[_c('font-awesome-icon',{attrs:{"icon":"image"}})],1),(_vm.standAlone || _vm.userSuppliedFile)?_c('button',{ref:"exportMp4",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Export Mp4"},on:{"click":function () { return _vm.exportMp4(); }}},[_c('font-awesome-icon',{attrs:{"icon":"file-video"}})],1):_vm._e()])]),_c('div',{staticClass:"tracks-container"},[_c('VideoTracksScrubber',{key:"scrubber",ref:"scrubber",class:{ 'ended-playback': _vm.ended },attrs:{"duration":_vm.actualDuration,"tracks":_vm.tracks,"colours":_vm.colours,"time-adjustment-for-background-frame":_vm.timeAdjustmentForBackgroundFrame,"current-track":_vm.currentTrack && _vm.currentTrack.trackIndex,"canvas-width":_vm.canvasWidth,"side-padding":_vm.scrubberSidePadding},on:{"start-scrub":_vm.startScrub,"end-scrub":_vm.endScrub,"set-playback-time":_vm.setTimeAndRedraw}}),_c('canvas',{key:"playhead",ref:"playhead",staticClass:"playhead",attrs:{"width":_vm.canvasWidth * _vm.devicePixelRatio,"height":"1"}})],1),_c('b-modal',{attrs:{"title":"Recording metadata","hide-footer":""},model:{value:(_vm.displayHeaderInfo),callback:function ($$v) {_vm.displayHeaderInfo=$$v},expression:"displayHeaderInfo"}},[(_vm.header)?_c('pre',[_vm._v(_vm._s(_vm.headerInfo))]):_vm._e()]),_c('b-modal',{attrs:{"title":"Exporting video","no-close-on-backdrop":"","no-close-on-esc":"","hide-footer":"","hide-header-close":"","centered":""},model:{value:(_vm.isExporting),callback:function ($$v) {_vm.isExporting=$$v},expression:"isExporting"}},[_c('b-progress',{attrs:{"value":_vm.exportProgress * 100,"max":"100","animated":""}}),_c('div',{staticClass:"progress-text"},[_vm._v(_vm._s(Math.round(_vm.exportProgress * 100))+"%")]),_c('div',{staticClass:"progress-text"},[_c('b-button',{staticClass:"cancel-export-button",attrs:{"variant":"outline-danger"},on:{"click":_vm.cancelExport}},[_vm._v("Cancel")])],1)],1),_c('b-modal',{attrs:{"title":"Export options","ok-title":"Export"},on:{"ok":function($event){return _vm.exportMp4(_vm.trackExportOptions)},"cancel":function($event){return _vm.$emit('export-complete')}},model:{value:(_vm.showAdvancedExportOptions),callback:function ($$v) {_vm.showAdvancedExportOptions=$$v},expression:"showAdvancedExportOptions"}},[_c('b-form-group',{attrs:{"label":"Include tracks in exported timespan"}},_vm._l((_vm.trackExportOptions),function(track,index){return _c('b-form-checkbox',{key:index,model:{value:(track.includeInExportTime),callback:function ($$v) {_vm.$set(track, "includeInExportTime", $$v)},expression:"track.includeInExportTime"}},[_vm._v("Track "+_vm._s(index + 1))])}),1),_c('b-form-group',{attrs:{"label":"Display track boxes in export"}},_vm._l((_vm.trackExportOptions),function(track,index){return _c('b-form-checkbox',{key:index,model:{value:(track.displayInExport),callback:function ($$v) {_vm.$set(track, "displayInExport", $$v)},expression:"track.displayInExport"}},[_vm._v("Track "+_vm._s(index + 1))])}),1)],1),_c('b-modal',{model:{value:(_vm.hasStreamLoadError),callback:function ($$v) {_vm.hasStreamLoadError=$$v},expression:"hasStreamLoadError"}},[_vm._v(_vm._s(_vm.streamLoadError))])],1)}
 var staticRenderFns = []
@@ -1240,6 +1240,8 @@ var es_number_max_safe_integer = __webpack_require__(4363);
 var web_url = __webpack_require__(285);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.typed-array.uint32-array.js
 var es_typed_array_uint32_array = __webpack_require__(9135);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.to-fixed.js
+var es_number_to_fixed = __webpack_require__(6977);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__(3507);
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
@@ -1559,7 +1561,7 @@ Component.registerHooks = function registerHooks(keys) {
 /* harmony default export */ const vue_class_component_esm = (Component);
 
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b61b29a8-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/VideoTracksScrubber.vue?vue&type=template&id=51597510&scoped=true&
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"e3b2d552-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/VideoTracksScrubber.vue?vue&type=template&id=51597510&scoped=true&
 var VideoTracksScrubbervue_type_template_id_51597510_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{key:"track-scrubber",ref:"scrubber",staticClass:"track-scrubber",style:({
     height: (_vm.heightForTracks + "px"),
     width: (_vm.canvasWidth + "px"),
@@ -9140,8 +9142,6 @@ var BvModalEvent = /*#__PURE__*/function (_BvEvent) {
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.splice.js
 var es_array_splice = __webpack_require__(561);
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.to-fixed.js
-var es_number_to_fixed = __webpack_require__(6977);
 ;// CONCATENATED MODULE: ./node_modules/bootstrap-vue/src/utils/number.js
 
 // Number utilities
@@ -12744,6 +12744,7 @@ var Mp4Encoder = /*#__PURE__*/function () {
 
 
 
+
 var CptvPlayervue_type_script_lang_ts_decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
       r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -12835,6 +12836,10 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
     defineProperty_defineProperty(_assertThisInitialized(_this), "playhead", void 0);
 
     defineProperty_defineProperty(_assertThisInitialized(_this), "valueTooltip", void 0);
+
+    defineProperty_defineProperty(_assertThisInitialized(_this), "frameNumField", void 0);
+
+    defineProperty_defineProperty(_assertThisInitialized(_this), "ffcSecsAgo", void 0);
 
     defineProperty_defineProperty(_assertThisInitialized(_this), "openUserDefinedCptvFile", true);
 
@@ -13313,7 +13318,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                   break;
                 }
 
-                if (!(this.exportRequested === "advanced")) {
+                if (!(this.tracks && this.tracks.length && this.exportRequested === "advanced")) {
                   _context3.next = 6;
                   break;
                 }
@@ -13500,6 +13505,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 this.atEndOfPlayback = false;
                 this.frameNum = 0;
                 this.header = null;
+                this.setFrameInfo(0);
                 this.ended = false;
                 this.animationTick = 0;
                 this.loadedFrames = 0;
@@ -13516,15 +13522,15 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 cancelAnimationFrame(this.animationFrame);
 
                 if (!(this.cptvUrl !== null)) {
-                  _context5.next = 24;
+                  _context5.next = 25;
                   break;
                 }
 
                 this.openUserDefinedCptvFile = false;
-                _context5.next = 24;
+                _context5.next = 25;
                 return this.loadCptvFile();
 
-              case 24:
+              case 25:
               case "end":
                 return _context5.stop();
             }
@@ -13591,12 +13597,12 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                   this.streamLoadError = this.loadedStream;
                 }
 
-                _context6.next = 33;
+                _context6.next = 34;
                 break;
 
               case 16:
                 if (!this.loadedStream) {
-                  _context6.next = 33;
+                  _context6.next = 34;
                   break;
                 }
 
@@ -13608,6 +13614,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
               case 21:
                 _context6.t1 = _context6.sent;
                 this.header = _context6.t0.freeze.call(_context6.t0, _context6.t1);
+                this.setFrameInfo(0);
                 this.scale = this.canvasWidth / this.header.width;
                 this.$emit("ready-to-play", this.header);
                 frameBuffer = new Uint8ClampedArray(this.header.width * this.header.height * 4);
@@ -13616,17 +13623,17 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 cancelAnimationFrame(this.animationFrame);
 
                 if (!playImmediately) {
-                  _context6.next = 33;
+                  _context6.next = 34;
                   break;
                 }
 
-                _context6.next = 32;
+                _context6.next = 33;
                 return this.fetchRenderAdvanceFrame();
 
-              case 32:
+              case 33:
                 this.buffering = false;
 
-              case 33:
+              case 34:
               case "end":
                 return _context6.stop();
             }
@@ -14198,7 +14205,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 force = _args12.length > 3 && _args12[3] !== undefined ? _args12[3] : false;
 
                 if (!(context && this.header)) {
-                  _context12.next = 21;
+                  _context12.next = 22;
                   break;
                 }
 
@@ -14212,10 +14219,11 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 shouldRedraw = (this.animationTick + (this.playing ? 1 : 0)) % everyXTicks === 0;
 
                 if (!(context && (shouldRedraw || force))) {
-                  _context12.next = 17;
+                  _context12.next = 18;
                   break;
                 }
 
+                this.setFrameInfo(frameNum);
                 context.putImageData(imgData, 0, 0);
 
                 if (this.overlayCanvas) {
@@ -14236,17 +14244,17 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 didAdvance = false;
 
                 if (!this.playing) {
-                  _context12.next = 13;
+                  _context12.next = 14;
                   break;
                 }
 
-                _context12.next = 12;
+                _context12.next = 13;
                 return this.fetchRenderAdvanceFrame();
 
-              case 12:
+              case 13:
                 didAdvance = _context12.sent;
 
-              case 13:
+              case 14:
                 if (didAdvance) {
                   this.animationTick = 0;
                   this.frameNum++;
@@ -14260,10 +14268,10 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                   this.pause();
                 }
 
-                _context12.next = 18;
+                _context12.next = 19;
                 break;
 
-              case 17:
+              case 18:
                 if (context) {
                   this.animationTick++;
                   cancelAnimationFrame(this.animationFrame);
@@ -14272,7 +14280,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                   });
                 }
 
-              case 18:
+              case 19:
                 // Update playhead:
                 playhead = this.playhead;
 
@@ -14300,7 +14308,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                   }
                 }
 
-              case 21:
+              case 22:
               case "end":
                 return _context12.stop();
             }
@@ -14314,6 +14322,19 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
       return drawFrame;
     }()
+  }, {
+    key: "setFrameInfo",
+    value: function setFrameInfo(frameNum) {
+      if (this.showDebugTools) {
+        if (this.frameNumField) {
+          this.frameNumField.innerText = "Frame #".concat(frameNum);
+        }
+
+        if (this.ffcSecsAgo && this.secondsSinceLastFFC) {
+          this.ffcSecsAgo.innerText = "FFC ".concat(this.secondsSinceLastFFC.toFixed(1), "s ago");
+        }
+      }
+    }
   }, {
     key: "setLabelFontStyle",
     value: function setLabelFontStyle(overlayContext) {
@@ -15105,6 +15126,10 @@ CptvPlayervue_type_script_lang_ts_decorate([Ref()], CptvPlayerComponent.prototyp
 CptvPlayervue_type_script_lang_ts_decorate([Ref()], CptvPlayerComponent.prototype, "playhead", void 0);
 
 CptvPlayervue_type_script_lang_ts_decorate([Ref()], CptvPlayerComponent.prototype, "valueTooltip", void 0);
+
+CptvPlayervue_type_script_lang_ts_decorate([Ref()], CptvPlayerComponent.prototype, "frameNumField", void 0);
+
+CptvPlayervue_type_script_lang_ts_decorate([Ref()], CptvPlayerComponent.prototype, "ffcSecsAgo", void 0);
 
 CptvPlayervue_type_script_lang_ts_decorate([Watch("exportRequested")], CptvPlayerComponent.prototype, "onExportRequested", null);
 
@@ -25338,7 +25363,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__3507__;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__(5336);
+/******/ 	var __webpack_exports__ = __webpack_require__(3738);
 /******/ 	__webpack_exports__ = __webpack_exports__.default;
 /******/ 	
 /******/ 	return __webpack_exports__;

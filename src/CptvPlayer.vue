@@ -198,11 +198,9 @@
       </div>
     </div>
     <div key="debug-nav" :class="['debug-tools', { open: showDebugTools }]">
-      <div class="debug-info" v-if="showDebugTools">
-        <div v-if="hasVideo && loadedFrames">Frame #{{ this.frameNum }}</div>
-        <div v-if="this.secondsSinceLastFFC !== null">
-          FFC {{ this.secondsSinceLastFFC.toFixed(1) }}s ago
-        </div>
+      <div class="debug-info">
+        <div ref="frameNumField"></div>
+        <div ref="ffcSecsAgo"></div>
       </div>
       <!--      <button-->
       <!--        @click="toggleHistogram"-->
@@ -424,6 +422,8 @@ export default class CptvPlayerComponent extends Vue {
   @Ref() overlayCanvas!: HTMLCanvasElement;
   @Ref() playhead!: HTMLCanvasElement;
   @Ref() valueTooltip!: HTMLElement;
+  @Ref() frameNumField: HTMLDivElement | undefined;
+  @Ref() ffcSecsAgo: HTMLDivElement | undefined;
 
   openUserDefinedCptvFile = true;
   userSuppliedFile: File | null = null;
@@ -721,7 +721,11 @@ export default class CptvPlayerComponent extends Vue {
   @Watch("exportRequested")
   async onExportRequested(): Promise<void> {
     if (this.exportRequested) {
-      if (this.exportRequested === "advanced") {
+      if (
+        this.tracks &&
+        this.tracks.length &&
+        this.exportRequested === "advanced"
+      ) {
         this.showAdvancedExportOptions = true;
         this.initTrackExportOptions();
       } else {
@@ -832,6 +836,7 @@ export default class CptvPlayerComponent extends Vue {
     this.atEndOfPlayback = false;
     this.frameNum = 0;
     this.header = null;
+    this.setFrameInfo(0);
     this.ended = false;
     this.animationTick = 0;
     this.loadedFrames = 0;
@@ -874,6 +879,7 @@ export default class CptvPlayerComponent extends Vue {
     } else if (this.loadedStream) {
       lastCptvUrl = this.cptvUrl;
       this.header = Object.freeze(await cptvDecoder.getHeader());
+      this.setFrameInfo(0);
       this.scale = this.canvasWidth / this.header.width;
       this.$emit("ready-to-play", this.header);
       frameBuffer = new Uint8ClampedArray(
@@ -1266,6 +1272,7 @@ export default class CptvPlayerComponent extends Vue {
       const shouldRedraw =
         (this.animationTick + (this.playing ? 1 : 0)) % everyXTicks === 0;
       if (context && (shouldRedraw || force)) {
+        this.setFrameInfo(frameNum);
         context.putImageData(imgData, 0, 0);
         if (this.overlayCanvas) {
           const overlayContext = this.overlayCanvas.getContext("2d");
@@ -1344,6 +1351,18 @@ export default class CptvPlayerComponent extends Vue {
           this.stopAtFrame = null;
           this.pause();
         }
+      }
+    }
+  }
+  setFrameInfo(frameNum: number): void {
+    if (this.showDebugTools) {
+      if (this.frameNumField) {
+        this.frameNumField.innerText = `Frame #${frameNum}`;
+      }
+      if (this.ffcSecsAgo && this.secondsSinceLastFFC) {
+        this.ffcSecsAgo.innerText = `FFC ${this.secondsSinceLastFFC.toFixed(
+          1
+        )}s ago`;
       }
     }
   }
