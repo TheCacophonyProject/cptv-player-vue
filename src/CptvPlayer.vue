@@ -804,7 +804,7 @@ export default class CptvPlayerComponent extends Vue {
     );
     return (frameForTrack && Number(frameForTrack[0])) || 0;
   }
-  onPastLastFrameForTrack(trackIndex: number): number {
+  onePastLastFrameForTrack(trackIndex: number): number {
     const entries = Object.entries(this.processedTracks);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const firstFrameForTrackIndex = entries.findIndex(([_, tracks]) =>
@@ -929,7 +929,10 @@ export default class CptvPlayerComponent extends Vue {
         ) {
           cancelAnimationFrame(this.animationFrame as number);
           this.animationTick = 0;
-          this.setTimeAndRedraw(this.currentTrack.start_s + 0.01);
+          this.setTimeAndRedraw(
+            -1,
+            this.firstFrameForTrack(this.currentTrack.trackIndex)
+          );
           if (shouldPlay) {
             this.play();
           }
@@ -941,7 +944,7 @@ export default class CptvPlayerComponent extends Vue {
         // the selected track, since the user likely wants to tag the track they selected.
 
         // Any other further user interaction should unset stopAtTime.
-        this.stopAtFrame = this.onPastLastFrameForTrack(
+        this.stopAtFrame = this.onePastLastFrameForTrack(
           this.currentTrack.trackIndex
         );
       } else {
@@ -1753,7 +1756,7 @@ export default class CptvPlayerComponent extends Vue {
     }
     return 0;
   }
-  async setTimeAndRedraw(time: number): Promise<void> {
+  async setTimeAndRedraw(time = -1, frameNum = -1): Promise<void> {
     // If the user is already seeking, don't queue up new seek events until that download progress completes.
     if (!this.seekingInProgress) {
       this.isShowingBackgroundFrame = false;
@@ -1765,12 +1768,16 @@ export default class CptvPlayerComponent extends Vue {
           );
         }
         this.animationTick = 0;
-        this.frameNum = Math.floor(
-          Math.min(
-            totalFrames as number,
-            (time / this.actualDuration) * (totalFrames as number)
-          )
-        );
+        if (time !== -1) {
+          this.frameNum = Math.floor(
+            Math.min(
+              totalFrames as number,
+              (time / this.actualDuration) * (totalFrames as number)
+            )
+          );
+        } else if (frameNum !== -1) {
+          this.frameNum = frameNum;
+        }
         if (this.atEndOfPlayback) {
           this.atEndOfPlayback = this.frameNum === totalFrames;
         }
