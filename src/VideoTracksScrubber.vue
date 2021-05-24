@@ -15,7 +15,12 @@
       :style="{
         background: colours[(index - 1) % colours.length],
         opacity: index - 1 === currentTrack ? 1.0 : 0.5,
-        ...trackDimensions[index - 1],
+        width: trackDimensions[index - 1].width,
+        left: trackDimensions[index - 1].left,
+        top: `${
+          trackDimensions[index - 1].top -
+          (numUniqueYSlots === 1 ? 0 : trackHeight / 2)
+        }px`,
       }"
       class="scrub-track"
     />
@@ -39,7 +44,6 @@ const getPositionXForEvent = (event: Event): number => {
 };
 
 const minScrubberHeight = 44;
-const trackHeight = 12;
 
 @Component
 export default class VideoTracksScrubber extends Vue {
@@ -52,6 +56,8 @@ export default class VideoTracksScrubber extends Vue {
   @Prop({ default: () => [] }) colours!: string[];
 
   trackDimensions: { top: string; left: string; width: string }[] = [];
+  numUniqueYSlots = 0;
+  trackHeight = 12;
   @Ref() scrubber!: HTMLDivElement;
 
   get scrubberWidth(): number {
@@ -61,11 +67,10 @@ export default class VideoTracksScrubber extends Vue {
     if (this.tracks.length === 0) {
       return minScrubberHeight;
     }
-    const paddingY = minScrubberHeight / 2 - trackHeight;
-    const maxTrackTop = Math.max(
-      ...this.trackDimensions.map(({ top }) => Number(top.replace("px", "")))
-    );
-    return Math.max(44, maxTrackTop + trackHeight + paddingY);
+    const paddingY = 10;
+    const heightForTracks =
+      this.trackHeight * this.numUniqueYSlots + this.tracks.length - 1;
+    return Math.max(44, heightForTracks + paddingY * 2);
   }
 
   getWidthForTrack(track: Track): number {
@@ -86,28 +91,46 @@ export default class VideoTracksScrubber extends Vue {
   }
   getOffsetYForTrack(trackIndex: number): number {
     // See if there are any gaps to move this up to.
-    let topOffset = minScrubberHeight / 2 - trackHeight;
-    if (this.tracks.length === 1) {
-      return minScrubberHeight / 2 - trackHeight / 2;
-    }
+    let topOffset = minScrubberHeight / 2 - this.trackHeight / 2;
     if (trackIndex !== 0) {
       const thisLeft = this.getOffsetXForTrack(this.tracks[trackIndex]);
       const thisRight =
         thisLeft + this.getWidthForTrack(this.tracks[trackIndex]);
+
+      // Put each track in a slot with the height offset.
+      // Then for each new track, go backwards to try and find the earliest slot without a collision.
+      // Put the track in that slot.
+      const slots: Record<number, [number, number][]> = {};
       // Go backwards to find the earliest track that has a right <= our left
       while (Math.max(0, trackIndex) !== 0) {
         const lastTrackDims = this.trackDimensions[trackIndex - 1];
         const prevLeft = Number(lastTrackDims.left.replace("px", ""));
         const prevRight =
           prevLeft + Number(lastTrackDims.width.replace("px", ""));
-        topOffset = Number(lastTrackDims.top.replace("px", ""));
-        const overlapsPrev = prevRight > thisRight || thisLeft < prevRight;
-        if (overlapsPrev) {
-          topOffset += trackHeight + 1;
-          break;
-        }
+        topOffset = lastTrackDims.top;
+
+        slots[topOffset] = slots[topOffset] || [];
+        slots[topOffset].push([prevLeft, prevRight]);
         trackIndex--;
       }
+      const orderedSlots = Object.entries(slots)
+        .sort(
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          ([a, _a], [b, _b]) => Number(a) - Number(b)
+        )
+        .reverse();
+      let bestSlot = Number(orderedSlots[0][0]) + this.trackHeight + 1;
+      for (let i = 0; i < orderedSlots.length; i++) {
+        const slot = orderedSlots[i];
+        const noOverlaps = slot[1].every(
+          ([prevLeft, prevRight]) =>
+            thisRight < prevLeft || thisLeft > prevRight
+        );
+        if (noOverlaps) {
+          bestSlot = Number(slot[0]);
+        }
+      }
+      topOffset = bestSlot;
     }
     return topOffset;
   }
@@ -177,13 +200,18 @@ export default class VideoTracksScrubber extends Vue {
   initTrackDimensions(): void {
     // Init track dimensions
     this.trackDimensions = [];
+    this.numUniqueYSlots = 0;
+    const uniqueYSlots = {};
     for (let i = 0; i < this.tracks.length; i++) {
+      const yOffset = this.getOffsetYForTrack(i);
       this.trackDimensions.push({
-        top: `${this.getOffsetYForTrack(i)}px`,
+        top: yOffset,
         width: `${this.getWidthForTrack(this.tracks[i])}px`,
         left: `${this.getOffsetXForTrack(this.tracks[i])}px`,
       });
+      uniqueYSlots[yOffset] = true;
     }
+    this.numUniqueYSlots = Object.keys(uniqueYSlots).length;
   }
   created(): void {
     this.initTrackDimensions();
