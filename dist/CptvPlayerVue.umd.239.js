@@ -322,23 +322,25 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
 
               case 3:
                 this.locked = true;
+                this.framesRead = 0;
                 this.prevFrameHeader = null;
-                _context2.next = 7;
+                this.streamError = undefined;
+                _context2.next = 9;
                 return this.initWasm(false);
 
-              case 7:
-                _context2.prev = 7; // Use this expired JWT token to test that failure case (usually when a page has been open too long)
+              case 9:
+                _context2.prev = 9; // Use this expired JWT token to test that failure case (usually when a page has been open too long)
                 // const oldJWT = "https://api.cacophony.org.nz/api/v1/signedUrl?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfdHlwZSI6ImZpbGVEb3dubG9hZCIsImtleSI6InJhdy8yMDIxLzA0LzE1LzQ3MGU2YjY1LWZkOTgtNDk4Ny1iNWQ3LWQyN2MwOWIxODFhYSIsImZpbGVuYW1lIjoiMjAyMTA0MTUtMTE0MjE2LmNwdHYiLCJtaW1lVHlwZSI6ImFwcGxpY2F0aW9uL3gtY3B0diIsImlhdCI6MTYxODQ2MjUwNiwiZXhwIjoxNjE4NDYzMTA2fQ.p3RAOX7Ns52JqHWTMM5Se-Fn-UCyRtX2tveaGrRmiwo";
 
                 this.consumed = false;
-                _context2.next = 11;
+                _context2.next = 13;
                 return fetch(url);
 
-              case 11:
+              case 13:
                 this.response = _context2.sent;
 
                 if (!(this.response.status === 200)) {
-                  _context2.next = 25;
+                  _context2.next = 27;
                   break;
                 }
 
@@ -349,52 +351,52 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
                 }
 
                 this.expectedSize = size;
-                _context2.next = 18;
+                _context2.next = 20;
                 return CptvPlayerContext.newWithStream(this.reader);
 
-              case 18:
+              case 20:
                 this.playerContext = _context2.sent;
                 unlocker.unlock();
                 this.inited = true;
                 this.locked = false;
                 return _context2.abrupt("return", true);
 
-              case 25:
+              case 27:
                 unlocker.unlock();
                 this.locked = false;
-                _context2.prev = 27;
-                _context2.next = 30;
+                _context2.prev = 29;
+                _context2.next = 32;
                 return this.response.json();
 
-              case 30:
+              case 32:
                 _r = _context2.sent;
                 return _context2.abrupt("return", _r.messages && _r.messages.pop() || _r.message || "Unknown error");
 
-              case 34:
-                _context2.prev = 34;
-                _context2.t0 = _context2["catch"](27);
-                _context2.next = 38;
+              case 36:
+                _context2.prev = 36;
+                _context2.t0 = _context2["catch"](29);
+                _context2.next = 40;
                 return r.text();
 
-              case 38:
+              case 40:
                 return _context2.abrupt("return", _context2.sent);
 
-              case 39:
-                _context2.next = 45;
+              case 41:
+                _context2.next = 47;
                 break;
 
-              case 41:
-                _context2.prev = 41;
-                _context2.t1 = _context2["catch"](7);
+              case 43:
+                _context2.prev = 43;
+                _context2.t1 = _context2["catch"](9);
                 this.locked = false;
                 return _context2.abrupt("return", "Failed to load CPTV url ".concat(url, ", ").concat(_context2.t1));
 
-              case 45:
+              case 47:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[7, 41], [27, 34]]);
+        }, _callee2, this, [[9, 43], [29, 36]]);
       }));
 
       function initWithCptvUrlAndSize(_x2, _x3) {
@@ -448,44 +450,47 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
                 filePath = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : "";
                 isNode = _args4.length > 2 && _args4[2] !== undefined ? _args4[2] : false; // Don't call this from a browser!
 
+                this.framesRead = 0;
+                this.streamError = undefined;
                 unlocker = new Unlocker();
-                _context4.next = 5;
+                _context4.next = 7;
                 return this.lockIsUncontended(unlocker);
 
-              case 5:
+              case 7:
                 this.prevFrameHeader = null;
                 this.locked = true;
-                _context4.next = 9;
+                _context4.next = 11;
                 return this.initWasm(isNode);
 
-              case 9:
+              case 11:
                 this.consumed = false;
                 this.reader = new FakeReader(fileBytes, 100000);
                 this.expectedSize = fileBytes.length;
-                _context4.prev = 12;
-                _context4.next = 15;
+                _context4.prev = 14;
+                _context4.next = 17;
                 return CptvPlayerContext.newWithStream(this.reader);
 
-              case 15:
+              case 17:
                 this.playerContext = _context4.sent;
                 unlocker.unlock();
                 this.inited = true;
                 this.locked = false;
                 return _context4.abrupt("return", true);
 
-              case 22:
-                _context4.prev = 22;
-                _context4.t0 = _context4["catch"](12);
+              case 24:
+                _context4.prev = 24;
+                _context4.t0 = _context4["catch"](14);
+                this.streamError = _context4.t0;
                 unlocker.unlock();
                 this.locked = false;
                 return _context4.abrupt("return", "Failed to load CPTV file ".concat(filePath, ", ").concat(_context4.t0));
 
-              case 27:
+              case 30:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[12, 22]]);
+        }, _callee4, this, [[14, 24]]);
       }));
 
       function initWithFileBytes(_x5) {
@@ -504,103 +509,114 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
             switch (_context5.prev = _context5.next) {
               case 0:
                 if (this.reader) {
-                  _context5.next = 2;
+                  _context5.next = 3;
                   break;
                 }
 
-                return _context5.abrupt("return", "You need to initialise the player with the url of a CPTV file");
+                console.warn("You need to initialise the player with the url of a CPTV file");
+                return _context5.abrupt("return", null);
 
-              case 2:
+              case 3:
                 if (!this.consumed) {
-                  _context5.next = 4;
+                  _context5.next = 6;
                   break;
                 }
 
-                return _context5.abrupt("return", "Stream has already been consumed and discarded");
+                console.warn("Stream has already been consumed and discarded");
+                return _context5.abrupt("return", null);
 
-              case 4:
+              case 6:
                 unlocker = new Unlocker();
-                _context5.next = 7;
+                _context5.next = 9;
                 return this.lockIsUncontended(unlocker);
 
-              case 7:
+              case 9:
                 this.locked = true;
 
                 if (!(this.playerContext && this.playerContext.ptr)) {
-                  _context5.next = 21;
+                  _context5.next = 22;
                   break;
                 }
 
-                _context5.prev = 9;
-                _context5.next = 12;
+                _context5.prev = 11;
+                _context5.next = 14;
                 return CptvPlayerContext.fetchNextFrame(this.playerContext);
 
-              case 12:
+              case 14:
                 this.playerContext = _context5.sent;
-                _context5.next = 19;
+                _context5.next = 20;
                 break;
 
-              case 15:
-                _context5.prev = 15;
-                _context5.t0 = _context5["catch"](9);
+              case 17:
+                _context5.prev = 17;
+                _context5.t0 = _context5["catch"](11);
                 this.streamError = _context5.t0;
-                return _context5.abrupt("return", null);
 
-              case 19:
-                _context5.next = 22;
+              case 20:
+                _context5.next = 23;
                 break;
-
-              case 21:
-                console.warn("Fetch next failed");
 
               case 22:
+                console.warn("Fetch next failed");
+
+              case 23:
                 unlocker.unlock();
                 this.locked = false;
+
+                if (!this.hasStreamError()) {
+                  _context5.next = 27;
+                  break;
+                }
+
+                return _context5.abrupt("return", null);
+
+              case 27:
                 frameData = this.playerContext.getNextFrame();
                 frameHeader = this.playerContext.getFrameHeader(); // NOTE(jon): Work around a bug where the mlx sensor doesn't report timeOn times, just hardcodes 60000
 
-                if (!(frameHeader.imageData.width !== 32)) {
-                  _context5.next = 34;
+                if (!(frameHeader && frameHeader.imageData.width !== 32)) {
+                  _context5.next = 37;
                   break;
                 }
 
                 sameFrameAsPrev = frameHeader && this.prevFrameHeader && frameHeader.timeOnMs === this.prevFrameHeader.timeOnMs;
 
                 if (!(sameFrameAsPrev && this.getTotalFrames() === null)) {
-                  _context5.next = 33;
+                  _context5.next = 36;
                   break;
                 }
 
                 this.prevFrameHeader = frameHeader;
-                _context5.next = 32;
+                _context5.next = 35;
                 return this.fetchNextFrame();
 
-              case 32:
+              case 35:
                 return _context5.abrupt("return", _context5.sent);
 
-              case 33:
+              case 36:
                 this.prevFrameHeader = frameHeader;
 
-              case 34:
+              case 37:
                 if (!(frameData.length === 0)) {
-                  _context5.next = 36;
+                  _context5.next = 39;
                   break;
                 }
 
                 return _context5.abrupt("return", null);
 
-              case 36:
+              case 39:
+                this.framesRead++;
                 return _context5.abrupt("return", {
                   data: new Uint16Array(frameData),
                   meta: frameHeader
                 });
 
-              case 37:
+              case 41:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[9, 15]]);
+        }, _callee5, this, [[11, 17]]);
       }));
 
       function fetchNextFrame() {
@@ -619,55 +635,56 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
             switch (_context6.prev = _context6.next) {
               case 0:
                 if (this.reader) {
-                  _context6.next = 2;
+                  _context6.next = 3;
                   break;
                 }
 
-                return _context6.abrupt("return", "You need to initialise the player with the url of a CPTV file");
+                console.warn("You need to initialise the player with the url of a CPTV file");
+                return _context6.abrupt("return", 0);
 
-              case 2:
+              case 3:
                 unlocker = new Unlocker();
-                _context6.next = 5;
+                _context6.next = 6;
                 return this.lockIsUncontended(unlocker);
 
-              case 5:
+              case 6:
                 this.locked = true;
 
                 if (!(this.playerContext && this.playerContext.ptr)) {
-                  _context6.next = 17;
+                  _context6.next = 18;
                   break;
                 }
 
-                _context6.prev = 7;
-                _context6.next = 10;
+                _context6.prev = 8;
+                _context6.next = 11;
                 return CptvPlayerContext.countTotalFrames(this.playerContext);
 
-              case 10:
+              case 11:
                 this.playerContext = _context6.sent;
-                _context6.next = 16;
+                _context6.next = 17;
                 break;
 
-              case 13:
-                _context6.prev = 13;
-                _context6.t0 = _context6["catch"](7);
+              case 14:
+                _context6.prev = 14;
+                _context6.t0 = _context6["catch"](8);
                 this.streamError = _context6.t0;
 
-              case 16:
+              case 17:
                 // We can't call any other methods that read frame data on this stream,
                 // since we've exhausted it and thrown away the data after scanning for the info we want.
                 this.consumed = true;
 
-              case 17:
+              case 18:
                 unlocker.unlock();
                 this.locked = false;
                 return _context6.abrupt("return", this.getTotalFrames());
 
-              case 20:
+              case 21:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[7, 13]]);
+        }, _callee6, this, [[8, 14]]);
       }));
 
       function countTotalFrames() {
@@ -690,19 +707,20 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
 
               case 2:
                 header = _context7.sent;
+                totalFrameCount = 0;
 
-                if (!(typeof header === "string")) {
-                  _context7.next = 5;
+                if (!this.hasStreamError()) {
+                  _context7.next = 8;
                   break;
                 }
 
-                return _context7.abrupt("return", header);
+                return _context7.abrupt("return", this.streamError);
 
-              case 5:
-                _context7.next = 7;
+              case 8:
+                _context7.next = 10;
                 return this.countTotalFrames();
 
-              case 7:
+              case 10:
                 totalFrameCount = _context7.sent;
                 duration = 1 / header.fps * totalFrameCount;
                 return _context7.abrupt("return", (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, header), {}, {
@@ -710,7 +728,7 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
                   totalFrames: totalFrameCount
                 }));
 
-              case 10:
+              case 13:
               case "end":
                 return _context7.stop();
             }
@@ -888,6 +906,11 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
                 this.playerContext = _context12.sent;
 
               case 10:
+                if (!(this.playerContext && this.playerContext.ptr)) {
+                  _context12.next = 16;
+                  break;
+                }
+
                 header = this.playerContext.getHeader();
 
                 if (header === "Unable to parse header") {
@@ -898,7 +921,10 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
                 this.locked = false;
                 return _context12.abrupt("return", header);
 
-              case 15:
+              case 16:
+                return _context12.abrupt("return", this.streamError);
+
+              case 17:
               case "end":
                 return _context12.stop();
             }
@@ -916,7 +942,7 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
     key: "getTotalFrames",
     value: function getTotalFrames() {
       if (this.streamError) {
-        return 1;
+        return this.framesRead;
       }
 
       if (!this.locked && this.inited && this.playerContext.ptr && this.playerContext.streamComplete()) {
@@ -937,28 +963,9 @@ var CptvDecoderInterface = /*#__PURE__*/function () {
     }
   }, {
     key: "hasStreamError",
-    value: function () {
-      var _hasStreamError = (0,asyncToGenerator/* default */.Z)( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
-          while (1) {
-            switch (_context13.prev = _context13.next) {
-              case 0:
-                return _context13.abrupt("return", this.streamError !== undefined);
-
-              case 1:
-              case "end":
-                return _context13.stop();
-            }
-          }
-        }, _callee13, this);
-      }));
-
-      function hasStreamError() {
-        return _hasStreamError.apply(this, arguments);
-      }
-
-      return hasStreamError;
-    }()
+    value: function hasStreamError() {
+      return this.streamError !== undefined;
+    }
   }]);
 
   return CptvDecoderInterface;
@@ -977,7 +984,7 @@ if (context) {
   var player = new CptvDecoderInterface();
   context.addEventListener("message", /*#__PURE__*/function () {
     var _ref2 = (0,asyncToGenerator/* default */.Z)( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref) {
-      var data, result, _result, _result2, _result3, header, _header, _header2, frame, totalFrames, progress, _header3, hasError;
+      var data, result, _result, _result2, _result3, header, _header, _header2, frame, totalFrames, progress, _header3, hasError, error;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -985,7 +992,7 @@ if (context) {
             case 0:
               data = _ref.data;
               _context.t0 = data.type;
-              _context.next = _context.t0 === "initWithUrl" ? 4 : _context.t0 === "initWithUrlAndSize" ? 9 : _context.t0 === "initWithPath" ? 14 : _context.t0 === "initWithLocalCptvFile" ? 19 : _context.t0 === "getBytesMetadata" ? 24 : _context.t0 === "getFileMetadata" ? 29 : _context.t0 === "getStreamMetadata" ? 34 : _context.t0 === "getNextFrame" ? 39 : _context.t0 === "getTotalFrames" ? 44 : _context.t0 === "getLoadProgress" ? 47 : _context.t0 === "getHeader" ? 50 : _context.t0 === "hasStreamError" ? 55 : 60;
+              _context.next = _context.t0 === "initWithUrl" ? 4 : _context.t0 === "initWithUrlAndSize" ? 9 : _context.t0 === "initWithPath" ? 14 : _context.t0 === "initWithLocalCptvFile" ? 19 : _context.t0 === "getBytesMetadata" ? 24 : _context.t0 === "getFileMetadata" ? 29 : _context.t0 === "getStreamMetadata" ? 34 : _context.t0 === "getNextFrame" ? 39 : _context.t0 === "getTotalFrames" ? 44 : _context.t0 === "getLoadProgress" ? 47 : _context.t0 === "getHeader" ? 50 : _context.t0 === "hasStreamError" ? 55 : _context.t0 === "getStreamError" ? 58 : 61;
               break;
 
             case 4:
@@ -998,7 +1005,7 @@ if (context) {
                 type: data.type,
                 data: result
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 9:
               _context.next = 11;
@@ -1010,7 +1017,7 @@ if (context) {
                 type: data.type,
                 data: _result
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 14:
               _context.next = 16;
@@ -1022,7 +1029,7 @@ if (context) {
                 type: data.type,
                 data: _result2
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 19:
               _context.next = 21;
@@ -1034,7 +1041,7 @@ if (context) {
                 type: data.type,
                 data: _result3
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 24:
               _context.next = 26;
@@ -1046,7 +1053,7 @@ if (context) {
                 type: data.type,
                 data: header
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 29:
               _context.next = 31;
@@ -1058,7 +1065,7 @@ if (context) {
                 type: data.type,
                 data: _header
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 34:
               _context.next = 36;
@@ -1070,7 +1077,7 @@ if (context) {
                 type: data.type,
                 data: _header2
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 39:
               _context.next = 41;
@@ -1082,7 +1089,7 @@ if (context) {
                 type: data.type,
                 data: frame
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 44:
               totalFrames = player.getTotalFrames();
@@ -1090,7 +1097,7 @@ if (context) {
                 type: data.type,
                 data: totalFrames
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 47:
               progress = player.getLoadProgress();
@@ -1098,7 +1105,7 @@ if (context) {
                 type: data.type,
                 data: progress
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 50:
               _context.next = 52;
@@ -1110,25 +1117,29 @@ if (context) {
                 type: data.type,
                 data: _header3
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
             case 55:
-              _context.next = 57;
-              return player.hasStreamError();
-
-            case 57:
-              hasError = _context.sent;
+              hasError = player.hasStreamError();
               context.postMessage({
                 type: data.type,
                 data: hasError
               });
-              return _context.abrupt("break", 62);
+              return _context.abrupt("break", 63);
 
-            case 60:
+            case 58:
+              error = player.streamError;
+              context.postMessage({
+                type: data.type,
+                data: error
+              });
+              return _context.abrupt("break", 63);
+
+            case 61:
               context.postMessage(data);
               return _context.abrupt("return");
 
-            case 62:
+            case 63:
             case "end":
               return _context.stop();
           }

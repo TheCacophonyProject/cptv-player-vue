@@ -53,7 +53,7 @@
       >
         <button
           @click="requestPrevRecording"
-          :disabled="!canGoBackwards"
+          :class="{ disabled: !canGoBackwards }"
           v-if="!standAlone"
         >
           <font-awesome-icon icon="backward" class="replay" />
@@ -69,7 +69,7 @@
         </button>
         <button
           @click="requestNextRecording"
-          :disabled="!canGoForwards"
+          :class="{ disabled: !canGoForwards }"
           v-if="!standAlone"
         >
           <font-awesome-icon icon="forward" class="replay" />
@@ -287,6 +287,11 @@
     <b-modal v-model="displayHeaderInfo" title="Recording metadata" hide-footer>
       <pre v-if="header">{{ headerInfo }}</pre>
     </b-modal>
+    <b-modal v-model="showAtEndOfSearch" title="No more recordings" hide-footer>
+      <p>
+        You've reached the end of the recordings for the current search results.
+      </p>
+    </b-modal>
     <b-modal
       v-model="isExporting"
       title="Exporting video"
@@ -432,6 +437,7 @@ export default class CptvPlayerComponent extends Vue {
   atEndOfPlayback = false;
   canvasWidth = 800;
   canvasHeight = 600;
+  showAtEndOfSearch = false;
   isScrubbing = false;
   ended = false;
   smoothed = true;
@@ -1892,16 +1898,24 @@ export default class CptvPlayerComponent extends Vue {
     }
   }
   requestPrevRecording(): void {
-    this.frameNum = 0;
-    this.buffering = true;
-    this.atEndOfPlayback = false;
-    this.$emit("request-prev-recording");
+    if (this.canGoBackwards) {
+      this.frameNum = 0;
+      this.buffering = true;
+      this.atEndOfPlayback = false;
+      this.$emit("request-prev-recording");
+    } else {
+      this.showAtEndOfSearch = true;
+    }
   }
   requestNextRecording(): void {
-    this.frameNum = 0;
-    this.atEndOfPlayback = false;
-    this.buffering = true;
-    this.$emit("request-next-recording");
+    if (this.canGoForwards) {
+      this.frameNum = 0;
+      this.atEndOfPlayback = false;
+      this.buffering = true;
+      this.$emit("request-next-recording");
+    } else {
+      this.showAtEndOfSearch = true;
+    }
   }
   pause(): void {
     this.playing = false;
@@ -2076,12 +2090,15 @@ export default class CptvPlayerComponent extends Vue {
         opacity: 0.5;
       }
       &:hover:not(:disabled),
-      &:active:not(:disabled) {
+      &:hover:not(.disabled),
+      &:active:not(:disabled),
+      &:active:not(.disabled) {
         > svg {
           opacity: 0.8;
         }
       }
-      &:disabled {
+      &:disabled,
+      &.disabled {
         > svg {
           opacity: 0.1;
         }

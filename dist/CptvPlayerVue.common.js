@@ -715,7 +715,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 4362:
+/***/ 522:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -750,16 +750,16 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ const setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4ddebd40-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=424a0972&
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d914ce5-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=38818a62&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:['cptv-player', { 'stand-alone': _vm.standAlone }]},[_c('div',{key:"container",ref:"container",staticClass:"video-container"},[_c('canvas',{key:"base",ref:"canvas",class:['video-canvas', { smoothed: _vm.smoothed }]}),_c('canvas',{key:"overlay",ref:"overlayCanvas",staticClass:"overlay-canvas"}),_c('span',{key:"messaging",class:['player-messaging', { show: _vm.playerMessage !== null }],domProps:{"innerHTML":_vm._s(_vm.playerMessage)}}),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.showValueInfo),expression:"showValueInfo"}],key:"px-value",ref:"valueTooltip",staticClass:"value-tooltip"},[_vm._v(_vm._s(_vm.valueUnderCursor)+" ")]),(_vm.openUserDefinedCptvFile && _vm.userFiles)?_c('div',{key:"openUserFile",staticClass:"playback-controls show"},[_c('b-form-file',{staticClass:"cptv-drop-area",attrs:{"accept":".cptv","state":_vm.userSuppliedFile !== null,"placeholder":"Choose a CPTV file or drop one here...","drop-placeholder":"Drop file here..."},model:{value:(_vm.userSuppliedFile),callback:function ($$v) {_vm.userSuppliedFile=$$v},expression:"userSuppliedFile"}})],1):_vm._e(),_c('div',{key:"buffering",class:[
         'playback-controls',
         { show: _vm.isBuffering && (!_vm.openUserDefinedCptvFile || !_vm.userFiles) } ]},[_c('font-awesome-icon',{staticClass:"fa-spin buffering",attrs:{"icon":"spinner","size":"4x"}})],1),_c('div',{key:"playback-controls",class:[
         'playback-controls',
         {
           show: _vm.atEndOfPlayback && !_vm.extLoading && !_vm.openUserDefinedCptvFile,
-        } ]},[(!_vm.standAlone)?_c('button',{attrs:{"disabled":!_vm.canGoBackwards},on:{"click":_vm.requestPrevRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"backward"}})],1):_vm._e(),(_vm.standAlone && !_vm.cptvUrl)?_c('button',{on:{"click":function($event){_vm.openUserDefinedCptvFile = true}}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"folder-open"}})],1):_vm._e(),_c('button',{on:{"click":_vm.togglePlayback}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"redo-alt","rotation":"270"}})],1),(!_vm.standAlone)?_c('button',{attrs:{"disabled":!_vm.canGoForwards},on:{"click":_vm.requestNextRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"forward"}})],1):_vm._e()])]),_c('div',{key:"playback-nav",staticClass:"playback-nav"},[_c('button',{ref:"playPauseButton",attrs:{"data-tooltip":_vm.playing ? 'Pause' : 'Play',"disabled":!_vm.hasVideo},on:{"click":_vm.togglePlayback}},[(!_vm.playing)?_c('font-awesome-icon',{attrs:{"icon":"play"}}):_c('font-awesome-icon',{attrs:{"icon":"pause"}})],1),_c('div',{staticClass:"right-nav"},[(_vm.canUseAdvancedControls)?_c('div',{class:['advanced-controls', { open: _vm.showAdvancedControls }]},[_c('button',{ref:"advancedControlsButton",staticClass:"advanced-controls-btn",attrs:{"data-tooltip":_vm.showAdvancedControls ? 'Show less' : 'Show more'},on:{"click":_vm.toggleAdvancedControls}},[_c('font-awesome-icon',{attrs:{"icon":"angle-right","rotation":_vm.showAdvancedControls ? null : 180}})],1),_c('button',{ref:"debugTools",class:{ selected: _vm.showDebugTools },attrs:{"data-tooltip":"Debug tools"},on:{"click":_vm.toggleDebugTools}},[_c('font-awesome-icon',{attrs:{"icon":"wrench"}})],1),_c('button',{ref:"toggleSmoothingButton",attrs:{"data-tooltip":_vm.smoothed ? 'Disable smoothing' : 'Enable smoothing',"disabled":!_vm.hasVideo},on:{"click":_vm.toggleSmoothing}},[(_vm.smoothed)?_c('svg',{attrs:{"aria-hidden":"true","focusable":"false","viewBox":"0 0 18 18","width":"16","height":"20"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-249)","fill":"currentColor"}},[_c('path',{staticStyle:{"fill-opacity":"0.25"},attrs:{"d":"M5.25,248.969L5.25,251.781C5.25,252.247 4.872,252.625 4.406,252.625L0.844,252.625C0.378,252.625 0,252.247 0,251.781L0,248.969C0,248.503 0.378,248.125 0.844,248.125L4.406,248.125C4.872,248.125 5.25,248.503 5.25,248.969Z"}}),_c('path',{attrs:{"d":"M11.625,257.406L11.625,254.594C11.625,254.128 11.247,253.75 10.781,253.75L7.219,253.75C6.753,253.75 6.375,254.128 6.375,254.594L6.375,257.406C6.375,257.872 6.753,258.25 7.219,258.25L10.781,258.25C11.247,258.25 11.625,257.872 11.625,257.406Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M12.75,248.969L12.75,251.781C12.75,252.247 13.128,252.625 13.594,252.625L17.156,252.625C17.622,252.625 18,252.247 18,251.781L18,248.969C18,248.503 17.622,248.125 17.156,248.125L13.594,248.125C13.128,248.125 12.75,248.503 12.75,248.969Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M11.625,251.781L11.625,248.969C11.625,248.503 11.247,248.125 10.781,248.125L7.219,248.125C6.753,248.125 6.375,248.503 6.375,248.969L6.375,251.781C6.375,252.247 6.753,252.625 7.219,252.625L10.781,252.625C11.247,252.625 11.625,252.247 11.625,251.781Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M4.406,253.75L0.844,253.75C0.378,253.75 0,254.128 0,254.594L0,257.406C0,257.872 0.378,258.25 0.844,258.25L4.406,258.25C4.872,258.25 5.25,257.872 5.25,257.406L5.25,254.594C5.25,254.128 4.872,253.75 4.406,253.75Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M0,260.219L0,263.031C0,263.497 0.378,263.875 0.844,263.875L4.406,263.875C4.872,263.875 5.25,263.497 5.25,263.031L5.25,260.219C5.25,259.753 4.872,259.375 4.406,259.375L0.844,259.375C0.378,259.375 0,259.753 0,260.219Z"}}),_c('path',{attrs:{"d":"M13.594,258.25L17.156,258.25C17.622,258.25 18,257.872 18,257.406L18,254.594C18,254.128 17.622,253.75 17.156,253.75L13.594,253.75C13.128,253.75 12.75,254.128 12.75,254.594L12.75,257.406C12.75,257.872 13.128,258.25 13.594,258.25Z"}}),_c('path',{attrs:{"d":"M13.594,263.875L17.156,263.875C17.622,263.875 18,263.497 18,263.031L18,260.219C18,259.753 17.622,259.375 17.156,259.375L13.594,259.375C13.128,259.375 12.75,259.753 12.75,260.219L12.75,263.031C12.75,263.497 13.128,263.875 13.594,263.875Z"}}),_c('path',{attrs:{"d":"M6.375,260.219L6.375,263.031C6.375,263.497 6.753,263.875 7.219,263.875L10.781,263.875C11.247,263.875 11.625,263.497 11.625,263.031L11.625,260.219C11.625,259.753 11.247,259.375 10.781,259.375L7.219,259.375C6.753,259.375 6.375,259.753 6.375,260.219Z"}})])]):_c('svg',{attrs:{"width":"16","height":"18","viewBox":"0 0 18 18"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-2)","fill":"currentColor"}},[_c('path',{attrs:{"d":"M1.294,16.976L18.709,17.063L18.853,0.932C9.155,0.932 1.294,7.279 1.294,16.976Z"}})])])]),_c('button',{ref:"cyclePalette",attrs:{"data-tooltip":"Cycle colour map","disabled":!_vm.hasVideo},on:{"click":_vm.incrementPalette}},[_c('font-awesome-icon',{attrs:{"icon":"palette"}})],1),_c('button',{ref:"showHeader",class:{ selected: _vm.displayHeaderInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Show recording header info"},on:{"click":_vm.showHeaderInfo}},[_c('font-awesome-icon',{attrs:{"icon":"info-circle"}})],1)]):_vm._e(),_c('button',{ref:"cyclePlaybackSpeed",staticClass:"playback-speed",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Cycle playback speed"},on:{"click":_vm.incrementSpeed}},[_c('span',[_vm._v(_vm._s(_vm.speedMultiplier)+"x")])])])]),_c('div',{key:"debug-nav",class:['debug-tools', { open: _vm.showDebugTools }]},[_c('div',{staticClass:"debug-info"},[_c('div',{ref:"frameNumField"}),_c('div',{ref:"ffcSecsAgo"})]),_c('div',[_c('button',{ref:"stepBackward",attrs:{"data-tooltip":"Go back one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepBackward}},[_c('font-awesome-icon',{attrs:{"icon":"step-backward"}})],1),_c('button',{ref:"stepForward",attrs:{"data-tooltip":"Go forward one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepForward}},[_c('font-awesome-icon',{attrs:{"icon":"step-forward"}})],1),_c('button',{ref:"toggleValuePicker",class:{ selected: _vm.showValueInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":_vm.showValueInfo
+        } ]},[(!_vm.standAlone)?_c('button',{class:{ disabled: !_vm.canGoBackwards },on:{"click":_vm.requestPrevRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"backward"}})],1):_vm._e(),(_vm.standAlone && !_vm.cptvUrl)?_c('button',{on:{"click":function($event){_vm.openUserDefinedCptvFile = true}}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"folder-open"}})],1):_vm._e(),_c('button',{on:{"click":_vm.togglePlayback}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"redo-alt","rotation":"270"}})],1),(!_vm.standAlone)?_c('button',{class:{ disabled: !_vm.canGoForwards },on:{"click":_vm.requestNextRecording}},[_c('font-awesome-icon',{staticClass:"replay",attrs:{"icon":"forward"}})],1):_vm._e()])]),_c('div',{key:"playback-nav",staticClass:"playback-nav"},[_c('button',{ref:"playPauseButton",attrs:{"data-tooltip":_vm.playing ? 'Pause' : 'Play',"disabled":!_vm.hasVideo},on:{"click":_vm.togglePlayback}},[(!_vm.playing)?_c('font-awesome-icon',{attrs:{"icon":"play"}}):_c('font-awesome-icon',{attrs:{"icon":"pause"}})],1),_c('div',{staticClass:"right-nav"},[(_vm.canUseAdvancedControls)?_c('div',{class:['advanced-controls', { open: _vm.showAdvancedControls }]},[_c('button',{ref:"advancedControlsButton",staticClass:"advanced-controls-btn",attrs:{"data-tooltip":_vm.showAdvancedControls ? 'Show less' : 'Show more'},on:{"click":_vm.toggleAdvancedControls}},[_c('font-awesome-icon',{attrs:{"icon":"angle-right","rotation":_vm.showAdvancedControls ? null : 180}})],1),_c('button',{ref:"debugTools",class:{ selected: _vm.showDebugTools },attrs:{"data-tooltip":"Debug tools"},on:{"click":_vm.toggleDebugTools}},[_c('font-awesome-icon',{attrs:{"icon":"wrench"}})],1),_c('button',{ref:"toggleSmoothingButton",attrs:{"data-tooltip":_vm.smoothed ? 'Disable smoothing' : 'Enable smoothing',"disabled":!_vm.hasVideo},on:{"click":_vm.toggleSmoothing}},[(_vm.smoothed)?_c('svg',{attrs:{"aria-hidden":"true","focusable":"false","viewBox":"0 0 18 18","width":"16","height":"20"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-249)","fill":"currentColor"}},[_c('path',{staticStyle:{"fill-opacity":"0.25"},attrs:{"d":"M5.25,248.969L5.25,251.781C5.25,252.247 4.872,252.625 4.406,252.625L0.844,252.625C0.378,252.625 0,252.247 0,251.781L0,248.969C0,248.503 0.378,248.125 0.844,248.125L4.406,248.125C4.872,248.125 5.25,248.503 5.25,248.969Z"}}),_c('path',{attrs:{"d":"M11.625,257.406L11.625,254.594C11.625,254.128 11.247,253.75 10.781,253.75L7.219,253.75C6.753,253.75 6.375,254.128 6.375,254.594L6.375,257.406C6.375,257.872 6.753,258.25 7.219,258.25L10.781,258.25C11.247,258.25 11.625,257.872 11.625,257.406Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M12.75,248.969L12.75,251.781C12.75,252.247 13.128,252.625 13.594,252.625L17.156,252.625C17.622,252.625 18,252.247 18,251.781L18,248.969C18,248.503 17.622,248.125 17.156,248.125L13.594,248.125C13.128,248.125 12.75,248.503 12.75,248.969Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M11.625,251.781L11.625,248.969C11.625,248.503 11.247,248.125 10.781,248.125L7.219,248.125C6.753,248.125 6.375,248.503 6.375,248.969L6.375,251.781C6.375,252.247 6.753,252.625 7.219,252.625L10.781,252.625C11.247,252.625 11.625,252.247 11.625,251.781Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.5"},attrs:{"d":"M4.406,253.75L0.844,253.75C0.378,253.75 0,254.128 0,254.594L0,257.406C0,257.872 0.378,258.25 0.844,258.25L4.406,258.25C4.872,258.25 5.25,257.872 5.25,257.406L5.25,254.594C5.25,254.128 4.872,253.75 4.406,253.75Z"}}),_c('path',{staticStyle:{"fill-opacity":"0.8"},attrs:{"d":"M0,260.219L0,263.031C0,263.497 0.378,263.875 0.844,263.875L4.406,263.875C4.872,263.875 5.25,263.497 5.25,263.031L5.25,260.219C5.25,259.753 4.872,259.375 4.406,259.375L0.844,259.375C0.378,259.375 0,259.753 0,260.219Z"}}),_c('path',{attrs:{"d":"M13.594,258.25L17.156,258.25C17.622,258.25 18,257.872 18,257.406L18,254.594C18,254.128 17.622,253.75 17.156,253.75L13.594,253.75C13.128,253.75 12.75,254.128 12.75,254.594L12.75,257.406C12.75,257.872 13.128,258.25 13.594,258.25Z"}}),_c('path',{attrs:{"d":"M13.594,263.875L17.156,263.875C17.622,263.875 18,263.497 18,263.031L18,260.219C18,259.753 17.622,259.375 17.156,259.375L13.594,259.375C13.128,259.375 12.75,259.753 12.75,260.219L12.75,263.031C12.75,263.497 13.128,263.875 13.594,263.875Z"}}),_c('path',{attrs:{"d":"M6.375,260.219L6.375,263.031C6.375,263.497 6.753,263.875 7.219,263.875L10.781,263.875C11.247,263.875 11.625,263.497 11.625,263.031L11.625,260.219C11.625,259.753 11.247,259.375 10.781,259.375L7.219,259.375C6.753,259.375 6.375,259.753 6.375,260.219Z"}})])]):_c('svg',{attrs:{"width":"16","height":"18","viewBox":"0 0 18 18"}},[_c('g',{attrs:{"transform":"matrix(1,0,0,1,0,-2)","fill":"currentColor"}},[_c('path',{attrs:{"d":"M1.294,16.976L18.709,17.063L18.853,0.932C9.155,0.932 1.294,7.279 1.294,16.976Z"}})])])]),_c('button',{ref:"cyclePalette",attrs:{"data-tooltip":"Cycle colour map","disabled":!_vm.hasVideo},on:{"click":_vm.incrementPalette}},[_c('font-awesome-icon',{attrs:{"icon":"palette"}})],1),_c('button',{ref:"showHeader",class:{ selected: _vm.displayHeaderInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Show recording header info"},on:{"click":_vm.showHeaderInfo}},[_c('font-awesome-icon',{attrs:{"icon":"info-circle"}})],1)]):_vm._e(),_c('button',{ref:"cyclePlaybackSpeed",staticClass:"playback-speed",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Cycle playback speed"},on:{"click":_vm.incrementSpeed}},[_c('span',[_vm._v(_vm._s(_vm.speedMultiplier)+"x")])])])]),_c('div',{key:"debug-nav",class:['debug-tools', { open: _vm.showDebugTools }]},[_c('div',{staticClass:"debug-info"},[_c('div',{ref:"frameNumField"}),_c('div',{ref:"ffcSecsAgo"})]),_c('div',[_c('button',{ref:"stepBackward",attrs:{"data-tooltip":"Go back one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepBackward}},[_c('font-awesome-icon',{attrs:{"icon":"step-backward"}})],1),_c('button',{ref:"stepForward",attrs:{"data-tooltip":"Go forward one frame","disabled":!_vm.hasVideo},on:{"click":_vm.stepForward}},[_c('font-awesome-icon',{attrs:{"icon":"step-forward"}})],1),_c('button',{ref:"toggleValuePicker",class:{ selected: _vm.showValueInfo },attrs:{"disabled":!_vm.hasVideo,"data-tooltip":_vm.showValueInfo
             ? 'Disable picker'
-            : 'Show raw pixel values under cursor'},on:{"click":_vm.togglePicker}},[_c('font-awesome-icon',{attrs:{"icon":"eye-dropper"}})],1),_c('button',{ref:"showBackgroundFrame",class:{ selected: _vm.isShowingBackgroundFrame },attrs:{"disabled":!_vm.hasVideo || !_vm.hasBackgroundFrame,"data-tooltip":"Press to show background frame"},on:{"click":_vm.toggleBackground}},[_c('font-awesome-icon',{attrs:{"icon":"image"}})],1),(_vm.standAlone || _vm.userSuppliedFile)?_c('button',{ref:"exportMp4",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Export Mp4"},on:{"click":function () { return _vm.exportMp4(); }}},[_c('font-awesome-icon',{attrs:{"icon":"file-video"}})],1):_vm._e()])]),_c('div',{staticClass:"tracks-container"},[_c('VideoTracksScrubber',{key:"scrubber",ref:"scrubber",class:{ 'ended-playback': _vm.ended },attrs:{"duration":_vm.actualDuration,"tracks":_vm.tracks,"colours":_vm.colours,"time-adjustment-for-background-frame":_vm.timeAdjustmentForBackgroundFrame,"current-track":_vm.currentTrack && _vm.currentTrack.trackIndex,"canvas-width":_vm.canvasWidth,"side-padding":_vm.scrubberSidePadding},on:{"start-scrub":_vm.startScrub,"end-scrub":_vm.endScrub,"set-playback-time":_vm.setTimeAndRedraw}}),_c('canvas',{key:"playhead",ref:"playhead",staticClass:"playhead",attrs:{"width":_vm.canvasWidth * _vm.devicePixelRatio,"height":"1"}})],1),_c('b-modal',{attrs:{"title":"Recording metadata","hide-footer":""},model:{value:(_vm.displayHeaderInfo),callback:function ($$v) {_vm.displayHeaderInfo=$$v},expression:"displayHeaderInfo"}},[(_vm.header)?_c('pre',[_vm._v(_vm._s(_vm.headerInfo))]):_vm._e()]),_c('b-modal',{attrs:{"title":"Exporting video","no-close-on-backdrop":"","no-close-on-esc":"","hide-footer":"","hide-header-close":"","centered":""},model:{value:(_vm.isExporting),callback:function ($$v) {_vm.isExporting=$$v},expression:"isExporting"}},[_c('b-progress',{attrs:{"value":_vm.exportProgress * 100,"max":"100","animated":""}}),_c('div',{staticClass:"progress-text"},[_vm._v(_vm._s(Math.round(_vm.exportProgress * 100))+"%")]),_c('div',{staticClass:"progress-text"},[_c('b-button',{staticClass:"cancel-export-button",attrs:{"variant":"outline-danger"},on:{"click":_vm.cancelExport}},[_vm._v("Cancel")])],1)],1),_c('b-modal',{attrs:{"title":"Export options","ok-title":"Export"},on:{"ok":function($event){return _vm.exportMp4(_vm.trackExportOptions)},"cancel":function($event){return _vm.$emit('export-complete')}},model:{value:(_vm.showAdvancedExportOptions),callback:function ($$v) {_vm.showAdvancedExportOptions=$$v},expression:"showAdvancedExportOptions"}},[_c('b-form-group',{attrs:{"label":"Include tracks in exported timespan"}},_vm._l((_vm.trackExportOptions),function(track,index){return _c('b-form-checkbox',{key:index,model:{value:(track.includeInExportTime),callback:function ($$v) {_vm.$set(track, "includeInExportTime", $$v)},expression:"track.includeInExportTime"}},[_vm._v("Track "+_vm._s(index + 1))])}),1),_c('b-form-group',{attrs:{"label":"Display track boxes in export"}},_vm._l((_vm.trackExportOptions),function(track,index){return _c('b-form-checkbox',{key:index,model:{value:(track.displayInExport),callback:function ($$v) {_vm.$set(track, "displayInExport", $$v)},expression:"track.displayInExport"}},[_vm._v("Track "+_vm._s(index + 1))])}),1)],1),_c('b-modal',{model:{value:(_vm.hasStreamLoadError),callback:function ($$v) {_vm.hasStreamLoadError=$$v},expression:"hasStreamLoadError"}},[_vm._v(_vm._s(_vm.streamLoadError))])],1)}
+            : 'Show raw pixel values under cursor'},on:{"click":_vm.togglePicker}},[_c('font-awesome-icon',{attrs:{"icon":"eye-dropper"}})],1),_c('button',{ref:"showBackgroundFrame",class:{ selected: _vm.isShowingBackgroundFrame },attrs:{"disabled":!_vm.hasVideo || !_vm.hasBackgroundFrame,"data-tooltip":"Press to show background frame"},on:{"click":_vm.toggleBackground}},[_c('font-awesome-icon',{attrs:{"icon":"image"}})],1),(_vm.standAlone || _vm.userSuppliedFile)?_c('button',{ref:"exportMp4",attrs:{"disabled":!_vm.hasVideo,"data-tooltip":"Export Mp4"},on:{"click":function () { return _vm.exportMp4(); }}},[_c('font-awesome-icon',{attrs:{"icon":"file-video"}})],1):_vm._e()])]),_c('div',{staticClass:"tracks-container"},[_c('VideoTracksScrubber',{key:"scrubber",ref:"scrubber",class:{ 'ended-playback': _vm.ended },attrs:{"duration":_vm.actualDuration,"tracks":_vm.tracks,"colours":_vm.colours,"time-adjustment-for-background-frame":_vm.timeAdjustmentForBackgroundFrame,"current-track":_vm.currentTrack && _vm.currentTrack.trackIndex,"canvas-width":_vm.canvasWidth,"side-padding":_vm.scrubberSidePadding},on:{"start-scrub":_vm.startScrub,"end-scrub":_vm.endScrub,"set-playback-time":_vm.setTimeAndRedraw}}),_c('canvas',{key:"playhead",ref:"playhead",staticClass:"playhead",attrs:{"width":_vm.canvasWidth * _vm.devicePixelRatio,"height":"1"}})],1),_c('b-modal',{attrs:{"title":"Recording metadata","hide-footer":""},model:{value:(_vm.displayHeaderInfo),callback:function ($$v) {_vm.displayHeaderInfo=$$v},expression:"displayHeaderInfo"}},[(_vm.header)?_c('pre',[_vm._v(_vm._s(_vm.headerInfo))]):_vm._e()]),_c('b-modal',{attrs:{"title":"No more recordings","hide-footer":""},model:{value:(_vm.showAtEndOfSearch),callback:function ($$v) {_vm.showAtEndOfSearch=$$v},expression:"showAtEndOfSearch"}},[_c('p',[_vm._v(" You've reached the end of the recordings for the current search results. ")])]),_c('b-modal',{attrs:{"title":"Exporting video","no-close-on-backdrop":"","no-close-on-esc":"","hide-footer":"","hide-header-close":"","centered":""},model:{value:(_vm.isExporting),callback:function ($$v) {_vm.isExporting=$$v},expression:"isExporting"}},[_c('b-progress',{attrs:{"value":_vm.exportProgress * 100,"max":"100","animated":""}}),_c('div',{staticClass:"progress-text"},[_vm._v(_vm._s(Math.round(_vm.exportProgress * 100))+"%")]),_c('div',{staticClass:"progress-text"},[_c('b-button',{staticClass:"cancel-export-button",attrs:{"variant":"outline-danger"},on:{"click":_vm.cancelExport}},[_vm._v("Cancel")])],1)],1),_c('b-modal',{attrs:{"title":"Export options","ok-title":"Export"},on:{"ok":function($event){return _vm.exportMp4(_vm.trackExportOptions)},"cancel":function($event){return _vm.$emit('export-complete')}},model:{value:(_vm.showAdvancedExportOptions),callback:function ($$v) {_vm.showAdvancedExportOptions=$$v},expression:"showAdvancedExportOptions"}},[_c('b-form-group',{attrs:{"label":"Include tracks in exported timespan"}},_vm._l((_vm.trackExportOptions),function(track,index){return _c('b-form-checkbox',{key:index,model:{value:(track.includeInExportTime),callback:function ($$v) {_vm.$set(track, "includeInExportTime", $$v)},expression:"track.includeInExportTime"}},[_vm._v("Track "+_vm._s(index + 1))])}),1),_c('b-form-group',{attrs:{"label":"Display track boxes in export"}},_vm._l((_vm.trackExportOptions),function(track,index){return _c('b-form-checkbox',{key:index,model:{value:(track.displayInExport),callback:function ($$v) {_vm.$set(track, "displayInExport", $$v)},expression:"track.displayInExport"}},[_vm._v("Track "+_vm._s(index + 1))])}),1)],1),_c('b-modal',{model:{value:(_vm.hasStreamLoadError),callback:function ($$v) {_vm.hasStreamLoadError=$$v},expression:"hasStreamLoadError"}},[_vm._v(_vm._s(_vm.streamLoadError))])],1)}
 var staticRenderFns = []
 
 
@@ -1551,14 +1551,19 @@ Component.registerHooks = function registerHooks(keys) {
 /* harmony default export */ const vue_class_component_esm = (Component);
 
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4ddebd40-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/VideoTracksScrubber.vue?vue&type=template&id=51597510&scoped=true&
-var VideoTracksScrubbervue_type_template_id_51597510_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{key:"track-scrubber",ref:"scrubber",staticClass:"track-scrubber",style:({
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d914ce5-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/VideoTracksScrubber.vue?vue&type=template&id=7bb9631a&scoped=true&
+var VideoTracksScrubbervue_type_template_id_7bb9631a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{key:"track-scrubber",ref:"scrubber",staticClass:"track-scrubber",style:({
     height: (_vm.heightForTracks + "px"),
     width: (_vm.canvasWidth + "px"),
-  })},_vm._l((_vm.tracks.length),function(index){return _c('div',{key:index - 1,staticClass:"scrub-track",style:(Object.assign({}, {background: _vm.colours[(index - 1) % _vm.colours.length],
-      opacity: index - 1 === _vm.currentTrack ? 1.0 : 0.5},
-      _vm.trackDimensions[index - 1])),attrs:{"title":("Track " + index)}})}),0)}
-var VideoTracksScrubbervue_type_template_id_51597510_scoped_true_staticRenderFns = []
+  })},_vm._l((_vm.tracks.length),function(index){return _c('div',{key:index - 1,staticClass:"scrub-track",style:({
+      background: _vm.colours[(index - 1) % _vm.colours.length],
+      opacity: index - 1 === _vm.currentTrack ? 1.0 : 0.5,
+      width: _vm.trackDimensions[index - 1].width,
+      left: _vm.trackDimensions[index - 1].left,
+      top: ((_vm.trackDimensions[index - 1].top -
+        (_vm.numUniqueYSlots === 1 ? 0 : _vm.trackHeight / 2)) + "px"),
+    }),attrs:{"title":("Track " + index)}})}),0)}
+var VideoTracksScrubbervue_type_template_id_7bb9631a_scoped_true_staticRenderFns = []
 
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
@@ -1819,6 +1824,7 @@ function Watch(path, options) {
 
 
 
+
 var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
   var c = arguments.length,
       r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -1845,7 +1851,6 @@ var getPositionXForEvent = function getPositionXForEvent(event) {
 };
 
 var minScrubberHeight = 44;
-var trackHeight = 12;
 
 var VideoTracksScrubber = /*#__PURE__*/function (_Vue) {
   _inherits(VideoTracksScrubber, _Vue);
@@ -1879,6 +1884,10 @@ var VideoTracksScrubber = /*#__PURE__*/function (_Vue) {
 
     defineProperty_defineProperty(_assertThisInitialized(_this), "trackDimensions", []);
 
+    defineProperty_defineProperty(_assertThisInitialized(_this), "numUniqueYSlots", 0);
+
+    defineProperty_defineProperty(_assertThisInitialized(_this), "trackHeight", 12);
+
     defineProperty_defineProperty(_assertThisInitialized(_this), "scrubber", void 0);
 
     return _this;
@@ -1896,12 +1905,9 @@ var VideoTracksScrubber = /*#__PURE__*/function (_Vue) {
         return minScrubberHeight;
       }
 
-      var paddingY = minScrubberHeight / 2 - trackHeight;
-      var maxTrackTop = Math.max.apply(Math, _toConsumableArray(this.trackDimensions.map(function (_ref) {
-        var top = _ref.top;
-        return Number(top.replace("px", ""));
-      })));
-      return Math.max(44, maxTrackTop + trackHeight + paddingY);
+      var paddingY = 10;
+      var heightForTracks = this.trackHeight * this.numUniqueYSlots + this.tracks.length - 1;
+      return Math.max(44, heightForTracks + paddingY * 2);
     }
   }, {
     key: "getWidthForTrack",
@@ -1918,31 +1924,63 @@ var VideoTracksScrubber = /*#__PURE__*/function (_Vue) {
   }, {
     key: "getOffsetYForTrack",
     value: function getOffsetYForTrack(trackIndex) {
-      // See if there are any gaps to move this up to.
-      var topOffset = minScrubberHeight / 2 - trackHeight;
+      var _this2 = this;
 
-      if (this.tracks.length === 1) {
-        return minScrubberHeight / 2 - trackHeight / 2;
-      }
+      // See if there are any gaps to move this up to.
+      var topOffset = minScrubberHeight / 2 - this.trackHeight / 2;
 
       if (trackIndex !== 0) {
-        var thisLeft = this.getOffsetXForTrack(this.tracks[trackIndex]);
-        var thisRight = thisLeft + this.getWidthForTrack(this.tracks[trackIndex]); // Go backwards to find the earliest track that has a right <= our left
+        (function () {
+          var thisLeft = _this2.getOffsetXForTrack(_this2.tracks[trackIndex]);
 
-        while (Math.max(0, trackIndex) !== 0) {
-          var lastTrackDims = this.trackDimensions[trackIndex - 1];
-          var prevLeft = Number(lastTrackDims.left.replace("px", ""));
-          var prevRight = prevLeft + Number(lastTrackDims.width.replace("px", ""));
-          topOffset = Number(lastTrackDims.top.replace("px", ""));
-          var overlapsPrev = prevRight > thisRight || thisLeft < prevRight;
+          var thisRight = thisLeft + _this2.getWidthForTrack(_this2.tracks[trackIndex]); // Put each track in a slot with the height offset.
+          // Then for each new track, go backwards to try and find the earliest slot without a collision.
+          // Put the track in that slot.
 
-          if (overlapsPrev) {
-            topOffset += trackHeight + 1;
-            break;
+
+          var slots = {}; // Go backwards to find the earliest track that has a right <= our left
+
+          while (Math.max(0, trackIndex) !== 0) {
+            var lastTrackDims = _this2.trackDimensions[trackIndex - 1];
+            var prevLeft = Number(lastTrackDims.left.replace("px", ""));
+            var prevRight = prevLeft + Number(lastTrackDims.width.replace("px", ""));
+            topOffset = lastTrackDims.top;
+            slots[topOffset] = slots[topOffset] || [];
+            slots[topOffset].push([prevLeft, prevRight]);
+            trackIndex--;
           }
 
-          trackIndex--;
-        }
+          var orderedSlots = Object.entries(slots).sort( // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          function (_ref, _ref2) {
+            var _ref3 = _slicedToArray(_ref, 2),
+                a = _ref3[0],
+                _a = _ref3[1];
+
+            var _ref4 = _slicedToArray(_ref2, 2),
+                b = _ref4[0],
+                _b = _ref4[1];
+
+            return Number(a) - Number(b);
+          }).reverse();
+          var bestSlot = Number(orderedSlots[0][0]) + _this2.trackHeight + 1;
+
+          for (var i = 0; i < orderedSlots.length; i++) {
+            var slot = orderedSlots[i];
+            var noOverlaps = slot[1].every(function (_ref5) {
+              var _ref6 = _slicedToArray(_ref5, 2),
+                  prevLeft = _ref6[0],
+                  prevRight = _ref6[1];
+
+              return thisRight < prevLeft || thisLeft > prevRight;
+            });
+
+            if (noOverlaps) {
+              bestSlot = Number(slot[0]);
+            }
+          }
+
+          topOffset = bestSlot;
+        })();
       }
 
       return topOffset;
@@ -2023,14 +2061,20 @@ var VideoTracksScrubber = /*#__PURE__*/function (_Vue) {
     value: function initTrackDimensions() {
       // Init track dimensions
       this.trackDimensions = [];
+      this.numUniqueYSlots = 0;
+      var uniqueYSlots = {};
 
       for (var i = 0; i < this.tracks.length; i++) {
+        var yOffset = this.getOffsetYForTrack(i);
         this.trackDimensions.push({
-          top: "".concat(this.getOffsetYForTrack(i), "px"),
+          top: yOffset,
           width: "".concat(this.getWidthForTrack(this.tracks[i]), "px"),
           left: "".concat(this.getOffsetXForTrack(this.tracks[i]), "px")
         });
+        uniqueYSlots[yOffset] = true;
       }
+
+      this.numUniqueYSlots = Object.keys(uniqueYSlots).length;
     }
   }, {
     key: "created",
@@ -2222,11 +2266,11 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   src_VideoTracksScrubbervue_type_script_lang_ts_,
-  VideoTracksScrubbervue_type_template_id_51597510_scoped_true_render,
-  VideoTracksScrubbervue_type_template_id_51597510_scoped_true_staticRenderFns,
+  VideoTracksScrubbervue_type_template_id_7bb9631a_scoped_true_render,
+  VideoTracksScrubbervue_type_template_id_7bb9631a_scoped_true_staticRenderFns,
   false,
   null,
-  "51597510",
+  "7bb9631a",
   null
   
 )
@@ -2695,25 +2739,58 @@ var CptvDecoder = /*#__PURE__*/function () {
       return hasStreamError;
     }()
   }, {
-    key: "waitForMessage",
+    key: "getStreamError",
     value: function () {
-      var _waitForMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(messageType) {
-        var _this2 = this;
-
+      var _getStreamError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+        var type;
         return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                return _context13.abrupt("return", new Promise(function (resolve) {
+                type = "getStreamError";
+                this.decoder.postMessage({
+                  type: type
+                });
+                _context13.next = 4;
+                return this.waitForMessage(type);
+
+              case 4:
+                return _context13.abrupt("return", _context13.sent);
+
+              case 5:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13, this);
+      }));
+
+      function getStreamError() {
+        return _getStreamError.apply(this, arguments);
+      }
+
+      return getStreamError;
+    }()
+  }, {
+    key: "waitForMessage",
+    value: function () {
+      var _waitForMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(messageType) {
+        var _this2 = this;
+
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                return _context14.abrupt("return", new Promise(function (resolve) {
                   _this2.messageQueue[messageType] = resolve;
                 }));
 
               case 1:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13);
+        }, _callee14);
       }));
 
       function waitForMessage(_x9) {
@@ -2725,31 +2802,31 @@ var CptvDecoder = /*#__PURE__*/function () {
   }, {
     key: "close",
     value: function () {
-      var _close = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+      var _close = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 if (!(typeof window === "undefined")) {
-                  _context14.next = 6;
+                  _context15.next = 6;
                   break;
                 }
 
-                _context14.next = 3;
+                _context15.next = 3;
                 return this.decoder.terminate();
 
               case 3:
-                return _context14.abrupt("return", _context14.sent);
+                return _context15.abrupt("return", _context15.sent);
 
               case 6:
                 this.decoder.terminate();
 
               case 7:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee15, this);
       }));
 
       function close() {
@@ -13058,6 +13135,8 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
     defineProperty_defineProperty(_assertThisInitialized(_this), "canvasHeight", 600);
 
+    defineProperty_defineProperty(_assertThisInitialized(_this), "showAtEndOfSearch", false);
+
     defineProperty_defineProperty(_assertThisInitialized(_this), "isScrubbing", false);
 
     defineProperty_defineProperty(_assertThisInitialized(_this), "ended", false);
@@ -13495,6 +13574,11 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 break;
 
               case 13:
+                if (!this.totalFrames) {
+                  this.totalFrames = CptvPlayervue_type_script_lang_ts_frames.length;
+                }
+
+              case 14:
               case "end":
                 return _context2.stop();
             }
@@ -13559,7 +13643,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(this.userSuppliedFile !== null)) {
-                  _context4.next = 17;
+                  _context4.next = 34;
                   break;
                 }
 
@@ -13582,18 +13666,58 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 return this.ensureEntireFileIsLoaded();
 
               case 12:
-                this.buffering = false;
-                _context4.next = 15;
-                return this.play();
+                _context4.next = 14;
+                return cptvDecoder.hasStreamError();
 
-              case 15:
-                _context4.next = 18;
-                break;
+              case 14:
+                if (!_context4.sent) {
+                  _context4.next = 29;
+                  break;
+                }
+
+                _context4.next = 17;
+                return cptvDecoder.getStreamError();
 
               case 17:
+                this.streamLoadError = _context4.sent;
+                _context4.next = 20;
+                return cptvDecoder.close();
+
+              case 20:
+                cptvDecoder = new CptvDecoder();
+                this.buffering = false; // Still allow truncated files to play if they have frames, but show an error message.
+
+                if (!(this.totalFrames && this.totalFrames > 1)) {
+                  _context4.next = 27;
+                  break;
+                }
+
+                _context4.next = 25;
+                return this.play();
+
+              case 25:
+                _context4.next = 28;
+                break;
+
+              case 27:
                 this.openUserDefinedCptvFile = true;
 
-              case 18:
+              case 28:
+                return _context4.abrupt("return");
+
+              case 29:
+                this.buffering = false;
+                _context4.next = 32;
+                return this.play();
+
+              case 32:
+                _context4.next = 35;
+                break;
+
+              case 34:
+                this.openUserDefinedCptvFile = true;
+
+              case 35:
               case "end":
                 return _context4.stop();
             }
@@ -13661,8 +13785,8 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
       return frameForTrack && Number(frameForTrack[0]) || 0;
     }
   }, {
-    key: "onPastLastFrameForTrack",
-    value: function onPastLastFrameForTrack(trackIndex) {
+    key: "onePastLastFrameForTrack",
+    value: function onePastLastFrameForTrack(trackIndex) {
       var entries = Object.entries(this.processedTracks); // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
       var firstFrameForTrackIndex = entries.findIndex(function (_ref6) {
@@ -13790,31 +13914,55 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
               case 12:
                 if (!(typeof this.loadedStream === "string")) {
-                  _context6.next = 16;
+                  _context6.next = 29;
                   break;
                 }
 
-                if (this.loadedStream === "Failed to verify JWT.") {
-                  window.location.reload();
-                } else {
-                  this.streamLoadError = this.loadedStream;
+                if (!(this.loadedStream === "Failed to verify JWT.")) {
+                  _context6.next = 17;
+                  break;
                 }
 
-                _context6.next = 34;
+                window.location.reload();
+                _context6.next = 27;
                 break;
 
-              case 16:
+              case 17:
+                this.streamLoadError = this.loadedStream;
+                _context6.next = 20;
+                return cptvDecoder.hasStreamError();
+
+              case 20:
+                if (!_context6.sent) {
+                  _context6.next = 27;
+                  break;
+                }
+
+                _context6.next = 23;
+                return cptvDecoder.close();
+
+              case 23:
+                cptvDecoder = new CptvDecoder();
+                CptvPlayervue_type_script_lang_ts_frames = [];
+                this.openUserDefinedCptvFile = true;
+                this.buffering = false;
+
+              case 27:
+                _context6.next = 47;
+                break;
+
+              case 29:
                 if (!this.loadedStream) {
-                  _context6.next = 34;
+                  _context6.next = 47;
                   break;
                 }
 
                 lastCptvUrl = this.cptvUrl;
                 _context6.t0 = Object;
-                _context6.next = 21;
+                _context6.next = 34;
                 return cptvDecoder.getHeader();
 
-              case 21:
+              case 34:
                 _context6.t1 = _context6.sent;
                 this.header = _context6.t0.freeze.call(_context6.t0, _context6.t1);
                 this.setFrameInfo(0);
@@ -13826,17 +13974,17 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 cancelAnimationFrame(this.animationFrame);
 
                 if (!playImmediately) {
-                  _context6.next = 34;
+                  _context6.next = 47;
                   break;
                 }
 
-                _context6.next = 33;
+                _context6.next = 46;
                 return this.fetchRenderAdvanceFrame();
 
-              case 33:
+              case 46:
                 this.buffering = false;
 
-              case 34:
+              case 47:
               case "end":
                 return _context6.stop();
             }
@@ -13883,7 +14031,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
           if (this.processedTracks && this.currentTrack.trackIndex < Object.keys(this.processedTracks).length) {
             cancelAnimationFrame(this.animationFrame);
             this.animationTick = 0;
-            this.setTimeAndRedraw(this.currentTrack.start_s + 0.01);
+            this.setTimeAndRedraw(-1, this.firstFrameForTrack(this.currentTrack.trackIndex));
 
             if (shouldPlay) {
               this.play();
@@ -13896,7 +14044,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
           // In that case we don't want it selecting another track as it plays on from
           // the selected track, since the user likely wants to tag the track they selected.
           // Any other further user interaction should unset stopAtTime.
-          this.stopAtFrame = this.onPastLastFrameForTrack(this.currentTrack.trackIndex);
+          this.stopAtFrame = this.onePastLastFrameForTrack(this.currentTrack.trackIndex);
         } else {
           this.stopAtFrame = null;
         }
@@ -14214,8 +14362,33 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 return this.ensureEntireFileIsLoaded();
 
               case 25:
+                _context11.next = 27;
+                return cptvDecoder.hasStreamError();
+
+              case 27:
+                if (!_context11.sent) {
+                  _context11.next = 38;
+                  break;
+                }
+
+                this.isExporting = false;
+                _context11.next = 31;
+                return cptvDecoder.getStreamError();
+
+              case 31:
+                this.streamLoadError = _context11.sent;
+                _context11.next = 34;
+                return cptvDecoder.close();
+
+              case 34:
+                cptvDecoder = new CptvDecoder();
+                CptvPlayervue_type_script_lang_ts_frames = [];
+                encoder.close();
+                return _context11.abrupt("return");
+
+              case 38:
                 if (this.isExporting) {
-                  _context11.next = 28;
+                  _context11.next = 41;
                   break;
                 }
 
@@ -14223,7 +14396,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
                 return _context11.abrupt("return");
 
-              case 28:
+              case 41:
                 console.assert(this.totalFrames !== null);
                 totalFrames = this.totalFrames || 0;
                 startFrame = 0;
@@ -14260,9 +14433,9 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
                 frameNum = startFrame;
 
-              case 34:
+              case 47:
                 if (!(frameNum < onePastLastFrame)) {
-                  _context11.next = 55;
+                  _context11.next = 68;
                   break;
                 }
 
@@ -14286,12 +14459,12 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 }
 
                 this.renderOverlay(context, renderCanvas.width / videoCanvas.width, timeSinceLastFFCSeconds, true, frameNum, trackExportOptions);
-                _context11.next = 48;
+                _context11.next = 61;
                 return encoder.encodeFrame(context.getImageData(0, 0, targetWidth, targetHeight).data);
 
-              case 48:
+              case 61:
                 if (this.isExporting) {
-                  _context11.next = 51;
+                  _context11.next = 64;
                   break;
                 }
 
@@ -14299,28 +14472,28 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
                 return _context11.abrupt("return");
 
-              case 51:
+              case 64:
                 this.exportProgress = (frameNum - startFrame) / (onePastLastFrame - startFrame);
                 frameNum++;
-                _context11.next = 34;
+                _context11.next = 47;
                 break;
 
-              case 55:
-                _context11.next = 57;
+              case 68:
+                _context11.next = 70;
                 return encoder.finish();
 
-              case 57:
+              case 70:
                 uint8Array = _context11.sent;
                 encoder.close();
 
                 if (this.isExporting) {
-                  _context11.next = 61;
+                  _context11.next = 74;
                   break;
                 }
 
                 return _context11.abrupt("return");
 
-              case 61:
+              case 74:
                 // Reset any export options
                 this.initTrackExportOptions();
                 recordingIdSuffix = this.recordingId !== null ? "recording_".concat(this.recordingId, "__") : "";
@@ -14330,7 +14503,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 this.isExporting = false;
                 this.$emit("export-complete");
 
-              case 66:
+              case 79:
               case "end":
                 return _context11.stop();
             }
@@ -14978,14 +15151,20 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
   }, {
     key: "setTimeAndRedraw",
     value: function () {
-      var _setTimeAndRedraw = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(time) {
-        var totalFrames;
+      var _setTimeAndRedraw = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        var time,
+            frameNum,
+            totalFrames,
+            _args15 = arguments;
         return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
+                time = _args15.length > 0 && _args15[0] !== undefined ? _args15[0] : -1;
+                frameNum = _args15.length > 1 && _args15[1] !== undefined ? _args15[1] : -1;
+
                 if (this.seekingInProgress) {
-                  _context15.next = 10;
+                  _context15.next = 12;
                   break;
                 }
 
@@ -14993,7 +15172,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 totalFrames = this.totalFrames;
 
                 if (!this.header) {
-                  _context15.next = 10;
+                  _context15.next = 12;
                   break;
                 }
 
@@ -15002,16 +15181,21 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 }
 
                 this.animationTick = 0;
-                this.frameNum = Math.floor(Math.min(totalFrames, time / this.actualDuration * totalFrames));
+
+                if (time !== -1 && this.actualDuration !== 0) {
+                  this.frameNum = Math.floor(Math.min(totalFrames, time / this.actualDuration * totalFrames));
+                } else if (frameNum !== -1) {
+                  this.frameNum = frameNum;
+                }
 
                 if (this.atEndOfPlayback) {
                   this.atEndOfPlayback = this.frameNum === totalFrames;
                 }
 
-                _context15.next = 10;
+                _context15.next = 12;
                 return this.renderCurrentFrame(true);
 
-              case 10:
+              case 12:
               case "end":
                 return _context15.stop();
             }
@@ -15019,7 +15203,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
         }, _callee15, this);
       }));
 
-      function setTimeAndRedraw(_x6) {
+      function setTimeAndRedraw() {
         return _setTimeAndRedraw.apply(this, arguments);
       }
 
@@ -15043,7 +15227,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 frameNum = _args16.length > 1 ? _args16[1] : undefined;
 
                 if (!this.header) {
-                  _context16.next = 33;
+                  _context16.next = 43;
                   break;
                 }
 
@@ -15063,7 +15247,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
 
               case 8:
                 if (!(this.loadedFrames <= frameNum && !this.totalFrames)) {
-                  _context16.next = 25;
+                  _context16.next = 35;
                   break;
                 }
 
@@ -15090,19 +15274,41 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 this.totalFrames = _context16.sent;
 
                 if (!(frame === null)) {
-                  _context16.next = 21;
+                  _context16.next = 31;
                   break;
                 }
 
-                return _context16.abrupt("break", 25);
+                _context16.next = 22;
+                return cptvDecoder.hasStreamError();
 
-              case 21:
+              case 22:
+                if (!_context16.sent) {
+                  _context16.next = 30;
+                  break;
+                }
+
+                _context16.next = 25;
+                return cptvDecoder.getStreamError();
+
+              case 25:
+                this.streamLoadError = _context16.sent;
+                _context16.next = 28;
+                return cptvDecoder.close();
+
+              case 28:
+                cptvDecoder = new CptvDecoder();
+                this.totalFrames = CptvPlayervue_type_script_lang_ts_frames.length;
+
+              case 30:
+                return _context16.abrupt("break", 35);
+
+              case 31:
                 CptvPlayervue_type_script_lang_ts_frames.push(frame);
                 this.loadedFrames = CptvPlayervue_type_script_lang_ts_frames.length;
                 _context16.next = 8;
                 break;
 
-              case 25:
+              case 35:
                 this.seekingInProgress = false;
                 this.buffering = false;
                 gotFrame = this.loadedFrames - 1 >= frameNum;
@@ -15116,10 +15322,10 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 this.renderFrame(frameData, frameNum, force);
                 return _context16.abrupt("return", gotFrame);
 
-              case 33:
+              case 43:
                 return _context16.abrupt("return", false);
 
-              case 34:
+              case 44:
               case "end":
                 return _context16.stop();
             }
@@ -15226,18 +15432,26 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
   }, {
     key: "requestPrevRecording",
     value: function requestPrevRecording() {
-      this.frameNum = 0;
-      this.buffering = true;
-      this.atEndOfPlayback = false;
-      this.$emit("request-prev-recording");
+      if (this.canGoBackwards) {
+        this.frameNum = 0;
+        this.buffering = true;
+        this.atEndOfPlayback = false;
+        this.$emit("request-prev-recording");
+      } else {
+        this.showAtEndOfSearch = true;
+      }
     }
   }, {
     key: "requestNextRecording",
     value: function requestNextRecording() {
-      this.frameNum = 0;
-      this.atEndOfPlayback = false;
-      this.buffering = true;
-      this.$emit("request-next-recording");
+      if (this.canGoForwards) {
+        this.frameNum = 0;
+        this.atEndOfPlayback = false;
+        this.buffering = true;
+        this.$emit("request-next-recording");
+      } else {
+        this.showAtEndOfSearch = true;
+      }
     }
   }, {
     key: "pause",
@@ -25575,7 +25789,7 @@ try {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__(4362);
+/******/ 	var __webpack_exports__ = __webpack_require__(522);
 /******/ 	module.exports = __webpack_exports__.default;
 /******/ 	
 /******/ })()
