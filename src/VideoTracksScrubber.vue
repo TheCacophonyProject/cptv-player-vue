@@ -55,7 +55,7 @@ export default class VideoTracksScrubber extends Vue {
   @Prop({ default: 0 }) timeAdjustmentForBackgroundFrame!: number;
   @Prop({ default: () => [] }) colours!: string[];
 
-  trackDimensions: { top: string; left: string; width: string }[] = [];
+  trackDimensions: { top: number; left: string; width: string }[] = [];
   numUniqueYSlots = 0;
   trackHeight = 12;
   @Ref() scrubber!: HTMLDivElement;
@@ -201,7 +201,7 @@ export default class VideoTracksScrubber extends Vue {
     // Init track dimensions
     this.trackDimensions = [];
     this.numUniqueYSlots = 0;
-    const uniqueYSlots = {};
+    const uniqueYSlots: Record<number, boolean> = {};
     for (let i = 0; i < this.tracks.length; i++) {
       const yOffset = this.getOffsetYForTrack(i);
       this.trackDimensions.push({
