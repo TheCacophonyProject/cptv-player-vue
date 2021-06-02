@@ -381,7 +381,7 @@ const download = (url: string, filename: string) => {
 let lastCptvUrl: string | null = null;
 let frameBuffer: Uint8ClampedArray;
 let frames: CptvFrame[] = [];
-const cptvDecoder = new CptvDecoder();
+let cptvDecoder = new CptvDecoder();
 
 @Component({
   components: {
@@ -716,6 +716,9 @@ export default class CptvPlayerComponent extends Vue {
       this.loadedFrames = frames.length;
       this.totalFrames = await cptvDecoder.getTotalFrames();
     }
+    if (!this.totalFrames) {
+      this.totalFrames = frames.length;
+    }
   }
 
   @Watch("exportRequested")
@@ -743,6 +746,19 @@ export default class CptvPlayerComponent extends Vue {
       await this.initPlayer();
       await this.loadCptvFile(new Uint8Array(buffer), false);
       await this.ensureEntireFileIsLoaded();
+      if (await cptvDecoder.hasStreamError()) {
+        this.streamLoadError = await cptvDecoder.getStreamError();
+        await cptvDecoder.close();
+        cptvDecoder = new CptvDecoder();
+        this.buffering = false;
+        // Still allow truncated files to play if they have frames, but show an error message.
+        if (this.totalFrames && this.totalFrames > 1) {
+          await this.play();
+        } else {
+          this.openUserDefinedCptvFile = true;
+        }
+        return;
+      }
       this.buffering = false;
       await this.play();
     } else {
@@ -875,6 +891,13 @@ export default class CptvPlayerComponent extends Vue {
         window.location.reload();
       } else {
         this.streamLoadError = this.loadedStream;
+        if (await cptvDecoder.hasStreamError()) {
+          await cptvDecoder.close();
+          cptvDecoder = new CptvDecoder();
+          frames = [];
+          this.openUserDefinedCptvFile = true;
+          this.buffering = false;
+        }
       }
     } else if (this.loadedStream) {
       lastCptvUrl = this.cptvUrl;
@@ -1116,6 +1139,17 @@ export default class CptvPlayerComponent extends Vue {
 
     // Make sure everything is loaded to ensure that we have final min/max numbers for normalisation
     await this.ensureEntireFileIsLoaded();
+
+    if (await cptvDecoder.hasStreamError()) {
+      this.isExporting = false;
+      this.streamLoadError = await cptvDecoder.getStreamError();
+      await cptvDecoder.close();
+      cptvDecoder = new CptvDecoder();
+      frames = [];
+      encoder.close();
+      return;
+    }
+
     if (!this.isExporting) {
       encoder.close();
       // Check for cancellation
@@ -1768,7 +1802,7 @@ export default class CptvPlayerComponent extends Vue {
           );
         }
         this.animationTick = 0;
-        if (time !== -1) {
+        if (time !== -1 && this.actualDuration !== 0) {
           this.frameNum = Math.floor(
             Math.min(
               totalFrames as number,
@@ -1803,6 +1837,12 @@ export default class CptvPlayerComponent extends Vue {
         }
         this.totalFrames = await cptvDecoder.getTotalFrames();
         if (frame === null) {
+          if (await cptvDecoder.hasStreamError()) {
+            this.streamLoadError = await cptvDecoder.getStreamError();
+            await cptvDecoder.close();
+            cptvDecoder = new CptvDecoder();
+            this.totalFrames = frames.length;
+          }
           break;
         }
         frames.push(frame);
