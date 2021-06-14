@@ -725,7 +725,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 7739:
+/***/ 8786:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -760,7 +760,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ const setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d914ce5-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=38818a62&
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5b8834ea-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/CptvPlayer.vue?vue&type=template&id=0cb235ad&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:['cptv-player', { 'stand-alone': _vm.standAlone }]},[_c('div',{key:"container",ref:"container",staticClass:"video-container"},[_c('canvas',{key:"base",ref:"canvas",class:['video-canvas', { smoothed: _vm.smoothed }]}),_c('canvas',{key:"overlay",ref:"overlayCanvas",staticClass:"overlay-canvas"}),_c('span',{key:"messaging",class:['player-messaging', { show: _vm.playerMessage !== null }],domProps:{"innerHTML":_vm._s(_vm.playerMessage)}}),_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.showValueInfo),expression:"showValueInfo"}],key:"px-value",ref:"valueTooltip",staticClass:"value-tooltip"},[_vm._v(_vm._s(_vm.valueUnderCursor)+" ")]),(_vm.openUserDefinedCptvFile && _vm.userFiles)?_c('div',{key:"openUserFile",staticClass:"playback-controls show"},[_c('b-form-file',{staticClass:"cptv-drop-area",attrs:{"accept":".cptv","state":_vm.userSuppliedFile !== null,"placeholder":"Choose a CPTV file or drop one here...","drop-placeholder":"Drop file here..."},model:{value:(_vm.userSuppliedFile),callback:function ($$v) {_vm.userSuppliedFile=$$v},expression:"userSuppliedFile"}})],1):_vm._e(),_c('div',{key:"buffering",class:[
         'playback-controls',
         { show: _vm.isBuffering && (!_vm.openUserDefinedCptvFile || !_vm.userFiles) } ]},[_c('font-awesome-icon',{staticClass:"fa-spin buffering",attrs:{"icon":"spinner","size":"4x"}})],1),_c('div',{key:"playback-controls",class:[
@@ -1561,7 +1561,7 @@ Component.registerHooks = function registerHooks(keys) {
 /* harmony default export */ const vue_class_component_esm = (Component);
 
 
-;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5d914ce5-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/VideoTracksScrubber.vue?vue&type=template&id=7bb9631a&scoped=true&
+;// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5b8834ea-vue-loader-template"}!./node_modules/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ruleSet[0].rules[0].use[0]!./node_modules/vue-loader-v15/lib/index.js??vue-loader-options!./src/VideoTracksScrubber.vue?vue&type=template&id=7bb9631a&scoped=true&
 var VideoTracksScrubbervue_type_template_id_7bb9631a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{key:"track-scrubber",ref:"scrubber",staticClass:"track-scrubber",style:({
     height: (_vm.heightForTracks + "px"),
     width: (_vm.canvasWidth + "px"),
@@ -13482,7 +13482,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 if (window.matchMedia) {
                   // NOTE This is only needed for multi-monitor setups where the DPI can change if the window is moved
                   //  between screens of differing DPIs.  iOS 12 and lower don't support this.
-                  match = window.matchMedia("screen and (min-resolution: 2dppx)");
+                  match = window.matchMedia("screen and (min-resolution: 1.1dppx)");
                   match.addEventListener && match.addEventListener("change", this.setCanvasDimensions);
                 }
 
@@ -14197,10 +14197,10 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
     value: function clearCanvas() {
       var canvas = this.canvas;
       var context = canvas.getContext("2d");
-      context && context.clearRect(0, 0, canvas.width, canvas.height);
+      context && context.clearRect(0, 0, context.canvas.width * (1 / this.devicePixelRatio), context.canvas.height * (1 / this.devicePixelRatio));
       var overlayCanvas = this.overlayCanvas;
       var overlayContext = overlayCanvas.getContext("2d");
-      overlayContext && overlayContext.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+      overlayContext && overlayContext.clearRect(0, 0, overlayContext.canvas.width * (1 / this.devicePixelRatio), overlayContext.canvas.height * (1 / this.devicePixelRatio));
     }
   }, {
     key: "moveOverOverlayCanvas",
@@ -14832,7 +14832,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
       if (context) {
         if (!isExporting) {
           // Clear if we are drawing on the live overlay, but not if we're drawing for export
-          context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+          context.clearRect(0, 0, context.canvas.width * (1 / this.devicePixelRatio), context.canvas.height * (1 / this.devicePixelRatio));
         }
 
         var tracks = this.processedTracks[frameNum] || {};
@@ -15031,7 +15031,7 @@ var CptvPlayerComponent = /*#__PURE__*/function (_Vue) {
                 overlayContext = this.overlayCanvas.getContext("2d");
 
                 if (overlayContext) {
-                  overlayContext.clearRect(0, 0, overlayContext.canvas.width, overlayContext.canvas.height);
+                  overlayContext.clearRect(0, 0, overlayContext.canvas.width * (1 / this.devicePixelRatio), overlayContext.canvas.height * (1 / this.devicePixelRatio));
                   this.drawBottomLeftOverlayLabel("Background frame", overlayContext);
                 }
 
@@ -25807,7 +25807,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__3507__;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__(7739);
+/******/ 	var __webpack_exports__ = __webpack_require__(8786);
 /******/ 	__webpack_exports__ = __webpack_exports__.default;
 /******/ 	
 /******/ 	return __webpack_exports__;

@@ -672,7 +672,7 @@ export default class CptvPlayerComponent extends Vue {
     if (window.matchMedia) {
       // NOTE This is only needed for multi-monitor setups where the DPI can change if the window is moved
       //  between screens of differing DPIs.  iOS 12 and lower don't support this.
-      const match = window.matchMedia("screen and (min-resolution: 2dppx)");
+      const match = window.matchMedia("screen and (min-resolution: 1.1dppx)");
       match.addEventListener &&
         match.addEventListener("change", this.setCanvasDimensions);
     }
@@ -1033,12 +1033,23 @@ export default class CptvPlayerComponent extends Vue {
   clearCanvas(): void {
     const canvas = this.canvas as HTMLCanvasElement;
     const context = canvas.getContext("2d");
-    context && context.clearRect(0, 0, canvas.width, canvas.height);
+    context &&
+      context.clearRect(
+        0,
+        0,
+        context.canvas.width * (1 / this.devicePixelRatio),
+        context.canvas.height * (1 / this.devicePixelRatio)
+      );
 
     const overlayCanvas = this.overlayCanvas as HTMLCanvasElement;
     const overlayContext = overlayCanvas.getContext("2d");
     overlayContext &&
-      overlayContext.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+      overlayContext.clearRect(
+        0,
+        0,
+        overlayContext.canvas.width * (1 / this.devicePixelRatio),
+        overlayContext.canvas.height * (1 / this.devicePixelRatio)
+      );
   }
   moveOverOverlayCanvas(event: MouseEvent): void {
     const canvasOffset = this.canvas.getBoundingClientRect();
@@ -1520,7 +1531,12 @@ export default class CptvPlayerComponent extends Vue {
     if (context) {
       if (!isExporting) {
         // Clear if we are drawing on the live overlay, but not if we're drawing for export
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        context.clearRect(
+          0,
+          0,
+          context.canvas.width * (1 / this.devicePixelRatio),
+          context.canvas.height * (1 / this.devicePixelRatio)
+        );
       }
       const tracks =
         this.processedTracks[frameNum] || ({} as Record<number, TrackBox>);
@@ -1717,9 +1733,10 @@ export default class CptvPlayerComponent extends Vue {
           overlayContext.clearRect(
             0,
             0,
-            overlayContext.canvas.width,
-            overlayContext.canvas.height
+            overlayContext.canvas.width * (1 / this.devicePixelRatio),
+            overlayContext.canvas.height * (1 / this.devicePixelRatio)
           );
+
           this.drawBottomLeftOverlayLabel("Background frame", overlayContext);
         }
       }
