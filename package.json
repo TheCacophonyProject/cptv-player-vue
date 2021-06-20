@@ -1,6 +1,6 @@
 {
   "name": "cptv-player-vue",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name CptvPlayerVue ./src/CptvPlayer.vue",
@@ -16,7 +16,7 @@
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.20.1",
     "core-js": "^3.8.3",
-    "cptv-decoder": "github:TheCacophonyProject/cptv-rs#v1.1.15",
+    "cptv-decoder": "github:TheCacophonyProject/cptv-rs#v1.2",
     "h264-mp4-encoder": "^1.0.12",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.3",
