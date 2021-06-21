@@ -1,6 +1,6 @@
 {
   "name": "cptv-player-vue",
-  "version": "1.0.15",
+  "version": "1.1.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name CptvPlayerVue ./src/CptvPlayer.vue",
