@@ -662,6 +662,8 @@ export default class CptvPlayerComponent extends Vue {
   }
 
   async mounted(): Promise<void> {
+    cptvDecoder && cptvDecoder.close();
+    cptvDecoder = new CptvDecoder();
     // This makes button active styles work in safari iOS.
     document.addEventListener("touchstart", this.dismissAnyTooltips, false);
 
@@ -693,7 +695,7 @@ export default class CptvPlayerComponent extends Vue {
     }
     this.initTrackExportOptions();
   }
-  beforeDestroy(): void {
+  async beforeDestroy(): Promise<void> {
     document.removeEventListener("touchstart", this.dismissAnyTooltips, false);
     this.loadedStream = false;
     this.clearCanvas();
@@ -710,6 +712,9 @@ export default class CptvPlayerComponent extends Vue {
       match.removeEventListener &&
         match.removeEventListener("change", this.setCanvasDimensions);
     }
+    cancelAnimationFrame(this.animationFrame as number);
+    await cptvDecoder.close();
+    frames = [];
   }
 
   async ensureEntireFileIsLoaded(): Promise<void> {
