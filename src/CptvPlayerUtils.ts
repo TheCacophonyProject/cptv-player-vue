@@ -102,6 +102,41 @@ export const formatHeaderInfo = (header: CptvHeader | null): string | null => {
     return null;
   }
 };
+const getPositions = (
+  positions: [number, Rectangle][] | Region[],
+  timeOffset: number,
+  frameTimeSeconds: number
+): [number, Rectangle][] => {
+  const frameAtTime = (time: number) => {
+    return Math.round(time / frameTimeSeconds);
+  };
+  const padding = 5;
+  if (
+    positions.length > 0 &&
+    Object.prototype.hasOwnProperty.call(positions[0], "x")
+  ) {
+    return (positions as Region[]).map((position: Region) => [
+      position.frame_number,
+      [
+        Math.max(0, position.x - padding),
+        Math.max(0, position.y - padding),
+        position.x + position.width + padding,
+        position.y + position.height + padding,
+      ],
+    ]);
+  }
+  return (positions as [number, Rectangle][]).map(
+    (position: [number, Rectangle]) => [
+      frameAtTime(position[0] - timeOffset),
+      [
+        Math.max(0, position[1][0] - padding),
+        Math.max(0, position[1][1] - padding),
+        position[1][2] + padding,
+        position[1][3] + padding,
+      ],
+    ]
+  );
+};
 
 export const getProcessedTracks = (
   tracks: Track[],
@@ -109,36 +144,19 @@ export const getProcessedTracks = (
   frameTimeSeconds: number
 ): Record<number, Record<number, TrackBox>> => {
   // Map track box position times to actual frames, easier to use than time offsets.
-  const frameAtTime = (time: number) => {
-    return Math.round(time / frameTimeSeconds);
-  };
 
   // Add a bit of breathing room around our boxes
-  const padding = 5;
   return tracks
     .map(({ data, TrackTags }) => ({
       what: (TrackTags && getAuthoritativeTagForTrack(TrackTags)) || null,
-      positions: data.positions.map(([time, [left, top, right, bottom]]): [
-        number,
-        number,
-        [number, number, number, number]
-      ] => [
-        frameAtTime(time - timeOffset),
-        time - timeOffset,
-        [
-          Math.max(0, left - padding),
-          Math.max(0, top - padding),
-          right + padding,
-          bottom + padding,
-        ],
-      ]),
+      positions: getPositions(data.positions, timeOffset, frameTimeSeconds),
     }))
     .reduce((acc: Record<number, Record<number, TrackBox>>, item, index) => {
       for (const position of item.positions) {
         acc[position[0]] = acc[position[0]] || {};
         const frame = acc[position[0]];
         frame[index] = {
-          rect: position[2],
+          rect: position[1],
           what: item.what,
         };
       }
@@ -148,7 +166,7 @@ export const getProcessedTracks = (
 
 export interface TrackBox {
   what: string | null;
-  rect: [number, number, number, number];
+  rect: Rectangle;
 }
 
 export interface TrackExportOption {
@@ -163,12 +181,21 @@ export interface Track {
     start_s: number;
     end_s: number;
     num_frames: number;
-    positions: [number, [number, number, number, number]][];
+    positions: [number, Rectangle][] | Region[];
   };
   trackIndex: number;
   TrackTags: TrackTag[];
 }
 
+export type Rectangle = [number, number, number, number];
+
+export interface Region {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  frame_number: number;
+}
 export interface SelectedTrack {
   trackIndex: number;
   start_s?: number;
