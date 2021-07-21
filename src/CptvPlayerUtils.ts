@@ -102,6 +102,8 @@ export const formatHeaderInfo = (header: CptvHeader | null): string | null => {
     return null;
   }
 };
+
+// Check if positions is in old format or new and format accordingly
 const getPositions = (
   positions: [number, Rectangle][] | Region[],
   timeOffset: number,
@@ -110,6 +112,7 @@ const getPositions = (
   const frameAtTime = (time: number) => {
     return Math.round(time / frameTimeSeconds);
   };
+  // Add a bit of breathing room around our boxes
   const padding = 5;
   if (
     positions.length > 0 &&
@@ -125,6 +128,7 @@ const getPositions = (
       ],
     ]);
   }
+  // Map track box position times to actual frames, easier to use than time offsets.
   return (positions as [number, Rectangle][]).map(
     (position: [number, Rectangle]) => [
       frameAtTime(position[0] - timeOffset),
@@ -143,9 +147,6 @@ export const getProcessedTracks = (
   timeOffset: number,
   frameTimeSeconds: number
 ): Record<number, Record<number, TrackBox>> => {
-  // Map track box position times to actual frames, easier to use than time offsets.
-
-  // Add a bit of breathing room around our boxes
   return tracks
     .map(({ data, TrackTags }) => ({
       what: (TrackTags && getAuthoritativeTagForTrack(TrackTags)) || null,
