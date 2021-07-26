@@ -114,10 +114,7 @@ const getPositions = (
   };
   // Add a bit of breathing room around our boxes
   const padding = 5;
-  if (
-    positions.length > 0 &&
-    Object.prototype.hasOwnProperty.call(positions[0], "x")
-  ) {
+  if (positions.length > 0 && !Array.isArray(positions[0])) {
     return (positions as Region[]).map((position: Region) => [
       position.frame_number,
       [
