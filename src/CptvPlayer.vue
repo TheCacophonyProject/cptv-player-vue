@@ -353,6 +353,7 @@ import {
   ColourMaps,
 } from "cptv-decoder";
 import {
+  Rectangle,
   PlaybackSpeeds,
   formatTime,
   formatHeaderInfo,
@@ -1626,7 +1627,7 @@ export default class CptvPlayerComponent extends Vue {
   drawRectWithText(
     context: CanvasRenderingContext2D,
     trackIndex: number,
-    dims: [number, number, number, number],
+    dims: Rectangle,
     what: string | null,
     isExporting: boolean
   ): void {
