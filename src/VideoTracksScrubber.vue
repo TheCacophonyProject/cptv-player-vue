@@ -75,9 +75,9 @@ export default class VideoTracksScrubber extends Vue {
 
   getWidthForTrack(track: Track): number {
     const trackDuration =
-      track.data.end_s -
+      track.end -
       this.timeAdjustmentForBackgroundFrame -
-      (track.data.start_s - this.timeAdjustmentForBackgroundFrame);
+      (track.start - this.timeAdjustmentForBackgroundFrame);
     const ratio = Math.min(1, trackDuration / this.duration);
     return ratio * this.scrubberWidth;
   }
@@ -85,7 +85,7 @@ export default class VideoTracksScrubber extends Vue {
     return Math.max(
       this.sidePadding,
       this.getOffsetForTime(
-        track.data.start_s - this.timeAdjustmentForBackgroundFrame
+        track.start - this.timeAdjustmentForBackgroundFrame
       ) + this.sidePadding
     );
   }

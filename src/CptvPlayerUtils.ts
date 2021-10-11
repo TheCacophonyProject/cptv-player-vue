@@ -3,8 +3,7 @@ import { CptvHeader } from "cptv-decoder";
 export interface TrackTag {
   what: string;
   data: string | { name: string } | undefined;
-  User?: never;
-  user?: never;
+  automatic: boolean;
 }
 
 export const PlaybackSpeeds = Object.freeze([0.5, 1, 2, 4, 6]);
@@ -20,11 +19,7 @@ export const formatTime = (time: number): string => {
 };
 
 const getAuthoritativeTagForTrack = (trackTags: TrackTag[]): string | null => {
-  const userTags = trackTags.filter(
-    (tag) =>
-      (tag.user !== undefined && tag.user !== null) ||
-      (tag.User !== undefined && tag.User !== null)
-  );
+  const userTags = trackTags.filter((tag) => !tag.automatic);
   if (userTags.length) {
     return userTags[0].what;
   } else {
@@ -116,7 +111,7 @@ const getPositions = (
   const padding = 5;
   if (positions.length > 0 && !Array.isArray(positions[0])) {
     return (positions as Region[]).map((position: Region) => [
-      position.frame_number,
+      position.frameNumber,
       [
         Math.max(0, position.x - padding),
         Math.max(0, position.y - padding),
@@ -145,9 +140,9 @@ export const getProcessedTracks = (
   frameTimeSeconds: number
 ): Record<number, Record<number, TrackBox>> => {
   return tracks
-    .map(({ data, TrackTags }) => ({
-      what: (TrackTags && getAuthoritativeTagForTrack(TrackTags)) || null,
-      positions: getPositions(data.positions, timeOffset, frameTimeSeconds),
+    .map(({ positions, tags }) => ({
+      what: (tags && getAuthoritativeTagForTrack(tags)) || null,
+      positions: getPositions(positions, timeOffset, frameTimeSeconds),
     }))
     .reduce((acc: Record<number, Record<number, TrackBox>>, item, index) => {
       for (const position of item.positions) {
@@ -175,14 +170,12 @@ export interface TrackExportOption {
 
 export interface Track {
   id: number;
-  data: {
-    start_s: number;
-    end_s: number;
-    num_frames: number;
-    positions: [number, Rectangle][] | Region[];
-  };
+  start: number;
+  end: number;
+  numFrames: number;
+  positions: [number, Rectangle][] | Region[];
   trackIndex: number;
-  TrackTags: TrackTag[];
+  tags: TrackTag[];
 }
 
 export type Rectangle = [number, number, number, number];
@@ -192,10 +185,10 @@ export interface Region {
   y: number;
   width: number;
   height: number;
-  frame_number: number;
+  frameNumber: number;
 }
 export interface SelectedTrack {
   trackIndex: number;
-  start_s?: number;
-  end_s?: number;
+  start?: number;
+  end?: number;
 }
