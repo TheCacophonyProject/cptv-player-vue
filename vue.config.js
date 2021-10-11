@@ -1,5 +1,8 @@
 // const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 //   .BundleAnalyzerPlugin;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const webpack = require("webpack");
+
 module.exports = {
   configureWebpack: {
     experiments: {
@@ -13,6 +16,7 @@ module.exports = {
         module: false,
         crypto: false,
         worker_threads: false,
+        vm: false,
       },
 
       alias: {
@@ -20,6 +24,11 @@ module.exports = {
         "bootstrap-vue$": "bootstrap-vue/src/index.js",
       },
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        __ENV__: JSON.stringify("PRODUCTION"),
+      }),
+    ],
     module: {
       rules: [
         {

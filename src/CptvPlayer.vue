@@ -348,10 +348,12 @@ import {
   CptvFrameHeader,
   CptvHeader,
   CptvDecoder,
+} from "cptv-decoder";
+import {
   renderFrameIntoFrameBuffer,
   getFrameIndexAtTime,
   ColourMaps,
-} from "cptv-decoder";
+} from "cptv-decoder/frameRenderUtils";
 import {
   Rectangle,
   PlaybackSpeeds,
@@ -387,7 +389,7 @@ const download = (url: string, filename: string) => {
 let lastCptvUrl: string | null = null;
 let frameBuffer: Uint8ClampedArray;
 let frames: CptvFrame[] = [];
-let cptvDecoder = new CptvDecoder();
+let cptvDecoder: CptvDecoder;
 
 @Component({
   components: {
@@ -481,37 +483,36 @@ export default class CptvPlayerComponent extends Vue {
   scale = 1;
 
   set frameNum(num: number) {
-    if (this.totalFrames !== null) {
-      if (this.hasBackgroundFrame) {
-        this.internalFrameNum = Math.max(0, Math.min(this.totalFrames, num));
-      } else {
-        this.internalFrameNum = Math.max(0, Math.min(this.totalFrames, num));
-      }
-    } else {
-      this.internalFrameNum = num;
-    }
+    this.internalFrameNum = num;
+    // if (this.totalFrames !== null) {
+    //   this.internalFrameNum = num;
+    //   // if (this.hasBackgroundFrame) {
+    //   //   this.internalFrameNum = Math.max(0, Math.min(this.totalFrames, num));
+    //   // } else {
+    //   //   this.internalFrameNum = Math.max(0, Math.min(this.totalFrames, num));
+    //   // }
+    // } else {
+    //   this.internalFrameNum = num;
+    // }
   }
   get frameNum(): number {
-    if (this.totalFrames !== null) {
-      return Math.min(this.internalFrameNum, this.totalFrames - 1);
-    }
     return this.internalFrameNum;
+    // if (this.totalFrames !== null) {
+    //   return Math.min(this.internalFrameNum, this.totalFrames);
+    // }
+    // return this.internalFrameNum;
   }
   get totalFrames(): number | null {
-    if (this.internalTotalFrames === null) {
-      return null;
-    }
-    return this.hasBackgroundFrame
-      ? this.internalTotalFrames - 1
-      : this.internalTotalFrames;
+    return this.internalTotalFrames;
   }
   set totalFrames(num: number | null) {
     this.internalTotalFrames = num;
   }
   get loadedFrames(): number {
-    return this.hasBackgroundFrame
-      ? this.internalLoadedFrames - 1
-      : this.internalLoadedFrames;
+    // return this.hasBackgroundFrame
+    //   ? this.internalLoadedFrames - 1
+    //   : this.internalLoadedFrames;
+    return this.internalLoadedFrames;
   }
   set loadedFrames(num: number) {
     this.internalLoadedFrames = num;
@@ -551,7 +552,10 @@ export default class CptvPlayerComponent extends Vue {
     if (this.header !== null) {
       const fps = this.header.fps;
       if (this.totalFrames !== null) {
-        return (this.totalFrames - 1) / fps;
+        return (
+          (this.totalFrames - 1 - (this.header.hasBackgroundFrame ? 1 : 0)) /
+          fps
+        );
       }
       if (this.knownDuration === null && this.loadedFrames) {
         return (this.loadedFrames - 1) / fps;
@@ -663,7 +667,6 @@ export default class CptvPlayerComponent extends Vue {
   }
 
   async mounted(): Promise<void> {
-    cptvDecoder && cptvDecoder.close();
     cptvDecoder = new CptvDecoder();
     // This makes button active styles work in safari iOS.
     document.addEventListener("touchstart", this.dismissAnyTooltips, false);
@@ -724,9 +727,11 @@ export default class CptvPlayerComponent extends Vue {
       if (frame === null) {
         break;
       }
-      frames.push(frame);
-      this.loadedFrames = frames.length;
       this.totalFrames = await cptvDecoder.getTotalFrames();
+      if (!this.totalFrames) {
+        frames.push(frame);
+      }
+      this.loadedFrames = frames.length;
     }
     if (!this.totalFrames) {
       this.totalFrames = frames.length;
@@ -760,8 +765,7 @@ export default class CptvPlayerComponent extends Vue {
       await this.ensureEntireFileIsLoaded();
       if (await cptvDecoder.hasStreamError()) {
         this.streamLoadError = await cptvDecoder.getStreamError();
-        await cptvDecoder.close();
-        cptvDecoder = new CptvDecoder();
+        cptvDecoder && (await cptvDecoder.free());
         this.buffering = false;
         // Still allow truncated files to play if they have frames, but show an error message.
         if (this.totalFrames && this.totalFrames > 1) {
@@ -904,8 +908,7 @@ export default class CptvPlayerComponent extends Vue {
       } else {
         this.streamLoadError = this.loadedStream;
         if (await cptvDecoder.hasStreamError()) {
-          await cptvDecoder.close();
-          cptvDecoder = new CptvDecoder();
+          await cptvDecoder.free();
           frames = [];
           this.openUserDefinedCptvFile = true;
           this.buffering = false;
@@ -933,6 +936,8 @@ export default class CptvPlayerComponent extends Vue {
     const frameIndex = this.hasBackgroundFrame
       ? Math.min(frames.length - 1, i + 1)
       : Math.min(frames.length - 1, i);
+    console.log("Asking for frame index", i);
+    console.log("Getting actual frame index", frameIndex);
     const frame = frames[frameIndex];
     // We keep a running tally of min/max values across the clip for
     // normalisation purposes.
@@ -998,7 +1003,7 @@ export default class CptvPlayerComponent extends Vue {
     if (canAdvance) {
       this.frameNum++;
     }
-    if (this.totalFrames !== null) {
+    if (this.header && this.totalFrames !== null) {
       this.atEndOfPlayback = this.frameNum === this.totalFrames - 1;
     } else {
       this.atEndOfPlayback = false;
@@ -1008,7 +1013,7 @@ export default class CptvPlayerComponent extends Vue {
     this.isShowingBackgroundFrame = false;
     this.pause();
     this.animationTick = 0;
-    const firstFrame = this.hasBackgroundFrame ? 1 : 0;
+    const firstFrame = 0;
     const couldStep = await this.renderCurrentFrame(
       true,
       Math.max(this.frameNum - 1, firstFrame)
@@ -1092,6 +1097,7 @@ export default class CptvPlayerComponent extends Vue {
     // Fetch, render, advance
     const canAdvance = await this.renderCurrentFrame();
     if (canAdvance) {
+      console.log("Can advance frame", true);
       return true;
     } else if (this.playing) {
       this.pause();
@@ -1166,8 +1172,7 @@ export default class CptvPlayerComponent extends Vue {
     if (await cptvDecoder.hasStreamError()) {
       this.isExporting = false;
       this.streamLoadError = await cptvDecoder.getStreamError();
-      await cptvDecoder.close();
-      cptvDecoder = new CptvDecoder();
+      await cptvDecoder.free();
       frames = [];
       encoder.close();
       return;
@@ -1331,8 +1336,11 @@ export default class CptvPlayerComponent extends Vue {
       // NOTE: respect fps here, render only when we should.
       const shouldRedraw =
         (this.animationTick + (this.playing ? 1 : 0)) % everyXTicks === 0;
+      console.log("Should redraw", shouldRedraw, this.animationTick, this.playing);
       if (context && (shouldRedraw || force)) {
         this.setFrameInfo(frameNum);
+        console.log("*** Draw frame to canvas", frameNum);
+        debugger;
         context.putImageData(imgData, 0, 0);
         if (this.overlayCanvas) {
           const overlayContext = this.overlayCanvas.getContext("2d");
@@ -1363,10 +1371,11 @@ export default class CptvPlayerComponent extends Vue {
         if (this.playing) {
           didAdvance = await this.fetchRenderAdvanceFrame();
         }
-
+        console.log("Did advance?", didAdvance);
         if (didAdvance) {
           this.animationTick = 0;
           this.frameNum++;
+          console.log("Increment frameNum", this.frameNum);
         } else {
           this.animationTick++;
         }
@@ -1374,10 +1383,18 @@ export default class CptvPlayerComponent extends Vue {
         if (
           this.header &&
           this.totalFrames &&
+          this.frameNum === this.totalFrames
+        ) {
+          this.pause();
+        }
+        console.log("At end of playback?", this.frameNum, this.totalFrames && this.totalFrames - 1);
+        if (
+          this.header &&
+          this.totalFrames &&
           this.frameNum === this.totalFrames - 1
         ) {
+          //console.log("At end of playback?", this.frameNum, this.totalFrames - 1);
           this.atEndOfPlayback = true;
-          this.pause();
         }
       } else if (context) {
         this.animationTick++;
@@ -1823,13 +1840,16 @@ export default class CptvPlayerComponent extends Vue {
     // If the user is already seeking, don't queue up new seek events until that download progress completes.
     if (!this.seekingInProgress) {
       this.isShowingBackgroundFrame = false;
-      let totalFrames = this.totalFrames;
       if (this.header) {
+        let totalFrames =
+          this.totalFrames &&
+          this.totalFrames - (this.header.hasBackgroundFrame ? 1 : 0);
         if (totalFrames === null) {
           totalFrames = Math.floor(
             this.actualDuration * (this.header.fps as number)
           );
         }
+        console.log(`setTimeAndRedraw ${time}, ${frameNum}/${totalFrames}`);
         this.animationTick = 0;
         if (time !== -1 && this.actualDuration !== 0) {
           this.frameNum = Math.floor(
@@ -1841,9 +1861,8 @@ export default class CptvPlayerComponent extends Vue {
         } else if (frameNum !== -1) {
           this.frameNum = frameNum;
         }
-        if (this.atEndOfPlayback) {
-          this.atEndOfPlayback = this.frameNum === totalFrames;
-        }
+        this.atEndOfPlayback = this.frameNum === totalFrames - 1;
+        console.log("At end?", this.frameNum, totalFrames - 1);
         await this.renderCurrentFrame(true);
       }
     }
@@ -1857,34 +1876,45 @@ export default class CptvPlayerComponent extends Vue {
       if (frameNum > this.loadedFrames + 2 && !this.totalFrames) {
         this.buffering = true;
       }
+      console.log(
+        "Render frame num",
+        `# ${frameNum}`,
+        `Loaded ${this.internalLoadedFrames}`,
+        `Total ${this.internalTotalFrames}`
+      );
       while (this.loadedFrames <= frameNum && !this.totalFrames) {
         this.seekingInProgress = true;
         const frame = await cptvDecoder.getNextFrame();
+        console.assert(frame !== null);
         if (frame === null) {
           // Poll again so that we can read out totalFrames
           await cptvDecoder.getNextFrame();
         }
         this.totalFrames = await cptvDecoder.getTotalFrames();
+        this.totalFrames =
+          this.totalFrames &&
+          this.totalFrames + (this.header.hasBackgroundFrame ? 1 : 0);
         if (frame === null) {
           if (await cptvDecoder.hasStreamError()) {
             this.streamLoadError = await cptvDecoder.getStreamError();
-            await cptvDecoder.close();
-            cptvDecoder = new CptvDecoder();
+            await cptvDecoder.free();
             this.totalFrames = frames.length;
           }
           break;
         }
-        frames.push(frame);
+        if (!this.totalFrames) {
+          // If we got the total frames, then we're at the end of the stream, and the last
+          // frame has already been pulled out.
+          frames.push(frame);
+        }
         this.loadedFrames = frames.length;
       }
       this.seekingInProgress = false;
       this.buffering = false;
-      const gotFrame = this.loadedFrames - 1 >= frameNum;
+      const gotFrame = frameNum < this.loadedFrames;
       const frameData = this.getFrameAtIndex(frameNum);
       this.frameHeader = frameData.meta;
-      if (!gotFrame) {
-        frameNum--;
-      }
+      console.log("Got frame ", frameNum, gotFrame, frames.length);
       this.renderFrame(frameData, frameNum, force);
       return gotFrame;
     }
