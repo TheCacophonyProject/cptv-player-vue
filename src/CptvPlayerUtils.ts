@@ -140,15 +140,16 @@ export const getProcessedTracks = (
   frameTimeSeconds: number
 ): Record<number, Record<number, TrackBox>> => {
   return tracks
-    .map(({ positions, tags }) => ({
+    .map(({ positions, tags, id }) => ({
       what: (tags && getAuthoritativeTagForTrack(tags)) || null,
       positions: getPositions(positions, timeOffset, frameTimeSeconds),
+      id,
     }))
-    .reduce((acc: Record<number, Record<number, TrackBox>>, item, index) => {
+    .reduce((acc: Record<number, Record<number, TrackBox>>, item) => {
       for (const position of item.positions) {
         acc[position[0]] = acc[position[0]] || {};
         const frame = acc[position[0]];
-        frame[index] = {
+        frame[item.id] = {
           rect: position[1],
           what: item.what,
         };
@@ -165,7 +166,7 @@ export interface TrackBox {
 export interface TrackExportOption {
   includeInExportTime: boolean;
   displayInExport: boolean;
-  trackIndex: number;
+  trackId: number;
 }
 
 export interface Track {
@@ -174,7 +175,6 @@ export interface Track {
   end: number;
   numFrames: number;
   positions: [number, Rectangle][] | Region[];
-  trackIndex: number;
   tags: TrackTag[];
 }
 
@@ -188,7 +188,6 @@ export interface Region {
   frameNumber: number;
 }
 export interface SelectedTrack {
-  trackIndex: number;
   start?: number;
   end?: number;
 }
