@@ -14,7 +14,7 @@
       :title="`Track ${index}`"
       :style="{
         background: colours[(index - 1) % colours.length],
-        opacity: index - 1 === currentTrack ? 1.0 : 0.5,
+        opacity: index - 1 === currentTrackIndex ? 1.0 : 0.5,
         width: trackDimensions[index - 1].width,
         left: trackDimensions[index - 1].left,
         top: `${
@@ -49,7 +49,7 @@ const minScrubberHeight = 44;
 export default class VideoTracksScrubber extends Vue {
   @Prop({ default: (): Track[] => [] }) tracks!: Track[];
   @Prop({ default: 0 }) duration!: number;
-  @Prop({ default: 0 }) currentTrack!: number;
+  @Prop({ default: 0 }) currentTrackIndex!: number;
   @Prop({ required: true }) canvasWidth!: number;
   @Prop({ default: 0 }) sidePadding!: number;
   @Prop({ default: 0 }) timeAdjustmentForBackgroundFrame!: number;
