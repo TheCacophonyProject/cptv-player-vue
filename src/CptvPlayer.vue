@@ -1021,18 +1021,14 @@ export default class CptvPlayerComponent extends Vue {
     const canvasOffset = this.canvas.getBoundingClientRect();
     const x = event.x - canvasOffset.x;
     const y = event.y - canvasOffset.y;
-    const hitTrackIndex = this.getTrackIdAtPosition(x, y);
+    const trackId = this.getTrackIdAtPosition(x, y);
     this.overlayCanvas.style.cursor =
-      hitTrackIndex !== null ? "pointer" : "default";
-    if (hitTrackIndex !== null) {
+      trackId !== null ? "pointer" : "default";
+    if (trackId !== null) {
       await this.renderCurrentFrame();
-      const hitTrack = this.tracks[hitTrackIndex];
-      if (hitTrack) {
-        this.$emit("track-selected", {
-          trackIndex: hitTrackIndex,
-          trackId: hitTrack.id,
-        });
-      }
+      this.$emit("track-selected", {
+        trackId,
+      });
     }
   }
   clearCanvas(): void {
@@ -1567,7 +1563,7 @@ export default class CptvPlayerComponent extends Vue {
         const trackId = Number(frameTracks[0][0]);
         // If the track is the only track at this time offset, make it the selected track.
         if (this.currentTrack.id !== trackId) {
-          this.$emit("track-selected", trackId);
+          this.$emit("track-selected", {trackId});
         }
       }
 
