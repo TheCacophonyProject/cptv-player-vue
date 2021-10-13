@@ -418,7 +418,7 @@ export default class CptvPlayerComponent extends Vue {
   @Prop({ default: false }) showOverlaysForCurrentTrackOnly!: boolean;
   @Prop({ default: false }) standAlone!: boolean;
   @Prop({ default: (): Track[] => [] }) tracks!: Track[];
-  @Prop() currentTrack?: Track;
+  @Prop() currentTrack?: SelectedTrack;
   @Prop({ default: null }) knownDuration!: number | null;
   @Prop({ default: null }) recordingId!: number | null;
   @Prop({ default: null }) recentlyAddedTag!: TrackTag | null;
@@ -968,7 +968,7 @@ export default class CptvPlayerComponent extends Vue {
           this.animationTick = 0;
           this.setTimeAndRedraw(
             -1,
-            this.firstFrameForTrack(this.currentTrack.id)
+            this.firstFrameForTrack(this.currentTrack.trackId)
           );
           if (shouldPlay) {
             this.play();
@@ -981,7 +981,7 @@ export default class CptvPlayerComponent extends Vue {
         // the selected track, since the user likely wants to tag the track they selected.
 
         // Any other further user interaction should unset stopAtTime.
-        this.stopAtFrame = this.onePastLastFrameForTrack(this.currentTrack.id);
+        this.stopAtFrame = this.onePastLastFrameForTrack(this.currentTrack.trackId);
       } else {
         this.stopAtFrame = null;
       }
@@ -1562,7 +1562,7 @@ export default class CptvPlayerComponent extends Vue {
       ) {
         const trackId = Number(frameTracks[0][0]);
         // If the track is the only track at this time offset, make it the selected track.
-        if (this.currentTrack.id !== trackId) {
+        if (this.currentTrack.trackId !== trackId) {
           this.$emit("track-selected", { trackId });
         }
       }
@@ -1572,10 +1572,10 @@ export default class CptvPlayerComponent extends Vue {
         (!this.showOverlaysForCurrentTrackOnly || isExporting)
       ) {
         for (const [trackId, trackBox] of frameTracks) {
-          if (this.currentTrack.id !== Number(trackId)) {
+          if (this.currentTrack.trackId !== Number(trackId)) {
             if (
               !trackExportOptions ||
-              trackExportOptions[Number(trackId)].displayInExport
+              trackExportOptions.find((options) => options.trackId === Number(trackId))?.displayInExport
             ) {
               const box = trackBox as TrackBox;
               this.drawRectWithText(
@@ -1591,7 +1591,7 @@ export default class CptvPlayerComponent extends Vue {
       }
       // Always draw selected track last, so it sits on top of any overlapping tracks.
       for (const [trackId, trackBox] of frameTracks) {
-        if (this.currentTrack && this.currentTrack.id === Number(trackId)) {
+        if (this.currentTrack && this.currentTrack.trackId === Number(trackId)) {
           if (
             !trackExportOptions ||
             trackExportOptions[Number(trackId)].displayInExport
@@ -1636,7 +1636,7 @@ export default class CptvPlayerComponent extends Vue {
       return;
     }
     const selected =
-      (this.currentTrack && this.currentTrack.id === trackId) || isExporting;
+      (this.currentTrack && this.currentTrack.trackId === trackId) || isExporting;
     const trackIndex = this.tracks.findIndex((track) => track.id === trackId);
     const lineWidth = selected ? 2 : 1;
     const outlineWidth = lineWidth + 4;
@@ -1765,7 +1765,7 @@ export default class CptvPlayerComponent extends Vue {
       const [left, top, right, bottom] = box.rect.map((x) => x * this.scale);
       if (left <= x && right > x && top <= y && bottom > y) {
         // If the track is already selected, ignore it
-        if (this.currentTrack && Number(trackId) === this.currentTrack.id) {
+        if (this.currentTrack && Number(trackId) === this.currentTrack.trackId) {
           continue;
         }
         return Number(trackId);

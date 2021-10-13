@@ -188,6 +188,7 @@ export interface Region {
   frameNumber: number;
 }
 export interface SelectedTrack {
+  trackId: number;
   start?: number;
   end?: number;
 }
