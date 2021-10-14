@@ -111,7 +111,9 @@ const getPositions = (
   const padding = 5;
   if (positions.length > 0 && !Array.isArray(positions[0])) {
     return (positions as Region[]).map((position: Region) => [
-      position.frameNumber,
+      position.frameNumber ||
+        (position.frameTime && frameAtTime(position.frameTime - timeOffset)) ||
+        0,
       [
         Math.max(0, position.x - padding),
         Math.max(0, position.y - padding),
@@ -185,7 +187,8 @@ export interface Region {
   y: number;
   width: number;
   height: number;
-  frameNumber: number;
+  frameNumber?: number;
+  frameTime?: number;
 }
 export interface SelectedTrack {
   trackId: number;
