@@ -1594,7 +1594,7 @@ export default class CptvPlayerComponent extends Vue {
         if (this.currentTrack && this.currentTrack.trackId === Number(trackId)) {
           if (
             !trackExportOptions ||
-            trackExportOptions[Number(trackId)].displayInExport
+            trackExportOptions.find((options) => options.trackId === Number(trackId))?.displayInExport
           ) {
             const box = trackBox as TrackBox;
             this.drawRectWithText(
