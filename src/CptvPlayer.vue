@@ -347,38 +347,38 @@ import Component from "vue-class-component";
 import Vue from "vue";
 import VideoTracksScrubber from "./VideoTracksScrubber.vue";
 import {
+  CptvDecoder,
   CptvFrame,
   CptvFrameHeader,
   CptvHeader,
-  CptvDecoder,
 } from "cptv-decoder";
 import {
-  renderFrameIntoFrameBuffer,
-  getFrameIndexAtTime,
   ColourMaps,
+  getFrameIndexAtTime,
+  renderFrameIntoFrameBuffer,
 } from "cptv-decoder/frameRenderUtils";
 import {
-  Rectangle,
-  PlaybackSpeeds,
-  formatTime,
   formatHeaderInfo,
-  TrackTag,
+  formatTime,
+  getProcessedTracks,
+  PlaybackSpeeds,
+  Rectangle,
   SelectedTrack,
   Track,
-  TrackExportOption,
   TrackBox,
-  getProcessedTracks,
+  TrackExportOption,
+  TrackTag,
 } from "./CptvPlayerUtils";
 import FontAwesomeIcon from "./icons";
 import { Prop, Ref, Watch } from "vue-property-decorator";
 import {
-  BModal,
-  VBModal,
   BButton,
   BFormCheckbox,
-  BFormGroup,
   BFormFile,
+  BFormGroup,
+  BModal,
   BProgress,
+  VBModal,
 } from "bootstrap-vue";
 import { Mp4Encoder } from "./mp4-export";
 
@@ -484,6 +484,7 @@ export default class CptvPlayerComponent extends Vue {
   maxValue: number = Number.MIN_VALUE;
   trackExportOptions: TrackExportOption[] = [];
   scale = 1;
+  raqFps = 60;
 
   set frameNum(num: number) {
     this.internalFrameNum = num;
@@ -554,14 +555,20 @@ export default class CptvPlayerComponent extends Vue {
   get actualDuration(): number {
     if (this.header !== null) {
       const fps = this.header.fps;
-      if (this.totalFrames !== null) {
-        return (
-          (this.totalFrames - 1 - (this.header.hasBackgroundFrame ? 1 : 0)) /
-          fps
-        );
-      }
-      if (this.knownDuration === null && this.loadedFrames) {
-        return (this.loadedFrames - 1) / fps;
+      if (this.header.totalFrames) {
+        const totalPlayableFrames =
+          this.header.totalFrames - (this.header.hasBackgroundFrame ? 1 : 0);
+        return totalPlayableFrames / fps;
+      } else {
+        if (this.totalFrames !== null) {
+          return (
+            (this.totalFrames - 1 - (this.header.hasBackgroundFrame ? 1 : 0)) /
+            fps
+          );
+        }
+        if (this.knownDuration === null && this.loadedFrames) {
+          return (this.loadedFrames - 1) / fps;
+        }
       }
     }
     return Math.max(
@@ -583,12 +590,15 @@ export default class CptvPlayerComponent extends Vue {
     );
   }
   get duration(): number {
+    if (this.header && this.header.totalFrames) {
+      return this.actualDuration;
+    }
     return this.knownDuration || 0;
   }
   get currentTime60fps(): number {
     if (this.header) {
       const holdForXFrames = Math.ceil(
-        60 / ((this.header.fps as number) * this.speedMultiplier)
+        this.raqFps / ((this.header.fps as number) * this.speedMultiplier)
       );
       const tick = Math.max(0, this.animationTick - 1);
       const adjustment =
@@ -671,6 +681,37 @@ export default class CptvPlayerComponent extends Vue {
 
   async mounted(): Promise<void> {
     cptvDecoder = new CptvDecoder();
+
+    const frameTimes: number[] = [];
+    const pollFrameTimes = () => {
+      frameTimes.push(performance.now());
+      if (frameTimes.length < 10) {
+        requestAnimationFrame(pollFrameTimes);
+      } else {
+        const diffs = [];
+        for (let i = 1; i < frameTimes.length; i++) {
+          diffs.push(frameTimes[i] - frameTimes[i - 1]);
+        }
+        let total = 0;
+        for (const val of diffs) {
+          total += val;
+        }
+        // Get the average frame time
+        const multiplier = Math.round(1000 / (total / diffs.length) / 30);
+        if (multiplier === 1) {
+          // 30fps
+          this.raqFps = 30;
+        } else if (multiplier === 2 || multiplier === 3) {
+          // 60fps
+          this.raqFps = 60;
+        } else if (multiplier >= 4) {
+          // 120fps
+          this.raqFps = 120;
+        }
+      }
+    };
+    window.addEventListener("load", pollFrameTimes);
+
     // This makes button active styles work in safari iOS.
     document.addEventListener("touchstart", this.dismissAnyTooltips, false);
 
@@ -725,19 +766,33 @@ export default class CptvPlayerComponent extends Vue {
   }
 
   async ensureEntireFileIsLoaded(): Promise<void> {
-    while (!this.totalFrames) {
-      const frame = await cptvDecoder.getNextFrame();
-      if (frame === null) {
-        break;
-      }
-      this.totalFrames = await cptvDecoder.getTotalFrames();
-      if (!this.totalFrames) {
+    if (this.header?.totalFrames) {
+      // Newer files contain the total frame count in the header.
+      // TODO(jon): Make sure the total count includes background frames.
+      this.totalFrames = this.header.totalFrames;
+      while (this.loadedFrames !== this.totalFrames) {
+        const frame = await cptvDecoder.getNextFrame();
+        if (frame === null) {
+          break;
+        }
         frames.push(frame);
+        this.loadedFrames = frames.length;
       }
-      this.loadedFrames = frames.length;
-    }
-    if (!this.totalFrames) {
-      this.totalFrames = frames.length;
+    } else {
+      while (!this.totalFrames) {
+        const frame = await cptvDecoder.getNextFrame();
+        if (frame === null) {
+          break;
+        }
+        this.totalFrames = await cptvDecoder.getTotalFrames();
+        if (!this.totalFrames) {
+          frames.push(frame);
+        }
+        this.loadedFrames = frames.length;
+      }
+      if (!this.totalFrames) {
+        this.totalFrames = frames.length;
+      }
     }
   }
 
@@ -981,7 +1036,9 @@ export default class CptvPlayerComponent extends Vue {
         // the selected track, since the user likely wants to tag the track they selected.
 
         // Any other further user interaction should unset stopAtTime.
-        this.stopAtFrame = this.onePastLastFrameForTrack(this.currentTrack.trackId);
+        this.stopAtFrame = this.onePastLastFrameForTrack(
+          this.currentTrack.trackId
+        );
       } else {
         this.stopAtFrame = null;
       }
@@ -999,10 +1056,15 @@ export default class CptvPlayerComponent extends Vue {
       this.frameNum++;
     }
     if (this.header && this.totalFrames !== null) {
-      this.atEndOfPlayback = this.frameNum === this.totalFrames - 1;
+      if (this.header.hasBackgroundFrame) {
+        this.atEndOfPlayback = this.frameNum === this.totalFrames - 2;
+      } else {
+        this.atEndOfPlayback = this.frameNum === this.totalFrames - 1;
+      }
     } else {
       this.atEndOfPlayback = false;
     }
+
   }
   async stepBackward(): Promise<void> {
     this.isShowingBackgroundFrame = false;
@@ -1087,7 +1149,6 @@ export default class CptvPlayerComponent extends Vue {
     // Fetch, render, advance
     const canAdvance = await this.renderCurrentFrame();
     if (canAdvance) {
-      //console.log("Can advance frame", true);
       return true;
     } else if (this.playing) {
       this.pause();
@@ -1280,7 +1341,15 @@ export default class CptvPlayerComponent extends Vue {
       if (!context) {
         return;
       }
-      const [min, max] = this.minMaxForFrame(frameData);
+      let min;
+      let max;
+      // FIXME - remove as any when def updated
+      if ((this.header as any).minValue && (this.header as any).maxValue) {
+        min = (this.header as any).minValue;
+        max = (this.header as any).maxValue;
+      } else {
+        [min, max] = this.minMaxForFrame(frameData);
+      }
 
       const range = max - min;
       const colourMap = this.colourMap[1];
@@ -1318,10 +1387,14 @@ export default class CptvPlayerComponent extends Vue {
       if (force) {
         this.animationTick = 0;
       }
+
+      // FIXME - This breaks on non-60hz screens, so calculate the actual value anytime we detect that the window has been
+      //  moved to a new display?
+
       // One tick represents 1000 / fps * multiplier
       const everyXTicks = Math.max(
         1,
-        Math.floor(60 / (this.header.fps * this.speedMultiplier))
+        Math.floor(this.raqFps / (this.header.fps * this.speedMultiplier))
       );
       // NOTE: respect fps here, render only when we should.
       const shouldRedraw =
@@ -1361,30 +1434,28 @@ export default class CptvPlayerComponent extends Vue {
         if (this.playing) {
           didAdvance = await this.fetchRenderAdvanceFrame();
         }
-        //console.log("Did advance?", didAdvance);
         if (didAdvance) {
           this.animationTick = 0;
           this.frameNum++;
-          //console.log("Increment frameNum", this.frameNum);
         } else {
           this.animationTick++;
         }
         // Check if we're at the end:
-        if (
-          this.header &&
-          this.totalFrames &&
-          this.frameNum === this.totalFrames
-        ) {
-          this.pause();
+        let totalExcludingBackground;
+        if (this.header && this.totalFrames) {
+          if (this.header.hasBackgroundFrame) {
+            totalExcludingBackground = this.totalFrames - 1;
+          } else {
+            totalExcludingBackground = this.totalFrames;
+          }
         }
-        //console.log("At end of playback?", this.frameNum, this.totalFrames && this.totalFrames - 1);
         if (
           this.header &&
           this.totalFrames &&
-          this.frameNum === this.totalFrames - 1
+          this.frameNum == totalExcludingBackground
         ) {
-          //console.log("At end of playback?", this.frameNum, this.totalFrames - 1);
           this.atEndOfPlayback = true;
+          this.pause();
         }
       } else if (context) {
         this.animationTick++;
@@ -1575,7 +1646,9 @@ export default class CptvPlayerComponent extends Vue {
           if (this.currentTrack.trackId !== Number(trackId)) {
             if (
               !trackExportOptions ||
-              trackExportOptions.find((options) => options.trackId === Number(trackId))?.displayInExport
+              trackExportOptions.find(
+                (options) => options.trackId === Number(trackId)
+              )?.displayInExport
             ) {
               const box = trackBox as TrackBox;
               this.drawRectWithText(
@@ -1591,10 +1664,15 @@ export default class CptvPlayerComponent extends Vue {
       }
       // Always draw selected track last, so it sits on top of any overlapping tracks.
       for (const [trackId, trackBox] of frameTracks) {
-        if (this.currentTrack && this.currentTrack.trackId === Number(trackId)) {
+        if (
+          this.currentTrack &&
+          this.currentTrack.trackId === Number(trackId)
+        ) {
           if (
             !trackExportOptions ||
-            trackExportOptions.find((options) => options.trackId === Number(trackId))?.displayInExport
+            trackExportOptions.find(
+              (options) => options.trackId === Number(trackId)
+            )?.displayInExport
           ) {
             const box = trackBox as TrackBox;
             this.drawRectWithText(
@@ -1636,7 +1714,8 @@ export default class CptvPlayerComponent extends Vue {
       return;
     }
     const selected =
-      (this.currentTrack && this.currentTrack.trackId === trackId) || isExporting;
+      (this.currentTrack && this.currentTrack.trackId === trackId) ||
+      isExporting;
     const trackIndex = this.tracks.findIndex((track) => track.id === trackId);
     const lineWidth = selected ? 2 : 1;
     const outlineWidth = lineWidth + 4;
@@ -1765,7 +1844,10 @@ export default class CptvPlayerComponent extends Vue {
       const [left, top, right, bottom] = box.rect.map((x) => x * this.scale);
       if (left <= x && right > x && top <= y && bottom > y) {
         // If the track is already selected, ignore it
-        if (this.currentTrack && Number(trackId) === this.currentTrack.trackId) {
+        if (
+          this.currentTrack &&
+          Number(trackId) === this.currentTrack.trackId
+        ) {
           continue;
         }
         return Number(trackId);
@@ -1857,12 +1939,7 @@ export default class CptvPlayerComponent extends Vue {
       if (frameNum > this.loadedFrames + 2 && !this.totalFrames) {
         this.buffering = true;
       }
-      // console.log(
-      //   "Render frame num",
-      //   `# ${frameNum}`,
-      //   `Loaded ${this.internalLoadedFrames}`,
-      //   `Total ${this.internalTotalFrames}`
-      // );
+
       while (this.loadedFrames <= frameNum && !this.totalFrames) {
         this.seekingInProgress = true;
         const frame = await cptvDecoder.getNextFrame();
@@ -1870,6 +1947,9 @@ export default class CptvPlayerComponent extends Vue {
         if (frame === null) {
           // Poll again so that we can read out totalFrames
           await cptvDecoder.getNextFrame();
+        }
+        if (this.header.totalFrames) {
+          this.knownDuration = this.header.totalFrames / this.header.fps;
         }
         this.totalFrames = await cptvDecoder.getTotalFrames();
         this.totalFrames =
@@ -1895,7 +1975,6 @@ export default class CptvPlayerComponent extends Vue {
       const gotFrame = frameNum < this.loadedFrames;
       const frameData = this.getFrameAtIndex(frameNum);
       this.frameHeader = frameData.meta;
-      //console.log("Got frame ", frameNum, gotFrame, frames.length);
       this.renderFrame(frameData, frameNum, force);
       return gotFrame;
     }

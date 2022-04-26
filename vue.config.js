@@ -17,6 +17,8 @@ module.exports = {
         crypto: false,
         worker_threads: false,
         vm: false,
+        util: false,
+        //util: require.resolve("util/"),
       },
 
       alias: {
