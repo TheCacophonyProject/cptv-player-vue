@@ -485,6 +485,7 @@ export default class CptvPlayerComponent extends Vue {
   trackExportOptions: TrackExportOption[] = [];
   scale = 1;
   raqFps = 60;
+  polledFps = false;
 
   set frameNum(num: number) {
     this.internalFrameNum = num;
@@ -684,32 +685,37 @@ export default class CptvPlayerComponent extends Vue {
 
     const frameTimes: number[] = [];
     const pollFrameTimes = () => {
-      frameTimes.push(performance.now());
-      if (frameTimes.length < 10) {
-        requestAnimationFrame(pollFrameTimes);
-      } else {
-        const diffs = [];
-        for (let i = 1; i < frameTimes.length; i++) {
-          diffs.push(frameTimes[i] - frameTimes[i - 1]);
-        }
-        let total = 0;
-        for (const val of diffs) {
-          total += val;
-        }
-        // Get the average frame time
-        const multiplier = Math.round(1000 / (total / diffs.length) / 30);
-        if (multiplier === 1) {
-          // 30fps
-          this.raqFps = 30;
-        } else if (multiplier === 2 || multiplier === 3) {
-          // 60fps
-          this.raqFps = 60;
-        } else if (multiplier >= 4) {
-          // 120fps
-          this.raqFps = 120;
+      if (!this.polledFps) {
+        frameTimes.push(performance.now());
+        if (frameTimes.length < 10) {
+          requestAnimationFrame(pollFrameTimes);
+        } else {
+          const diffs = [];
+          for (let i = 1; i < frameTimes.length; i++) {
+            diffs.push(frameTimes[i] - frameTimes[i - 1]);
+          }
+          let total = 0;
+          for (const val of diffs) {
+            total += val;
+          }
+          // Get the average frame time
+          const multiplier = Math.round(1000 / (total / diffs.length) / 30);
+          if (multiplier === 1) {
+            // 30fps
+            this.raqFps = 30;
+          } else if (multiplier === 2 || multiplier === 3) {
+            // 60fps
+            this.raqFps = 60;
+          } else if (multiplier >= 4) {
+            // 120fps
+            this.raqFps = 120;
+          }
+          this.polledFps = true;
         }
       }
     };
+
+    pollFrameTimes();
     window.addEventListener("load", pollFrameTimes);
 
     // This makes button active styles work in safari iOS.
