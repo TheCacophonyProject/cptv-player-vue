@@ -1,4 +1,4 @@
-import { CptvHeader } from "cptv-decoder";
+import { CptvHeader } from "./cptv-decoder/decoder";
 
 export interface TrackTag {
   what: string;

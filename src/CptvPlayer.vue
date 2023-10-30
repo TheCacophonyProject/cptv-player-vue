@@ -351,12 +351,12 @@ import {
   CptvFrame,
   CptvFrameHeader,
   CptvHeader,
-} from "cptv-decoder";
+} from "./cptv-decoder/decoder";
 import {
   ColourMaps,
   getFrameIndexAtTime,
   renderFrameIntoFrameBuffer,
-} from "cptv-decoder/frameRenderUtils";
+} from "./cptv-decoder/frameRenderUtils";
 import {
   formatHeaderInfo,
   formatTime,
