@@ -996,10 +996,11 @@ export default class CptvPlayerComponent extends Vue {
   }
   getFrameAtIndex(i: number): CptvFrame {
     const frameIndex = this.hasBackgroundFrame
-      ? Math.min(frames.length - 1, i + 1)
-      : Math.min(frames.length - 1, i);
+      ? Math.max(0, Math.min(frames.length - 1, i + 1))
+      : Math.max(0, Math.min(frames.length - 1, i));
     //console.log("Asking for frame index", i);
     //console.log("Getting actual frame index", frameIndex);
+
     const frame = frames[frameIndex];
     // We keep a running tally of min/max values across the clip for
     // normalisation purposes.
@@ -1070,7 +1071,6 @@ export default class CptvPlayerComponent extends Vue {
     } else {
       this.atEndOfPlayback = false;
     }
-
   }
   async stepBackward(): Promise<void> {
     this.isShowingBackgroundFrame = false;
@@ -1946,7 +1946,7 @@ export default class CptvPlayerComponent extends Vue {
         this.buffering = true;
       }
 
-      while (this.loadedFrames <= frameNum && !this.totalFrames) {
+      while (this.loadedFrames <= frameNum && (!this.totalFrames || (this.totalFrames && this.loadedFrames < this.totalFrames))) {
         this.seekingInProgress = true;
         const frame = await cptvDecoder.getNextFrame();
         console.assert(frame !== null);
@@ -1969,20 +1969,18 @@ export default class CptvPlayerComponent extends Vue {
           }
           break;
         }
-        if (!this.totalFrames) {
-          // If we got the total frames, then we're at the end of the stream, and the last
-          // frame has already been pulled out.
-          frames.push(frame);
-        }
+        frames.push(frame);
         this.loadedFrames = frames.length;
       }
       this.seekingInProgress = false;
       this.buffering = false;
       const gotFrame = frameNum < this.loadedFrames;
-      const frameData = this.getFrameAtIndex(frameNum);
-      this.frameHeader = frameData.meta;
-      this.renderFrame(frameData, frameNum, force);
-      return gotFrame;
+      if (gotFrame) {
+        const frameData = this.getFrameAtIndex(frameNum);
+        this.frameHeader = frameData.meta;
+        this.renderFrame(frameData, frameNum, force);
+        return gotFrame;
+      }
     }
     return false;
   }
