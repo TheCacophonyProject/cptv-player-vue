@@ -1,13 +1,8 @@
 import type { CptvFrameHeader } from "./decoder";
-import { CptvPlayerContext } from "./decoder/decoder";
-let ThisPlayerContext: any;
+import wasmInit, { CptvPlayerContext } from "./decoder/decoder.js";
 
 async function initWasm() {
-  if (!ThisPlayerContext) {
-    ThisPlayerContext = (await import("./decoder/decoder.js"))
-      .CptvPlayerContext;
-    console.log("Player context", ThisPlayerContext);
-  }
+  await wasmInit();
 }
 
 class Unlocker {
@@ -139,7 +134,7 @@ class CptvDecoderInterface {
             this.reader =
               this.response.body.getReader() as ReadableStreamDefaultReader<Uint8Array>;
             await initWasm();
-            this.playerContext = await ThisPlayerContext.newWithStream(
+            this.playerContext = await CptvPlayerContext.newWithStream(
               this.reader
             );
           } else if (this.currentContentType === "image/webp") {
@@ -192,7 +187,7 @@ class CptvDecoderInterface {
           }
           this.expectedSize = size;
           await initWasm();
-          this.playerContext = await ThisPlayerContext.newWithStream(
+          this.playerContext = await CptvPlayerContext.newWithStream(
             this.reader
           );
           unlocker.unlock();
@@ -232,7 +227,7 @@ class CptvDecoderInterface {
     let result;
     try {
       await initWasm();
-      this.playerContext = await ThisPlayerContext.newWithStream(
+      this.playerContext = await CptvPlayerContext.newWithStream(
         this.reader as ReadableStreamDefaultReader
       );
       this.inited = true;
